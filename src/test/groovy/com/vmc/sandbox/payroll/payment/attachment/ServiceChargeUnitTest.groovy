@@ -1,6 +1,7 @@
 package com.vmc.sandbox.payroll.payment.attachment
 
-import com.vmc.sandbox.validationNotification.builder.imp.GenericBuilder
+import com.vmc.payroll.payment.attachment.ServiceCharge
+import com.vmc.validationNotification.builder.imp.GenericBuilder
 import com.vmc.sandbox.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.joda.time.DateTime
 import org.junit.Test

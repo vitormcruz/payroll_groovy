@@ -1,5 +1,6 @@
 package com.vmc.sandbox.payroll.external.config
 
+import com.vmc.payroll.external.config.Config
 import org.detangle.smartfactory.SmartFactory
 
 

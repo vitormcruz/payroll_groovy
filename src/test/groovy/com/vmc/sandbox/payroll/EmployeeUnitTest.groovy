@@ -1,8 +1,9 @@
 package com.vmc.sandbox.payroll
 
-import com.vmc.sandbox.payroll.payment.type.Commission
-import com.vmc.sandbox.payroll.payment.type.Monthly
-import com.vmc.sandbox.validationNotification.builder.imp.GenericBuilder
+import com.vmc.payroll.Employee
+import com.vmc.payroll.payment.type.Commission
+import com.vmc.payroll.payment.type.Monthly
+import com.vmc.validationNotification.builder.imp.GenericBuilder
 import com.vmc.sandbox.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Before
 import org.junit.Test

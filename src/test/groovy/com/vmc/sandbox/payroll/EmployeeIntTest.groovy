@@ -1,15 +1,16 @@
 package com.vmc.sandbox.payroll
 
-import com.vmc.sandbox.payroll.external.config.ServiceLocator
-import com.vmc.sandbox.payroll.external.persistence.inMemory.repository.CommonInMemoryRepository
-import com.vmc.sandbox.payroll.payment.attachment.SalesReceipt
-import com.vmc.sandbox.payroll.payment.attachment.ServiceCharge
-import com.vmc.sandbox.payroll.payment.attachment.TimeCard
-import com.vmc.sandbox.payroll.payment.type.Commission
-import com.vmc.sandbox.payroll.payment.type.Hourly
-import com.vmc.sandbox.payroll.payment.type.Monthly
+import com.vmc.payroll.Employee
+import com.vmc.payroll.external.config.ServiceLocator
+import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepository
+import com.vmc.payroll.payment.attachment.SalesReceipt
+import com.vmc.payroll.payment.attachment.ServiceCharge
+import com.vmc.payroll.payment.attachment.TimeCard
+import com.vmc.payroll.payment.type.Commission
+import com.vmc.payroll.payment.type.Hourly
+import com.vmc.payroll.payment.type.Monthly
 import com.vmc.sandbox.payroll.testPreparation.IntegrationTestBase
-import com.vmc.sandbox.validationNotification.builder.imp.DataSetBuilder
+import com.vmc.validationNotification.builder.imp.DataSetBuilder
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test

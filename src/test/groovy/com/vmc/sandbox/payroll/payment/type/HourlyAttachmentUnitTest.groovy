@@ -1,8 +1,9 @@
 package com.vmc.sandbox.payroll.payment.type
 
-import com.vmc.sandbox.payroll.Employee
-import com.vmc.sandbox.payroll.payment.attachment.SalesReceipt
-import com.vmc.sandbox.payroll.payment.attachment.TimeCard
+import com.vmc.payroll.Employee
+import com.vmc.payroll.payment.attachment.SalesReceipt
+import com.vmc.payroll.payment.attachment.TimeCard
+import com.vmc.payroll.payment.type.Hourly
 import com.vmc.sandbox.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
 

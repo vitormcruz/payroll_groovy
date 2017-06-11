@@ -1,7 +1,7 @@
 package com.vmc.sandbox.payroll.external.config
 
-import com.vmc.sandbox.concurrency.ModelSnapshot
-import com.vmc.sandbox.payroll.Repository
+import com.vmc.concurrency.ModelSnapshot
+import com.vmc.payroll.Repository
 
 class DatabaseCleaner {
     private ModelSnapshot model

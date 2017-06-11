@@ -1,8 +1,8 @@
 package com.vmc.sandbox.payroll.testPreparation
 
-import com.vmc.sandbox.concurrency.ModelSnapshot
+import com.vmc.concurrency.ModelSnapshot
 import com.vmc.sandbox.payroll.external.config.DatabaseCleaner
-import com.vmc.sandbox.payroll.external.config.ServiceLocator
+import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.sandbox.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Before
 

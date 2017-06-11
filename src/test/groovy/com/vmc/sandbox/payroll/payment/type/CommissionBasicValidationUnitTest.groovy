@@ -1,6 +1,8 @@
 package com.vmc.sandbox.payroll.payment.type
 
-import com.vmc.sandbox.payroll.Employee
+import com.vmc.payroll.Employee
+import com.vmc.payroll.payment.type.Commission
+import com.vmc.payroll.payment.type.Monthly
 import org.junit.Test
 
 class CommissionBasicValidationUnitTest extends MonthlyBasicValidationUnitTest{

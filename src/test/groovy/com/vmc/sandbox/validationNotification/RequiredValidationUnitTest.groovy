@@ -2,7 +2,7 @@ package com.vmc.sandbox.validationNotification
 
 import com.vmc.sandbox.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
-import com.vmc.sandbox.validationNotification.imp.RequiredValidation
+import com.vmc.validationNotification.imp.RequiredValidation
 
 import static junit.framework.TestCase.fail
 

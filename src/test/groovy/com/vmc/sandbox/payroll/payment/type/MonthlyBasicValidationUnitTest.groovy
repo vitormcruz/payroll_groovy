@@ -1,6 +1,7 @@
 package com.vmc.sandbox.payroll.payment.type
 
-import com.vmc.sandbox.payroll.Employee
+import com.vmc.payroll.Employee
+import com.vmc.payroll.payment.type.Monthly
 import com.vmc.sandbox.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
 

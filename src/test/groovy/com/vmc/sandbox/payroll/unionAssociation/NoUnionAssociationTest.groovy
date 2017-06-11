@@ -1,5 +1,6 @@
 package com.vmc.sandbox.payroll.unionAssociation
 
+import com.vmc.payroll.unionAssociation.NoUnionAssociation
 import org.junit.Test
 
 import static groovy.test.GroovyAssert.shouldFail

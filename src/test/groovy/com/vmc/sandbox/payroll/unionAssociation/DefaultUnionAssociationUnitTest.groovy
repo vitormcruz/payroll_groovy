@@ -1,8 +1,9 @@
 package com.vmc.sandbox.payroll.unionAssociation
 
-import com.vmc.sandbox.payroll.Employee
-import com.vmc.sandbox.payroll.payment.attachment.PaymentAttachment
-import com.vmc.sandbox.payroll.payment.attachment.UnionCharge
+import com.vmc.payroll.Employee
+import com.vmc.payroll.payment.attachment.PaymentAttachment
+import com.vmc.payroll.payment.attachment.UnionCharge
+import com.vmc.payroll.unionAssociation.DefaultUnionAssociation
 import com.vmc.sandbox.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
 

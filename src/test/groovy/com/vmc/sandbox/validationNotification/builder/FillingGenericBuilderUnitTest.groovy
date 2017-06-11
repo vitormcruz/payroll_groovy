@@ -1,10 +1,10 @@
 package com.vmc.sandbox.validationNotification.builder
 
-import com.vmc.sandbox.validationNotification.builder.imp.GenericBuilder
+import com.vmc.validationNotification.builder.imp.GenericBuilder
 import com.vmc.sandbox.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
 
-import static com.vmc.sandbox.validationNotification.ApplicationValidationNotifier.issueError
+import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 import static groovy.test.GroovyAssert.shouldFail
 
 class FillingGenericBuilderUnitTest extends ValidationNotificationTestSetup{

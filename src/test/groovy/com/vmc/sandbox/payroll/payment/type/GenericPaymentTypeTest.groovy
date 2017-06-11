@@ -1,8 +1,9 @@
 package com.vmc.sandbox.payroll.payment.type
 
-import com.vmc.sandbox.payroll.Employee
-import com.vmc.sandbox.payroll.payment.attachment.PaymentAttachment
-import com.vmc.sandbox.payroll.payment.attachment.UnionCharge
+import com.vmc.payroll.Employee
+import com.vmc.payroll.payment.attachment.PaymentAttachment
+import com.vmc.payroll.payment.attachment.UnionCharge
+import com.vmc.payroll.payment.type.GenericPaymentType
 import groovy.test.GroovyAssert
 import org.junit.Test
 

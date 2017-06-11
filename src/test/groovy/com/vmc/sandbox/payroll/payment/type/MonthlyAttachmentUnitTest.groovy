@@ -1,7 +1,8 @@
 package com.vmc.sandbox.payroll.payment.type
 
-import com.vmc.sandbox.payroll.Employee
-import com.vmc.sandbox.payroll.payment.attachment.PaymentAttachment
+import com.vmc.payroll.Employee
+import com.vmc.payroll.payment.attachment.PaymentAttachment
+import com.vmc.payroll.payment.type.Monthly
 import com.vmc.sandbox.validationNotification.testPreparation.ValidationNotificationTestSetup
 import groovy.test.GroovyAssert
 import org.junit.Test

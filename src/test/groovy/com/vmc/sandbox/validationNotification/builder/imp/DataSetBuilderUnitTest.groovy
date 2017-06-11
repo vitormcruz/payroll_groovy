@@ -1,10 +1,11 @@
 package com.vmc.sandbox.validationNotification.builder.imp
 
 import com.vmc.sandbox.validationNotification.testPreparation.ValidationNotificationTestSetup
+import com.vmc.validationNotification.builder.imp.DataSetBuilder
 import groovy.test.GroovyAssert
 import org.junit.Test
 
-import static com.vmc.sandbox.validationNotification.ApplicationValidationNotifier.issueError
+import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 
 class DataSetBuilderUnitTest extends ValidationNotificationTestSetup{
 

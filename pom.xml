@@ -2,12 +2,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.vmc.sandbox</groupId>
-    <artifactId>sandbox-app</artifactId>
+    <groupId>com.vmc.payroll</groupId>
+    <artifactId>payroll-groovy</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
 
-    <name>sandbox-app</name>
+    <name>payroll-groovy</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -385,7 +385,7 @@
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
-                            <mainClass>com.vmc.sandbox.payroll.external.config.PayrollApplication</mainClass>
+                            <mainClass>com.vmc.payroll.external.config.PayrollApplication</mainClass>
                             <jvmArguments>-Dserver.port=7003</jvmArguments>
                         </configuration>
                     </plugin>
