@@ -12,7 +12,7 @@ import org.reflections.Reflections
 class EmployeeJsonConverter implements JsonConverter{
 
     private static ObjectMapper mapper = ServiceLocator.getInstance().mapper()
-    private static Set<Class> paymentTypes = new Reflections("com.vmc.sandbox.payroll.payment.type").getSubTypesOf(PaymentType)
+    private static Set<Class> paymentTypes = new Reflections("com.vmc.payroll.payment.type").getSubTypesOf(PaymentType)
 
     String id
     String name
@@ -55,8 +55,8 @@ class EmployeeJsonConverter implements JsonConverter{
     void setPaymentType(String aPaymentType) {
         paymentType = aPaymentType
         paymentTypeClass = paymentTypes.find { it.getSimpleName().equalsIgnoreCase(aPaymentType) }
-        Preconditions.checkArgument(aPaymentType!=null, "Json formmat is invalid: you must specify a payment type of one of the following alternatives:" +
-                                                        StringUtils.join(paymentTypes.collect {it.getSimpleName()}, ", "))
+        Preconditions.checkArgument(paymentTypeClass!=null, "Json formmat is invalid: you must specify a payment type of one of the following alternatives:" +
+                                                            StringUtils.join(paymentTypes.collect {it.getSimpleName()}, ", "))
     }
 
     @Override
