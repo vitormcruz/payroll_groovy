@@ -1,12 +1,10 @@
-package com.vmc.payroll.external.presentation.webservice.springmvc
+package com.vmc.payroll.external.presentation.webservice.spark
 
 import com.vmc.concurrency.ModelSnapshot
 import com.vmc.payroll.Employee
 import com.vmc.payroll.Repository
 import com.vmc.payroll.external.presentation.converter.EmployeeJsonConverter
 import com.vmc.validationNotification.builder.imp.GenericBuilder
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PathVariable
 import spark.Request
 import spark.Response
 
@@ -44,7 +42,7 @@ class EmployeeWebServiceController implements BasicControllerOperationsTrait{
         listener.fillResponse(response)
     }
 
-    ResponseEntity<Employee> deleteEmployee(@PathVariable Long employeeId) {
+    void deleteEmployee(Request request, Response response) {
         SparkControllerValidationListener listener = getValidationListener()
         Employee employeeSubjectedRemoval = getResource(employeeId, employeeRepository)
         if(listener.successful()) {
@@ -52,7 +50,7 @@ class EmployeeWebServiceController implements BasicControllerOperationsTrait{
             listener.setBody(employeeSubjectedRemoval)
             model.save()
         }
-        return listener.fillResponse();
+        listener.fillResponse();
     }
 
     Collection<Employee> listEmployees() {

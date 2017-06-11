@@ -12,8 +12,8 @@ import javax.servlet.DispatcherType
 
 class PayrollJettyApplication {
 
-    def static private configuredVaadinServletHolder
-    def static private configuredSparkFilterHolder
+    static private ServletHolder configuredVaadinServletHolder
+    static private FilterHolder configuredSparkFilterHolder
 
     static {
         configuredVaadinServletHolder = getConfiguredVaadinServletHolder()
@@ -42,7 +42,7 @@ class PayrollJettyApplication {
         def vaadinServlet = new VaadinServlet()
         def servletVaadinHolder = new ServletHolder(vaadinServlet)
         servletVaadinHolder.setInitParameter("productionMode", "false")
-        servletVaadinHolder.setInitParameter("UI", "com.vmc.sandbox.payroll.external.presentation.vaadin.PayrollUI")
+        servletVaadinHolder.setInitParameter("UI", "com.vmc.payroll.external.presentation.vaadin.PayrollUI")
         servletVaadinHolder.setInitParameter("async-supported", "true")
         servletVaadinHolder.setInitParameter("org.atmosphere.useWebSocketAndServlet3", "true")
         return servletVaadinHolder
@@ -51,7 +51,7 @@ class PayrollJettyApplication {
     static FilterHolder getConfiguredSparkFilterHolder() {
         def sparkFilter = new SparkFilter()
         def sparkFilterHolder = new FilterHolder(sparkFilter)
-        sparkFilterHolder.setInitParameter("applicationClass", "com.vmc.sandbox.payroll.external.config.PayrollSparkRoutesConfiguration")
+        sparkFilterHolder.setInitParameter("applicationClass", "com.vmc.payroll.external.config.PayrollSparkRoutesConfiguration")
         return sparkFilterHolder
     }
 }

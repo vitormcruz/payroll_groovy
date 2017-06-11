@@ -1,4 +1,4 @@
-package com.vmc.payroll.external.presentation.webservice.springmvc
+package com.vmc.payroll.external.presentation.webservice.spark
 
 import com.vmc.validationNotification.ApplicationValidationNotifier
 

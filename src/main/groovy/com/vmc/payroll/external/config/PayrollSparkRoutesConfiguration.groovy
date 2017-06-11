@@ -4,7 +4,7 @@ import com.vmc.concurrency.inMemory.InMemoryAtomicBlock
 import com.vmc.concurrency.inMemory.InMemoryPersistentModelSnapshot
 import com.vmc.payroll.Employee
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepository
-import com.vmc.payroll.external.presentation.webservice.springmvc.EmployeeWebServiceController
+import com.vmc.payroll.external.presentation.webservice.spark.EmployeeWebServiceController
 import org.apache.http.HttpStatus
 import spark.servlet.SparkApplication
 

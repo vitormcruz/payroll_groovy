@@ -15,16 +15,7 @@
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
         <jdk.version>1.8</jdk.version>
         <junit.version>4.12</junit.version>
-        <querydsl.version>4.1.4</querydsl.version>
-        <springboot.version>1.5.2.RELEASE</springboot.version>
     </properties>
-
-    <!-- Inherit defaults from Spring Boot -->
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.2.RELEASE</version>
-    </parent>
 
     <!-- Package as an executable jar -->
     <build>
@@ -114,56 +105,10 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>com.querydsl</groupId>
-                <artifactId>querydsl-maven-plugin</artifactId>
-                <version>${querydsl.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>export</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <jdbcDriver>org.hsqldb.jdbcDriver</jdbcDriver>
-                    <jdbcUrl>jdbc:hsqldb:mem:tsg</jdbcUrl>
-                    <jdbcUser>sa</jdbcUser>
-                    <jdbcPassword></jdbcPassword>
-                    <packageName>payroll.external.queryDsl.entity</packageName>
-                    <targetFolder>${project.basedir}/target/generated-sources/java</targetFolder>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.hsqldb</groupId>
-                        <artifactId>hsqldb</artifactId>
-                        <version>2.4.0</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
         </plugins>
     </build>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jdepend-maven-plugin</artifactId>
-                <version>2.0</version>
-            </plugin>
-        </plugins>
-    </reporting>
-
     <dependencies>
-
-        <dependency>
-            <groupId>com.detangle.smartFactory</groupId>
-            <artifactId>smartFactory</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/libs/smartFactory-0.1.0-SNAPSHOT.jar</systemPath>
-        </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
@@ -179,24 +124,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
           <groupId>com.fasterxml.jackson.core</groupId>
           <artifactId>jackson-databind</artifactId>
           <version>2.7.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jms</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-broker</artifactId>
         </dependency>
 
         <dependency>
@@ -233,12 +163,6 @@
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.9.11</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -333,64 +257,4 @@
         </dependency>
 
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>Containerless</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>HeavyValidationApp</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>com.vmc.sandbox.heavyValidation.external.config.HeavyValidationApplication</mainClass>
-                            <jvmArguments>-Dserver.port=7003</jvmArguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>VaadinSampleApp</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>com.vmc.sandbox.vaadinSample.external.config.VaadinSampleApplication</mainClass>
-                            <jvmArguments>-Dserver.port=7003</jvmArguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>PayrollApp</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>com.vmc.payroll.external.config.PayrollApplication</mainClass>
-                            <jvmArguments>-Dserver.port=7003</jvmArguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
