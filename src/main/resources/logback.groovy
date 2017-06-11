@@ -6,27 +6,6 @@ import static ch.qos.logback.classic.Level.WARN
 def appProperties = loadProperties()
 def logpath = appProperties.get("logpath")
 
-//def UNDEFINED = "UNDEFINED"
-//appender("logfile", RollingFileAppender) {
-//  append = true
-//  file = "${logpath}"
-//  rollingPolicy(FixedWindowRollingPolicy) {
-//    fileNamePattern = "${logpath}.%i"
-//    maxIndex = "${maxfiles}"
-//  }
-//  triggeringPolicy(SizeBasedTriggeringPolicy) {
-//    maxFileSize = "${maxfilesize}"
-//  }
-//  encoder(PatternLayoutEncoder) {
-//    pattern = "%d{yyyy-MM-dd HH:mm:ss} %p [%c] - %m%n"
-//  }
-//}
-//appender("stdout", ConsoleAppender) {
-//  encoder(PatternLayoutEncoder) {
-//    pattern = "%d %p [%c] - %m%n"
-//  }
-//}
-
 appender("stdout", ConsoleAppender) {
   encoder(PatternLayoutEncoder) {
     pattern = "%d %p [%c] - %m%n"
@@ -38,7 +17,7 @@ logger("org.flywaydb", DEBUG)
 logger("com.querydsl.sql", DEBUG)
 
 
-def loadProperties(){
+static def loadProperties(){
     InputStream appPropInputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties")
     try {
         def properties = new Properties()
