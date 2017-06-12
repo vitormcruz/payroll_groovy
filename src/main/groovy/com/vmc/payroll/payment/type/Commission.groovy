@@ -10,31 +10,31 @@ import static com.vmc.validationNotification.ApplicationValidationNotifier.issue
 
 class Commission extends Monthly{
 
-    private Integer commissionRate
-
-    protected Commission() {    }
-
-    //Should be used by builder only
-    protected Commission(Employee employee, Integer aSalary, Integer aCommissionRate) {
-        super(employee, aSalary)
-        executeNamedValidation("Validate new Hourly Payment", {
-            def context = [name:"commissionRate"]
-            if (aCommissionRate == null) {
-                issueError(this, context, "payroll.employee.commisionpayment.commissionrate.mandatory")
-            } else if (aCommissionRate < 1) {
-                issueError(this, context, "payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer")
-            } else {
-                this.@commissionRate = aCommissionRate
-            }
-        })
-    }
+    Integer commissionRate
 
     static Commission newPaymentType(Employee employee, Integer salary, Integer commissionRate) {
         return new GenericBuilder(Commission).withEmployee(employee).withSalary(salary).withCommissionRate(commissionRate).build()
     }
 
-    Integer getCommissionRate() {
-        return commissionRate
+    //Should be used by builder only
+    protected Commission() {    }
+
+    protected Commission(Employee employee, Integer aSalary, Integer aCommissionRate) {
+        super(employee, aSalary)
+        executeNamedValidation("Validate new Hourly Payment", {
+            setCommissionRate(aCommissionRate)
+        })
+    }
+
+    void setCommissionRate(Integer aCommissionRate) {
+        def context = [name:"commissionRate"]
+        if (aCommissionRate == null) {
+            issueError(this, context, "payroll.employee.commisionpayment.commissionrate.mandatory")
+        } else if (aCommissionRate < 1) {
+            issueError(this, context, "payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer")
+        } else {
+            this.@commissionRate = aCommissionRate
+        }
     }
 
     @Override

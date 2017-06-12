@@ -11,35 +11,35 @@ import static com.vmc.validationNotification.ApplicationValidationNotifier.issue
 
 class Hourly extends GenericPaymentType implements BuilderAwareness{
 
-    private Integer hourRate
+    Integer hourRate
 
+    static Hourly newPaymentType(Employee employee, Integer hourRate) {
+        return new GenericBuilder(Hourly).withEmployee(employee).withHourRate(hourRate).build()
+    }
+
+    //Should be used by builder only
     private Hourly() {
         super()
         //Available only for reflection magic
         invalidForBuilder()
     }
 
-    //Should be used by builder only
     protected Hourly(Employee employee, Integer aHourRate) {
         super(employee)
         executeNamedValidation("Validate new Hourly Payment", {
-            def context = [name:"hourRate"]
-            if (aHourRate == null) {
-                issueError(this, context, "payroll.employee.hourlypayment.hourRate.mandatory")
-            } else if (aHourRate < 1) {
-                issueError(this, context, "payroll.employee.hourlypayment.hourRate.mustbe.positive.integer")
-            } else {
-                this.@hourRate = aHourRate
-            }
+            setHourRate(aHourRate)
         })
     }
 
-    static Hourly newPaymentType(Employee employee, Integer hourRate) {
-        return new GenericBuilder(Hourly).withEmployee(employee).withHourRate(hourRate).build()
-    }
-
-    Integer getHourRate() {
-        return hourRate
+    void setHourRate(Integer aHourRate) {
+        def context = [name:"hourRate"]
+        if (aHourRate == null) {
+            issueError(this, context, "payroll.employee.hourlypayment.hourRate.mandatory")
+        } else if (aHourRate < 1) {
+            issueError(this, context, "payroll.employee.hourlypayment.hourRate.mustbe.positive.integer")
+        } else {
+            this.hourRate = aHourRate
+        }
     }
 
     @Override

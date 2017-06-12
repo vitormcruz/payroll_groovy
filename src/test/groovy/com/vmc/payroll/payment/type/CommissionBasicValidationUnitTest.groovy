@@ -30,12 +30,48 @@ class CommissionBasicValidationUnitTest extends MonthlyBasicValidationUnitTest{
         assert validationObserver.getErrors().contains("payroll.employee.commisionpayment.commissionrate.mandatory")
     }
 
-    Commission getCommissionPaymentTypeWith(Integer salary, Integer rate) {
-        return Commission.newPaymentType([] as Employee, salary, rate)
+    @Test
+    def void "Change to a positive Commission Rate"(){
+        def commision = getValidCommissionPaymentType()
+        commision.setCommissionRate(100)
+        assert commision.getCommissionRate() == 100
+        assert validationObserver.successful() : "${validationObserver.getCommaSeparatedErrors()}"
+    }
+
+    @Test
+    def void "Change to a negative Commission Rate"(){
+        def commision = getValidCommissionPaymentType()
+        commision.setCommissionRate(-1)
+        assert commision.getCommissionRate() == 500
+        assert validationObserver.errors.contains("payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer")
+    }
+
+    @Test
+    def void "Change to a zero Commission Rate"(){
+        def commision = getValidCommissionPaymentType()
+        commision.setCommissionRate(0)
+        assert commision.getCommissionRate() == 500
+        assert validationObserver.errors.contains("payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer")
+    }
+
+    @Test
+    def void "Change to a null to the Commission Rate"(){
+        def commision = getValidCommissionPaymentType()
+        commision.setCommissionRate(null)
+        assert commision.getCommissionRate() == 500
+        assert validationObserver.getErrors().contains("payroll.employee.commisionpayment.commissionrate.mandatory")
     }
 
     @Override
     Monthly getMonthlyPaymentTypeWith(Integer salary) {
         return Commission.newPaymentType([] as Employee, salary, 500)
+    }
+
+    Commission getValidCommissionPaymentType() {
+        return getCommissionPaymentTypeWith(1, 500)
+    }
+
+    Commission getCommissionPaymentTypeWith(Integer salary, Integer rate) {
+        return Commission.newPaymentType([] as Employee, salary, rate)
     }
 }

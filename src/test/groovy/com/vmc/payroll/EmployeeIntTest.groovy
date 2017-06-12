@@ -5,6 +5,9 @@ import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRe
 import com.vmc.payroll.payment.attachment.SalesReceipt
 import com.vmc.payroll.payment.attachment.ServiceCharge
 import com.vmc.payroll.payment.attachment.TimeCard
+import com.vmc.payroll.payment.delivery.AccountTransferDelivery
+import com.vmc.payroll.payment.delivery.PaymasterDelivery
+import com.vmc.payroll.payment.delivery.MailDelivery
 import com.vmc.payroll.payment.type.Commission
 import com.vmc.payroll.payment.type.Hourly
 import com.vmc.payroll.payment.type.Monthly
@@ -35,15 +38,15 @@ class EmployeeIntTest extends IntegrationTestBase {
         })
 
         employee1 = employeeBuilder.withName("Heloísa").withAddress("Street 1").withEmail("heloisa@bla.com")
-                                   .withPaimentArgs(Monthly, 2000).build()
+                                   .withPaimentArgs(Monthly, 2000).withPaymentDelivery(MailDelivery).build()
         employee2 = employeeBuilder.withName("Heloísa Medina").withAddress("test address").withEmail("test email")
-                                   .withPaimentArgs(Commission, 2000, 100).build()
+                                   .withPaimentArgs(Commission, 2000, 100).withPaymentDelivery(PaymasterDelivery).build()
         employee3 = employeeBuilder.withName("Sofia").withAddress("test address").withEmail("test email")
-                                   .withPaimentArgs(Monthly, 2000).build()
+                                   .withPaimentArgs(Monthly, 2000).withPaymentDelivery(AccountTransferDelivery).build()
         employee4 = employeeBuilder.withName("Sofia Medina").withAddress("test address").withEmail("test email")
-                                   .withPaimentArgs(Monthly, 2000).build()
+                                   .withPaimentArgs(Monthly, 2000).withPaymentDelivery(MailDelivery).build()
         employeeUnion5 = employeeBuilder.withName("Sofia Medina Carvalho").withAddress("test address").withEmail("test email").beUnionMember(5)
-                                        .withPaimentArgs(Hourly, 100).build()
+                                        .withPaimentArgs(Hourly, 100).withPaymentDelivery(MailDelivery).build()
     }
 
     @Test
@@ -54,14 +57,16 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @Test
     def void "Add a new monthly paid Employee"(){
-        Employee addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email").withPaimentArgs(Monthly, 1000).build()
+        Employee addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email")
+                                                .withPaimentArgs(Monthly, 1000).withPaymentDelivery(MailDelivery).build()
         addedEmployee = employeeRepository.get(addedEmployee.getId())
         assertMonthlyPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 1000)
     }
 
     @Test
     def void "Add a new hourly paid Employee"(){
-        Employee addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email").withPaimentArgs(Hourly, 50).build()
+        Employee addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email")
+                                                .withPaimentArgs(Hourly, 50).withPaymentDelivery(MailDelivery).build()
         addedEmployee = employeeRepository.get(addedEmployee.getId())
         assertHourlyPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 50)
     }
@@ -89,7 +94,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     @Test
     def void "Add a new Union member Employee"(){
         def addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email")
-                                           .withPaimentArgs(Monthly, 1000).beUnionMember(5).build()
+                                           .withPaimentArgs(Monthly, 1000).withPaymentDelivery(MailDelivery).beUnionMember(5).build()
         assertMonthlyPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 1000)
         assert addedEmployee.isUnionMember() : "Should be an Union Member"
     }
@@ -103,7 +108,8 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @Test
     def void "Add a new commission paid Employee"(){
-        Employee addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email").withPaimentArgs(Commission, 1000, 20).build()
+        Employee addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email")
+                                                .withPaimentArgs(Commission, 1000, 20).withPaymentDelivery(MailDelivery).build()
         addedEmployee = employeeRepository.get(addedEmployee.getId())
         assertCommissionPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 1000, 20)
     }

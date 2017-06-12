@@ -1,6 +1,7 @@
 package com.vmc.payroll
 
 import com.vmc.payroll.payment.attachment.WorkEvent
+import com.vmc.payroll.payment.delivery.PaymentDelivery
 import com.vmc.payroll.payment.type.PaymentType
 import com.vmc.payroll.unionAssociation.DefaultUnionAssociation
 import com.vmc.payroll.unionAssociation.NoUnionAssociation
@@ -18,6 +19,7 @@ class Employee implements Entity, BuilderAwareness{
     String address
     String email
     private PaymentType paymentType
+    private PaymentDelivery paymentDelivery
     private UnionAssociation unionAssociation = NoUnionAssociation.getInstance()
     private workEventHandlers = []
 
@@ -27,12 +29,13 @@ class Employee implements Entity, BuilderAwareness{
     }
 
     //Should be used by builder only
-    protected Employee(String name, String address, String email, paymentArgs) {
+    protected Employee(String name, String address, String email, paymentArgs, paymentDeliveryClass) {
         executeNamedValidation("Validate new Employee", {
             setName(name)
             setAddress(address)
             setEmail(email)
             bePaid(*paymentArgs)
+            receivePaymentBy(paymentDeliveryClass)
         })
     }
 
@@ -72,12 +75,24 @@ class Employee implements Entity, BuilderAwareness{
         return paymentType
     }
 
+    PaymentDelivery getPaymentDelivery() {
+        return paymentDelivery
+    }
+
     public void bePaid(Class<PaymentType> aPaymentTypeClass, ...args){
         if(aPaymentTypeClass == null || args == null || (args as List).isEmpty()){
-            issueError(this, [name:"employee.payment"], "payroll.employee.payment.type.mandatory")
+            issueError(this, [name:"employee.payment.type"], "payroll.employee.payment.type.mandatory")
             return
         }
         paymentType = aPaymentTypeClass.newPaymentType(this, *args)
+    }
+
+    public void receivePaymentBy(Class<PaymentDelivery> aPaymentDeliveryClass){
+        if(aPaymentDeliveryClass == null){
+            issueError(this, [name:"employee.payment.delivery"], "payroll.employee.payment.delivery.mandatory")
+            return
+        }
+        paymentDelivery = aPaymentDeliveryClass.newPaymentDelivery(this)
     }
 
     public void postWorkEvent(WorkEvent workEvent){

@@ -1,6 +1,7 @@
 package com.vmc.payroll
 
-import com.vmc.payroll.payment.delivery.Mailed
+import com.vmc.payroll.payment.delivery.AccountTransferDelivery
+import com.vmc.payroll.payment.delivery.MailDelivery
 import com.vmc.payroll.payment.type.Commission
 import com.vmc.payroll.payment.type.Monthly
 import com.vmc.validationNotification.builder.imp.GenericBuilder
@@ -23,7 +24,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
                                                      .withAddress("test address")
                                                      .withEmail("test email")
                                                      .withPaimentArgs(Monthly, 1000)
-                                                     .withPaymentDeliveryArgs(Mailed)
+                                                     .withPaymentDelivery(MailDelivery)
                                                      .build()
     }
 
@@ -33,7 +34,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
                                                              .withAddress(null)
                                                              .withEmail(null)
                                                              .withPaimentArgs(null)
-                                                             .withPaymentDeliveryArgs(null)
+                                                             .withPaymentDelivery(null)
                                                              .build()
         assert employee == null
         verifyMandatoryErrorsMessagesForCreationWereIssued()
@@ -46,6 +47,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
                                                 .withAddress("test address")
                                                 .withEmail("test email")
                                                 .withPaimentArgs(Monthly, 1000)
+                                                .withPaymentDelivery(MailDelivery)
                                                 .build()
 
         verifyEmployeeWithExpectedData(builtEmployee, "test name", "test address", "test email")
@@ -67,6 +69,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
         employeeForChange.setEmail("test email 2")
         employeeForChange.setAddress("test address 2")
         employeeForChange.bePaid(Commission, 1000, 100)
+        employeeForChange.receivePaymentBy(AccountTransferDelivery)
         verifyEmployeeWithExpectedData(employeeForChange, "test name 2", "test address 2", "test email 2")
         assert employeeForChange.getPaymentType().getClass() == Commission
         assert employeeForChange.getPaymentType().getSalary() == 1000
