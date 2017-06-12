@@ -42,7 +42,7 @@ class EmployeeIntTest extends IntegrationTestBase {
         employee2 = employeeBuilder.withName("Heloísa Medina").withAddress("test address").withEmail("test email")
                                    .withPaimentType(Commission, 2000, 100).withPaymentDelivery(PaymasterDelivery).build()
         employee3 = employeeBuilder.withName("Sofia").withAddress("test address").withEmail("test email")
-                                   .withPaimentType(Monthly, 2000).withPaymentDelivery(AccountTransferDelivery).build()
+                                   .withPaimentType(Monthly, 2000).withPaymentDelivery(AccountTransferDelivery,  "bank 1", "111111").build()
         employee4 = employeeBuilder.withName("Sofia Medina").withAddress("test address").withEmail("test email")
                                    .withPaimentType(Monthly, 2000).withPaymentDelivery(MailDelivery, "Street 1").build()
         employeeUnion5 = employeeBuilder.withName("Sofia Medina Carvalho").withAddress("test address").withEmail("test email").beUnionMember(5)

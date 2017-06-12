@@ -69,7 +69,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
         employeeForChange.setEmail("test email 2")
         employeeForChange.setAddress("test address 2")
         employeeForChange.bePaid(Commission, 1000, 100)
-        employeeForChange.receivePaymentBy(AccountTransferDelivery)
+        employeeForChange.receivePaymentBy(AccountTransferDelivery, "bank 1", "111111")
         verifyEmployeeWithExpectedData(employeeForChange, "test name 2", "test address 2", "test email 2")
         assert employeeForChange.getPaymentType().getClass() == Commission
         assert employeeForChange.getPaymentType().getSalary() == 1000
