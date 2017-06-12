@@ -29,14 +29,19 @@ class Employee implements Entity, BuilderAwareness{
     }
 
     //Should be used by builder only
-    protected Employee(String name, String address, String email, paymentArgs, paymentDeliveryClass) {
+    protected Employee(String name, String address, String email, paymentArgs, paymentDeliveryArgs) {
         executeNamedValidation("Validate new Employee", {
             setName(name)
             setAddress(address)
             setEmail(email)
-            bePaid(*paymentArgs)
-            receivePaymentBy(paymentDeliveryClass)
+            bePaid(*toSpreadable(paymentArgs))
+            receivePaymentBy(*toSpreadable(paymentDeliveryArgs))
         })
+    }
+
+    def toSpreadable(possibleSpreadable){
+        def spreadable = [possibleSpreadable].flatten()
+        return spreadable
     }
 
     @Override
@@ -87,12 +92,12 @@ class Employee implements Entity, BuilderAwareness{
         paymentType = aPaymentTypeClass.newPaymentType(this, *args)
     }
 
-    public void receivePaymentBy(Class<PaymentDelivery> aPaymentDeliveryClass){
+    public void receivePaymentBy(Class<PaymentDelivery> aPaymentDeliveryClass, ...args){
         if(aPaymentDeliveryClass == null){
             issueError(this, [name:"employee.payment.delivery"], "payroll.employee.payment.delivery.mandatory")
             return
         }
-        paymentDelivery = aPaymentDeliveryClass.newPaymentDelivery(this)
+        paymentDelivery = aPaymentDeliveryClass.newPaymentDelivery(this, *args)
     }
 
     public void postWorkEvent(WorkEvent workEvent){

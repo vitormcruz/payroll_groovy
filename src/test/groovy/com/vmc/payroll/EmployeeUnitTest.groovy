@@ -23,8 +23,8 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
         return new GenericBuilder(getEmployeeClass()).withName("test name")
                                                      .withAddress("test address")
                                                      .withEmail("test email")
-                                                     .withPaimentArgs(Monthly, 1000)
-                                                     .withPaymentDelivery(MailDelivery)
+                                                     .withPaimentType(Monthly, 1000)
+                                                     .withPaymentDelivery(MailDelivery, "Street 1")
                                                      .build()
     }
 
@@ -33,7 +33,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
         def employee = new GenericBuilder(getEmployeeClass()).withName(null)
                                                              .withAddress(null)
                                                              .withEmail(null)
-                                                             .withPaimentArgs(null)
+                                                             .withPaimentType(null)
                                                              .withPaymentDelivery(null)
                                                              .build()
         assert employee == null
@@ -46,8 +46,8 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
         Employee builtEmployee = EmployeeBuilder.withName("test name")
                                                 .withAddress("test address")
                                                 .withEmail("test email")
-                                                .withPaimentArgs(Monthly, 1000)
-                                                .withPaymentDelivery(MailDelivery)
+                                                .withPaimentType(Monthly, 1000)
+                                                .withPaymentDelivery(MailDelivery, "Street 1")
                                                 .build()
 
         verifyEmployeeWithExpectedData(builtEmployee, "test name", "test address", "test email")
@@ -74,6 +74,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
         assert employeeForChange.getPaymentType().getClass() == Commission
         assert employeeForChange.getPaymentType().getSalary() == 1000
         assert employeeForChange.getPaymentType().getCommissionRate() == 100
+        assert employeeForChange.paymentDelivery.class == AccountTransferDelivery
     }
 
     @Test

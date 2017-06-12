@@ -7,8 +7,8 @@ class AccountTransferDelivery implements PaymentDelivery{
 
     private Employee employee
 
-    static PaymasterDelivery newPaymentDelivery(Employee employee){
-        return new PaymasterDelivery(employee)
+    static AccountTransferDelivery newPaymentDelivery(Employee employee){
+        return new AccountTransferDelivery(employee)
     }
 
     protected AccountTransferDelivery() {
@@ -18,4 +18,8 @@ class AccountTransferDelivery implements PaymentDelivery{
         this.employee = employee
     }
 
+    @Override
+    Employee getEmployee() {
+        return employee
+    }
 }

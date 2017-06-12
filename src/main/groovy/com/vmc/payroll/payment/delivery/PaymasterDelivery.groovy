@@ -18,4 +18,8 @@ class PaymasterDelivery implements PaymentDelivery{
         this.employee = employee
     }
 
+    @Override
+    Employee getEmployee() {
+        return employee
+    }
 }
