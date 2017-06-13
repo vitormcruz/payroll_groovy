@@ -5,18 +5,18 @@ import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 
 import static com.google.gwt.core.shared.impl.InternalPreconditions.checkArgument
 
-class PaymasterDelivery implements PaymentDelivery{
+class Paymaster implements PaymentDelivery{
 
     private Employee employee
 
-    static PaymasterDelivery newPaymentDelivery(Employee employee){
-        return new PaymasterDelivery(employee)
+    static Paymaster newPaymentDelivery(Employee employee){
+        return new Paymaster(employee)
     }
 
-    protected PaymasterDelivery() {
+    protected Paymaster() {
     }
 
-    protected PaymasterDelivery(Employee employee) {
+    protected Paymaster(Employee employee) {
         checkArgument(employee != null, "Did you miss passing my employee?")
         this.employee = employee
     }

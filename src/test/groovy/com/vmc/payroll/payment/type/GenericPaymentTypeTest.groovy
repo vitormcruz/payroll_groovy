@@ -1,8 +1,8 @@
 package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.attachment.api.PaymentAttachment
-import com.vmc.payroll.payment.attachment.api.UnionCharge
+import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
+import com.vmc.payroll.payment.workEvent.api.UnionCharge
 import com.vmc.payroll.payment.type.api.GenericPaymentType
 import groovy.test.GroovyAssert
 import org.junit.Test

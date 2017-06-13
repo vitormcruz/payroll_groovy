@@ -4,11 +4,11 @@ import groovy.test.GroovyAssert
 import org.junit.Test
 
 
-class PaymasterDeliveryTest {
+class PaymasterTest {
 
     @Test
     void "Employee is mandatory"(){
-        def ex = GroovyAssert.shouldFail(IllegalArgumentException, {PaymasterDelivery.newPaymentDelivery(null)})
+        def ex = GroovyAssert.shouldFail(IllegalArgumentException, {Paymaster.newPaymentDelivery(null)})
         assert ex.message == "Did you miss passing my employee?"
     }
 

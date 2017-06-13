@@ -1,8 +1,8 @@
 package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.attachment.SalesReceipt
-import com.vmc.payroll.payment.attachment.TimeCard
+import com.vmc.payroll.payment.workEvent.SalesReceipt
+import com.vmc.payroll.payment.workEvent.TimeCard
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.vmc.payroll.payment.attachment.api
+package com.vmc.payroll.payment.workEvent.api
 
 interface PaymentAttachment extends WorkEvent{
 

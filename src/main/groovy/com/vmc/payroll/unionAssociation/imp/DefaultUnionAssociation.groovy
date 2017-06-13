@@ -1,8 +1,8 @@
 package com.vmc.payroll.unionAssociation.imp
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.attachment.api.UnionCharge
-import com.vmc.payroll.payment.attachment.api.WorkEvent
+import com.vmc.payroll.payment.workEvent.api.UnionCharge
+import com.vmc.payroll.payment.workEvent.api.WorkEvent
 import com.vmc.payroll.unionAssociation.UnionAssociation
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
@@ -39,7 +39,7 @@ class DefaultUnionAssociation implements UnionAssociation{
 
     @Override
     Collection<UnionCharge> getCharges() {
-        return charges
+        return new ArrayList(charges)
     }
 
     @Override

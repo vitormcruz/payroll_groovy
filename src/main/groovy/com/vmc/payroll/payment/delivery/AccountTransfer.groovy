@@ -8,23 +8,23 @@ import com.vmc.validationNotification.builder.imp.GenericBuilder
 import static com.google.gwt.core.shared.impl.InternalPreconditions.checkArgument
 import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 
-class AccountTransferDelivery implements PaymentDelivery, BuilderAwareness{
+class AccountTransfer implements PaymentDelivery, BuilderAwareness{
 
     private Employee employee
     String bank
     String account
 
     //Should be used by builder only
-    static AccountTransferDelivery newPaymentDelivery(Employee employee, String bank, String account){
-        return new GenericBuilder(AccountTransferDelivery).withEmployee(employee).withBank(bank).withAccount(account).build()
+    static AccountTransfer newPaymentDelivery(Employee employee, String bank, String account){
+        return new GenericBuilder(AccountTransfer).withEmployee(employee).withBank(bank).withAccount(account).build()
     }
 
-    protected AccountTransferDelivery() {
+    protected AccountTransfer() {
         //Available only for reflection magic
         invalidForBuilder()
     }
 
-    protected AccountTransferDelivery(Employee anEmployee, String aBank, String anAccount) {
+    protected AccountTransfer(Employee anEmployee, String aBank, String anAccount) {
         checkArgument(anEmployee != null, "Did you miss passing my employee?")
         this.employee = anEmployee
         setBank(aBank)

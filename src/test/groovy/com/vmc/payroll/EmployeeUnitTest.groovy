@@ -1,7 +1,7 @@
 package com.vmc.payroll
 
-import com.vmc.payroll.payment.delivery.AccountTransferDelivery
-import com.vmc.payroll.payment.delivery.MailDelivery
+import com.vmc.payroll.payment.delivery.AccountTransfer
+import com.vmc.payroll.payment.delivery.Mail
 import com.vmc.payroll.payment.type.Commission
 import com.vmc.payroll.payment.type.Monthly
 import com.vmc.validationNotification.builder.imp.GenericBuilder
@@ -24,7 +24,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
                                                      .withAddress("test address")
                                                      .withEmail("test email")
                                                      .withPaimentType(Monthly, 1000)
-                                                     .withPaymentDelivery(MailDelivery, "Street 1")
+                                                     .withPaymentDelivery(Mail, "Street 1")
                                                      .build()
     }
 
@@ -47,7 +47,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
                                                 .withAddress("test address")
                                                 .withEmail("test email")
                                                 .withPaimentType(Monthly, 1000)
-                                                .withPaymentDelivery(MailDelivery, "Street 1")
+                                                .withPaymentDelivery(Mail, "Street 1")
                                                 .build()
 
         verifyEmployeeWithExpectedData(builtEmployee, "test name", "test address", "test email")
@@ -69,12 +69,12 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
         employeeForChange.setEmail("test email 2")
         employeeForChange.setAddress("test address 2")
         employeeForChange.bePaid(Commission, 1000, 100)
-        employeeForChange.receivePaymentBy(AccountTransferDelivery, "bank 1", "111111")
+        employeeForChange.receivePaymentBy(AccountTransfer, "bank 1", "111111")
         verifyEmployeeWithExpectedData(employeeForChange, "test name 2", "test address 2", "test email 2")
         assert employeeForChange.getPaymentType().getClass() == Commission
         assert employeeForChange.getPaymentType().getSalary() == 1000
         assert employeeForChange.getPaymentType().getCommissionRate() == 100
-        assert employeeForChange.paymentDelivery.class == AccountTransferDelivery
+        assert employeeForChange.paymentDelivery.class == AccountTransfer
     }
 
     @Test

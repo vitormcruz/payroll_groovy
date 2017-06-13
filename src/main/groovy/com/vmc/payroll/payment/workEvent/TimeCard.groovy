@@ -1,6 +1,6 @@
-package com.vmc.payroll.payment.attachment
+package com.vmc.payroll.payment.workEvent
 
-import com.vmc.payroll.payment.attachment.api.PaymentAttachment
+import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 import org.joda.time.DateTime

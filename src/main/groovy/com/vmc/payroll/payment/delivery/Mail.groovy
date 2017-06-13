@@ -9,24 +9,24 @@ import com.vmc.validationNotification.builder.imp.GenericBuilder
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 
-class MailDelivery implements PaymentDelivery, BuilderAwareness{
+class Mail implements PaymentDelivery, BuilderAwareness{
 
     private Employee employee
     String address
 
-    static MailDelivery newPaymentDelivery(Employee employee, String address){
-        return new GenericBuilder(MailDelivery).withEmployee(employee).withAddress(address).build()
+    static Mail newPaymentDelivery(Employee employee, String address){
+        return new GenericBuilder(Mail).withEmployee(employee).withAddress(address).build()
     }
 
     //Should be used by builder only
-    protected MailDelivery() {
+    protected Mail() {
         //Available only for reflection magic
         invalidForBuilder()
     }
 
-    protected MailDelivery(Employee anEmployee, String anAddress) {
+    protected Mail(Employee anEmployee, String anAddress) {
         InternalPreconditions.checkArgument(anEmployee != null, "Did you miss passing my employee?")
-        executeNamedValidation("Validate new MailDelivery", {
+        executeNamedValidation("Validate new Mail", {
             this.employee = anEmployee
             setAddress(anAddress)
         })

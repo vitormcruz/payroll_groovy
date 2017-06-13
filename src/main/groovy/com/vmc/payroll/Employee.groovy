@@ -1,7 +1,7 @@
 package com.vmc.payroll
 
 import com.vmc.payroll.api.Entity
-import com.vmc.payroll.payment.attachment.api.WorkEvent
+import com.vmc.payroll.payment.workEvent.api.WorkEvent
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.payroll.payment.type.api.PaymentType
 import com.vmc.payroll.unionAssociation.imp.DefaultUnionAssociation
@@ -51,30 +51,15 @@ class Employee implements Entity, BuilderAwareness{
     }
 
     void setName(String aName) {
-        if(aName == null){
-            issueError(this, [name:"employee.name"], "payroll.employee.name.mandatory")
-            return
-        }
-
-        this.@name = aName
+        aName ? this.@name = aName : issueError(this, [name:"employee.name"], "payroll.employee.name.mandatory")
     }
 
     void setAddress(String anAddress) {
-        if(anAddress == null){
-            issueError(this, [name:"employee.address"], "payroll.employee.address.mandatory")
-            return
-        }
-
-        this.@address = anAddress
+        anAddress ? this.@address = anAddress : issueError(this, [name:"employee.address"], "payroll.employee.address.mandatory")
     }
 
     void setEmail(String anEmail) {
-        if(anEmail == null){
-            issueError(this, [name:"employee.email"], "payroll.employee.email.mandatory")
-            return
-        }
-
-        this.@email = anEmail
+        anEmail ? this.@email = anEmail : issueError(this, [name:"employee.email"], "payroll.employee.email.mandatory")
     }
 
     PaymentType getPaymentType() {
@@ -86,19 +71,13 @@ class Employee implements Entity, BuilderAwareness{
     }
 
     void bePaid(Class<PaymentType> aPaymentTypeClass, ...args){
-        if(aPaymentTypeClass == null || args == null || (args as List).isEmpty()){
-            issueError(this, [name:"employee.payment.type"], "payroll.employee.payment.type.mandatory")
-            return
-        }
-        paymentType = aPaymentTypeClass.newPaymentType(this, *args)
+        aPaymentTypeClass ? paymentType = aPaymentTypeClass.newPaymentType(this, *args) :
+                            issueError(this, [name:"employee.payment.type"], "payroll.employee.payment.type.mandatory")
     }
 
     void receivePaymentBy(Class<PaymentDelivery> aPaymentDeliveryClass, ...args){
-        if(aPaymentDeliveryClass == null){
+        aPaymentDeliveryClass ? paymentDelivery = aPaymentDeliveryClass.newPaymentDelivery(this, *args) :
             issueError(this, [name:"employee.payment.delivery"], "payroll.employee.payment.delivery.mandatory")
-            return
-        }
-        paymentDelivery = aPaymentDeliveryClass.newPaymentDelivery(this, *args)
     }
 
     void postWorkEvent(WorkEvent workEvent){
