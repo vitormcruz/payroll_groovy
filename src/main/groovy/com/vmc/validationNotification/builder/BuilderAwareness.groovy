@@ -16,11 +16,11 @@ trait BuilderAwareness {
     /**
      * Tells if a construction is invalid for the builder.
      */
-    public Boolean wasBuiltWithValidConstructor(){
+    Boolean wasBuiltWithValidConstructor(){
         return builtWithValidConstructor
     }
 
-    public void invalidForBuilder(){
+    void invalidForBuilder(){
         builtWithValidConstructor = false
     }
 }

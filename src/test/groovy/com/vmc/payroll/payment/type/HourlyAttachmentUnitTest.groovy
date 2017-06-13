@@ -9,7 +9,7 @@ import org.junit.Test
 class HourlyAttachmentUnitTest extends ValidationNotificationTestSetup{
 
     @Test
-    def void "Add a time card to a Hourly payment type"(){
+    void "Add a time card to a Hourly payment type"(){
         def expectedTimeCard = [] as TimeCard
         def hourly = Hourly.newPaymentType([] as Employee, 1)
         hourly.postWorkEvent(expectedTimeCard)
@@ -17,7 +17,7 @@ class HourlyAttachmentUnitTest extends ValidationNotificationTestSetup{
     }
 
     @Test
-    def void "Add another payment attachment to a Hourly payment type"(){
+    void "Add another payment attachment to a Hourly payment type"(){
         def hourly =  Hourly.newPaymentType([] as Employee, 1)
         hourly.postWorkEvent([] as SalesReceipt)
         assert hourly.getPaymentAttachments().isEmpty()

@@ -1,10 +1,11 @@
 package com.vmc.payroll
 
-import com.vmc.payroll.payment.attachment.WorkEvent
-import com.vmc.payroll.payment.delivery.PaymentDelivery
-import com.vmc.payroll.payment.type.PaymentType
-import com.vmc.payroll.unionAssociation.DefaultUnionAssociation
-import com.vmc.payroll.unionAssociation.NoUnionAssociation
+import com.vmc.payroll.api.Entity
+import com.vmc.payroll.payment.attachment.api.WorkEvent
+import com.vmc.payroll.payment.delivery.api.PaymentDelivery
+import com.vmc.payroll.payment.type.api.PaymentType
+import com.vmc.payroll.unionAssociation.imp.DefaultUnionAssociation
+import com.vmc.payroll.unionAssociation.imp.NoUnionAssociation
 import com.vmc.payroll.unionAssociation.UnionAssociation
 import com.vmc.validationNotification.builder.BuilderAwareness
 
@@ -49,7 +50,7 @@ class Employee implements Entity, BuilderAwareness{
         return id
     }
 
-    public void setName(String aName) {
+    void setName(String aName) {
         if(aName == null){
             issueError(this, [name:"employee.name"], "payroll.employee.name.mandatory")
             return
@@ -58,7 +59,7 @@ class Employee implements Entity, BuilderAwareness{
         this.@name = aName
     }
 
-    public void setAddress(String anAddress) {
+    void setAddress(String anAddress) {
         if(anAddress == null){
             issueError(this, [name:"employee.address"], "payroll.employee.address.mandatory")
             return
@@ -67,7 +68,7 @@ class Employee implements Entity, BuilderAwareness{
         this.@address = anAddress
     }
 
-    public void setEmail(String anEmail) {
+    void setEmail(String anEmail) {
         if(anEmail == null){
             issueError(this, [name:"employee.email"], "payroll.employee.email.mandatory")
             return
@@ -84,7 +85,7 @@ class Employee implements Entity, BuilderAwareness{
         return paymentDelivery
     }
 
-    public void bePaid(Class<PaymentType> aPaymentTypeClass, ...args){
+    void bePaid(Class<PaymentType> aPaymentTypeClass, ...args){
         if(aPaymentTypeClass == null || args == null || (args as List).isEmpty()){
             issueError(this, [name:"employee.payment.type"], "payroll.employee.payment.type.mandatory")
             return
@@ -92,7 +93,7 @@ class Employee implements Entity, BuilderAwareness{
         paymentType = aPaymentTypeClass.newPaymentType(this, *args)
     }
 
-    public void receivePaymentBy(Class<PaymentDelivery> aPaymentDeliveryClass, ...args){
+    void receivePaymentBy(Class<PaymentDelivery> aPaymentDeliveryClass, ...args){
         if(aPaymentDeliveryClass == null){
             issueError(this, [name:"employee.payment.delivery"], "payroll.employee.payment.delivery.mandatory")
             return
@@ -100,15 +101,19 @@ class Employee implements Entity, BuilderAwareness{
         paymentDelivery = aPaymentDeliveryClass.newPaymentDelivery(this, *args)
     }
 
-    public void postWorkEvent(WorkEvent workEvent){
+    void postWorkEvent(WorkEvent workEvent){
         workEventHandlers.each {it.postWorkEvent(workEvent)}
     }
 
-    public void registerAsWorkEventHandler(handler) {
+    void registerAsWorkEventHandler(handler) {
         workEventHandlers.add(handler)
     }
 
-    public void beUnionMember(Integer rate) {
+    def getPaymentAttachments(){
+        return paymentType.getPaymentAttachments()
+    }
+
+    void beUnionMember(Integer rate) {
         unionAssociation = DefaultUnionAssociation.newUnionAssociation(this, rate)
     }
 
@@ -116,15 +121,11 @@ class Employee implements Entity, BuilderAwareness{
         return unionAssociation
     }
 
-    public getPaymentAttachments(){
-        return paymentType.getPaymentAttachments()
-    }
-
-    public Boolean isUnionMember() {
+    Boolean isUnionMember() {
         unionAssociation.isUnionMember()
     }
 
-    public void dropUnionMembership() {
+    void dropUnionMembership() {
         unionAssociation = NoUnionAssociation.getInstance()
     }
 }

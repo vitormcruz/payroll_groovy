@@ -21,13 +21,13 @@ class PayrollJettyApplication {
     }
 
     static void main(String[] args) {
-        Server server = new Server(7003);
+        Server server = new Server(7003)
 
         def webAppContext = new WebAppContext()
         webAppContext.setContextPath("/sandbox")
         webAppContext.setResourceBase(".")
         webAppContext.setExtractWAR(false)
-        webAppContext.setContextPath("/");
+        webAppContext.setContextPath("/")
         webAppContext.addServlet(configuredVaadinServletHolder, "/VAADIN/*")
         webAppContext.addServlet(configuredVaadinServletHolder, "/payroll/*")
         webAppContext.addFilter(ValidationNotifierFilter,"/*", EnumSet.allOf(DispatcherType))

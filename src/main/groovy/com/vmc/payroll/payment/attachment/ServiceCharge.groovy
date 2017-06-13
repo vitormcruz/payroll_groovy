@@ -1,5 +1,6 @@
 package com.vmc.payroll.payment.attachment
 
+import com.vmc.payroll.payment.attachment.api.UnionCharge
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 import org.joda.time.DateTime
@@ -25,7 +26,7 @@ class ServiceCharge implements UnionCharge, BuilderAwareness{
         })
     }
 
-    public static ServiceCharge newServiceCharge(DateTime date, amount){
+    static ServiceCharge newServiceCharge(DateTime date, amount){
         return new GenericBuilder(ServiceCharge).withDate(date).withAmount(amount).build()
     }
 

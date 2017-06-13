@@ -10,7 +10,7 @@ import static junit.framework.TestCase.fail
 class TimeCardUnitTest extends ValidationNotificationTestSetup {
 
     @Test
-    def void "Create a time card providing null to required fields"(){
+    void "Create a time card providing null to required fields"(){
         def timeCardBuilder = new GenericBuilder(TimeCard).withDate(null)
                                                           .withTime(null)
         timeCardBuilder.buildAndDo(
@@ -21,7 +21,7 @@ class TimeCardUnitTest extends ValidationNotificationTestSetup {
     }
 
     @Test
-    def void "Create a time card providing valid values to required fields"(){
+    void "Create a time card providing valid values to required fields"(){
         def timeCardBuilder = new GenericBuilder(TimeCard)
         def expectedDateTime = new DateTime()
         timeCardBuilder.with(expectedDateTime, 10)

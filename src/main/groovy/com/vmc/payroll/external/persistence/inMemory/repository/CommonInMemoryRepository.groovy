@@ -1,21 +1,21 @@
 package com.vmc.payroll.external.persistence.inMemory.repository
 
-import com.vmc.payroll.Entity
-import com.vmc.payroll.Repository
+import com.vmc.payroll.api.Entity
+import com.vmc.payroll.api.Repository
 
 class CommonInMemoryRepository<E extends Entity> implements Repository<E> {
 
     @Delegate
     private Collection<E> entities
-    private Map<String, E> entitiesById
+    private Map entitiesById
     private pending = []
 
     CommonInMemoryRepository() {
-        this.entitiesById = new HashMap<String, E>()
+        this.entitiesById = new HashMap()
         this.entities = entitiesById.values()
     }
 
-    public void executeAllPending(){
+    void executeAllPending(){
         pending.each {it()}
         pending.clear()
     }

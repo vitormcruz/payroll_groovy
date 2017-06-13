@@ -1,5 +1,6 @@
 package com.vmc.payroll.payment.attachment
 
+import com.vmc.payroll.payment.attachment.api.PaymentAttachment
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 import org.joda.time.DateTime
@@ -25,7 +26,7 @@ class SalesReceipt implements PaymentAttachment, BuilderAwareness{
         })
     }
 
-    public static SalesReceipt newSalesReceipt(DateTime date, amount){
+    static SalesReceipt newSalesReceipt(DateTime date, amount){
         return new GenericBuilder(SalesReceipt).withDate(date).withAmount(amount).build()
     }
 

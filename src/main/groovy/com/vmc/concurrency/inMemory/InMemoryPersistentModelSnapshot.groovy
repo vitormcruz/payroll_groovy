@@ -13,7 +13,7 @@ class InMemoryPersistentModelSnapshot implements ModelSnapshot{
     }
 
     @Override
-    def synchronized void save() {
+    synchronized void save() {
         atomicBlock.execute{
             modelObjects.each {it.executeAllPending()}
         }

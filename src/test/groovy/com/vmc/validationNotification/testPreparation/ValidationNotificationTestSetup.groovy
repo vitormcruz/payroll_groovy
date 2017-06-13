@@ -8,12 +8,12 @@ abstract class ValidationNotificationTestSetup {
 
     protected SimpleValidationObserverImp validationObserver = new SimpleValidationObserverImp()
 
-    public SimpleValidationObserverImp getValidationObserver(){
+    SimpleValidationObserverImp getValidationObserver(){
         return validationObserver
     }
 
     @Before
-    public void setUp(){
+    void setUp(){
         ApplicationValidationNotifier.createCurrentListOfListeners()
         validationObserver = new SimpleValidationObserverImp()
         ApplicationValidationNotifier.addObserver(validationObserver)

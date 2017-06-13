@@ -1,4 +1,4 @@
-package com.vmc.payroll
+package com.vmc.payroll.api
 
 interface Repository<E extends Entity> extends Collection<E>{
 

@@ -1,7 +1,7 @@
 package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.attachment.PaymentAttachment
+import com.vmc.payroll.payment.attachment.api.PaymentAttachment
 import com.vmc.payroll.payment.attachment.SalesReceipt
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
@@ -44,6 +44,6 @@ class Commission extends Monthly{
             return
         }
 
-        this.@workEventAttachments.add(paymentAttachment)
+        this.@paymentAttachments.add(paymentAttachment)
     }
 }

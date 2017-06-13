@@ -2,7 +2,7 @@ package com.vmc.payroll.external.presentation.webservice.spark
 
 import com.vmc.concurrency.ModelSnapshot
 import com.vmc.payroll.Employee
-import com.vmc.payroll.Repository
+import com.vmc.payroll.api.Repository
 import com.vmc.payroll.external.presentation.converter.EmployeeJsonConverter
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 import spark.Request
@@ -26,7 +26,7 @@ class EmployeeWebServiceController implements BasicControllerOperationsTrait{
             listener.setBody(newEmployee.asJson())
             model.save()
         }
-        listener.fillResponse(response);
+        listener.fillResponse(response)
     }
 
     void changeEmployee(Request request, Response response) {
@@ -50,7 +50,7 @@ class EmployeeWebServiceController implements BasicControllerOperationsTrait{
             listener.setBody(employeeSubjectedRemoval)
             model.save()
         }
-        listener.fillResponse();
+        listener.fillResponse()
     }
 
     Collection<Employee> listEmployees() {

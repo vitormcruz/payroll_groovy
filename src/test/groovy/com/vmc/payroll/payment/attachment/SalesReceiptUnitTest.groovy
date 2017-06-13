@@ -10,7 +10,7 @@ import static junit.framework.TestCase.fail
 class SalesReceiptUnitTest extends ValidationNotificationTestSetup {
 
     @Test
-    def void "Create a sales receipt providing null to required fields"(){
+    void "Create a sales receipt providing null to required fields"(){
         def salesReceiptBuilder = new GenericBuilder(SalesReceipt).withDate(null)
                                                                   .withAmount(null)
         salesReceiptBuilder.buildAndDo(
@@ -20,10 +20,10 @@ class SalesReceiptUnitTest extends ValidationNotificationTestSetup {
     }
 
     @Test
-    def void "Create a sales receipt providing valid values to required fields"(){
+    void "Create a sales receipt providing valid values to required fields"(){
         def selesReceipt = new GenericBuilder(SalesReceipt)
         def expectedDateTime = new DateTime()
-        selesReceipt.with(expectedDateTime, 10)
+        selesReceipt.withConstructorArgs(expectedDateTime, 10)
         selesReceipt.buildAndDo(
           {assert it.date == expectedDateTime
            assert it.amount == 10 },

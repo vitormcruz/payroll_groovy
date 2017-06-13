@@ -8,8 +8,8 @@ class BuilderFailureStrategy implements BuilderStrategy{
     }
 
     @Override
-    public doWithBuiltEntity(builtObject, Object aSuccessClosure, Object aFailureClosure) {
+    doWithBuiltEntity(builtObject, aSuccessClosure, aFailureClosure) {
         aFailureClosure()
-        return null;
+        return null
     }
 }

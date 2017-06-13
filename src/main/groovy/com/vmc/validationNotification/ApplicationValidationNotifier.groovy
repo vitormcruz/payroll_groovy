@@ -10,7 +10,7 @@ class ApplicationValidationNotifier {
     }
 
     static void createCurrentListOfListeners(){
-        observers = new ThreadLocal<Collection<ValidationObserver>>()
+        observers = new ThreadLocal<WeakHashMap<ValidationObserver, Void>>()
         observers.set(new WeakHashMap())
     }
 
@@ -59,9 +59,9 @@ class ApplicationValidationNotifier {
     }
 
     static void issueError(Object subject, Map context, String instantValidationName, String error) {
-        startValidation(subject, instantValidationName)
-        getObserversIterator().each {it.errorIssued(error)}
-        finishValidation(subject, instantValidationName)
+        startValidation(instantValidationName)
+        getObserversIterator().each {it.errorIssued(subject, context, error)}
+        finishValidation()
     }
 
     static Set<ValidationObserver> getObserversIterator() {

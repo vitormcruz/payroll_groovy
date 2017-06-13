@@ -7,7 +7,7 @@ class DataSetBuilder extends GenericBuilder {
 
     protected Closure insertCommand
 
-    public DataSetBuilder(Class aClass, Closure insertCommand) {
+    DataSetBuilder(Class aClass, Closure insertCommand) {
         super(aClass)
         if(insertCommand == null ) throw new IllegalArgumentException("An insertCommand closure must be provided")
         this.insertCommand = insertCommand

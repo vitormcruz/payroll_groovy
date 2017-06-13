@@ -8,7 +8,7 @@ class BuilderSuccessStrategy implements BuilderStrategy{
     }
 
     @Override
-    public doWithBuiltEntity(Object builtObject, Object aSuccessClosure, Object aFailureClosure) {
+    doWithBuiltEntity(Object builtObject, aSuccessClosure, aFailureClosure) {
         aSuccessClosure(builtObject)
         return builtObject
     }

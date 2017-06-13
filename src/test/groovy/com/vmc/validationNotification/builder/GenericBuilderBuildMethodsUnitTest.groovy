@@ -12,13 +12,13 @@ import static org.junit.Assert.fail
 class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup{
 
     @Test
-    def void "The GenericBuilder class parameter must be provided"(){
+    void "The GenericBuilder class parameter must be provided"(){
         def ex = shouldFail IllegalArgumentException, {getBuilderFor(null)}
         assert ex.message == "A class to build must be provided"
     }
 
     @Test
-    def void "Call onSuccessDoWithBuiltEntity with a success built entity "(){
+    void "Call onSuccessDoWithBuiltEntity with a success built entity "(){
         def buildersForTest = getSuccessBuilders()
         buildersForTest.each { builderForTest ->
             def builtEntity
@@ -29,7 +29,7 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
     }
 
     @Test
-    def void "Call onSuccessDoWithBuiltEntity with a failed built entity "(){
+    void "Call onSuccessDoWithBuiltEntity with a failed built entity "(){
         def buildersForTest = getFailBuilders()
         buildersForTest.each { builderForTest ->
             builderForTest.buildAndDoOnSuccess { fail("Issued success but the entity was created with an error.") }
@@ -38,7 +38,7 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
     }
 
     @Test
-    def void "Call onSuccessDoWithBuiltEntity should return null with a failed built entity"(){
+    void "Call onSuccessDoWithBuiltEntity should return null with a failed built entity"(){
         def buildersForTest = getFailBuilders()
         buildersForTest.each { builderForTest ->
             def result = builderForTest.buildAndDoOnSuccess {}
@@ -47,7 +47,7 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
     }
 
     @Test
-    def void "Call onSuccessDoWithBuiltEntity should return the built entity when build was successful"(){
+    void "Call onSuccessDoWithBuiltEntity should return the built entity when build was successful"(){
         def buildersForTest = getSuccessBuilders()
         buildersForTest.each { builderForTest ->
             def result = builderForTest.buildAndDoOnSuccess {}
@@ -57,7 +57,7 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
     }
 
     @Test
-    def void "Call buildAndDo with a success built entity"(){
+    void "Call buildAndDo with a success built entity"(){
         def buildersForTest = getSuccessBuilders()
         buildersForTest.each { builderForTest ->
             builderForTest.buildAndDo({ assert it.getAttribute() == "ok" },
@@ -66,7 +66,7 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
     }
 
     @Test
-    def void "Call buildAndDoOnSuccess with a failed built entity "(){
+    void "Call buildAndDoOnSuccess with a failed built entity "(){
         def buildersForTest = getFailBuilders()
         buildersForTest.each { builderForTest ->
             builderForTest.buildAndDoOnSuccess { fail("Issued success but the entity was created with an error.") }
@@ -79,7 +79,7 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
     }
 
     @Test
-    def void "Call buildAndDo should return null with a failed built entity"(){
+    void "Call buildAndDo should return null with a failed built entity"(){
         def buildersForTest = getFailBuilders()
         buildersForTest.each { builderForTest ->
             def result = builderForTest.buildAndDo({}, {})
@@ -88,7 +88,7 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
     }
 
     @Test
-    def void "Call buildAndDo should return the built entity when build was successful"(){
+    void "Call buildAndDo should return the built entity when build was successful"(){
         def buildersForTest = getSuccessBuilders()
         buildersForTest.each { builderForTest ->
             def result = builderForTest.buildAndDo({}, {})
@@ -98,7 +98,7 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
     }
 
     @Test
-    def void "Builder should not call forbidden constructors"(){
+    void "Builder should not call forbidden constructors"(){
         def ex = shouldFail UsedForbiddenConstructor, {getBuilderFor(TestForbiddenConstructor).build()}
         assert ex.message == "The constructor found for TestForbiddenConstructor with [] arguments is of forbidden use."
         ex = shouldFail UsedForbiddenConstructor, {getBuilderFor(TestForbiddenConstructor).withString("test").build()}
@@ -106,13 +106,13 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
     }
 
     @Test
-    def void "Builder should not call forbidden constructors, even with null arguments"(){
+    void "Builder should not call forbidden constructors, even with null arguments"(){
         def ex = shouldFail UsedForbiddenConstructor, {getBuilderFor(TestForbiddenConstructor).withString(null).build()}
         assert ex.message == "The constructor found for TestForbiddenConstructor with [NullObject] arguments is of forbidden use."
     }
 
     @Test
-    def void "Builder should work with all allowed constructors"(){
+    void "Builder should work with all allowed constructors"(){
         [Integer, Byte, Long].forEach {
             def generatedEntity = getBuilderFor(TestForbiddenConstructor).with(it.valueOf("1")).build()
             assert generatedEntity != null : "Entity should be build for constructor with ${it.simpleName}, but wasn't"
@@ -129,12 +129,12 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
                 getBuilderFor(TestConstructorWithOneArgument).withAttribute("fail")]
     }
 
-    public GenericBuilder getBuilderFor(Class clazz) {
+    GenericBuilder getBuilderFor(Class clazz) {
         new GenericBuilder(clazz)
     }
 
-    public static class TestEntity{
-        def attribute;
+    static class TestEntity{
+        def attribute
 
         void setAttribute(attribute) {
             if(attribute == "fail"){
@@ -145,10 +145,10 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
         }
     }
 
-    public static class TestConstructorWithOneArgument {
-        def String attribute;
+    static class TestConstructorWithOneArgument {
+        String attribute
 
-        public TestConstructorWithOneArgument(String attribute) {
+        TestConstructorWithOneArgument(String attribute) {
             if(attribute == "fail"){
                 issueError(this, [:], "error")
             }else{
@@ -157,11 +157,12 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
         }
     }
 
-    public static class TestForbiddenConstructor implements BuilderAwareness{
+    static class TestForbiddenConstructor implements BuilderAwareness{
         private TestForbiddenConstructor(){invalidForBuilder()}
         private TestForbiddenConstructor(String a){invalidForBuilder()}
         protected TestForbiddenConstructor(Integer a){}
-        public TestForbiddenConstructor(Byte a){}
+
+        TestForbiddenConstructor(Byte a){}
 
         TestForbiddenConstructor(Long a){}
     }

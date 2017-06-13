@@ -7,7 +7,7 @@ import org.junit.Test
 class PaymasterDeliveryTest {
 
     @Test
-    def void "Employee is mandatory"(){
+    void "Employee is mandatory"(){
         def ex = GroovyAssert.shouldFail(IllegalArgumentException, {PaymasterDelivery.newPaymentDelivery(null)})
         assert ex.message == "Did you miss passing my employee?"
     }

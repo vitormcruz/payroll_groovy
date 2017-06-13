@@ -1,28 +1,28 @@
 package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.attachment.PaymentAttachment
-import com.vmc.payroll.payment.attachment.UnionCharge
-import com.vmc.payroll.payment.type.GenericPaymentType
+import com.vmc.payroll.payment.attachment.api.PaymentAttachment
+import com.vmc.payroll.payment.attachment.api.UnionCharge
+import com.vmc.payroll.payment.type.api.GenericPaymentType
 import groovy.test.GroovyAssert
 import org.junit.Test
 
 class GenericPaymentTypeTest {
 
     @Test
-    def void "Provide null for employee"(){
+    void "Provide null for employee"(){
         def ex = GroovyAssert.shouldFail {new GenericPaymentTypeForTest(null)}
         assert ex.message == "Employee must be provided for payment types, but I got it null"
     }
 
     @Test
-    def void "Provide a valid employee"(){
+    void "Provide a valid employee"(){
         def expectedEmployee = [] as Employee
         assert new GenericPaymentTypeForTest(expectedEmployee).employee == expectedEmployee
     }
 
     @Test
-    def void "Adding a payment attachment"(){
+    void "Adding a payment attachment"(){
         def paymentType = new GenericPaymentTypeForTest([] as Employee)
         def paymentAttachmentExpected = [] as PaymentAttachment
         paymentType.postWorkEvent(paymentAttachmentExpected)
@@ -30,14 +30,14 @@ class GenericPaymentTypeTest {
     }
 
     @Test
-    def void "Adding a non payment attachment"(){
+    void "Adding a non payment attachment"(){
         def paymentType = new GenericPaymentTypeForTest([] as Employee)
         def nonPaymentAttachment = [] as UnionCharge
         paymentType.postWorkEvent(nonPaymentAttachment)
         assert !paymentType.getPaymentAttachments().contains(nonPaymentAttachment)
     }
 
-    public class GenericPaymentTypeForTest extends GenericPaymentType{
+    class GenericPaymentTypeForTest extends GenericPaymentType{
 
         GenericPaymentTypeForTest(Employee anEmployee) {
             super(anEmployee)

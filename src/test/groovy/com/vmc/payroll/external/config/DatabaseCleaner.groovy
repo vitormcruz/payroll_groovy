@@ -1,7 +1,7 @@
 package com.vmc.payroll.external.config
 
 import com.vmc.concurrency.ModelSnapshot
-import com.vmc.payroll.Repository
+import com.vmc.payroll.api.Repository
 
 class DatabaseCleaner {
     private ModelSnapshot model
@@ -12,7 +12,7 @@ class DatabaseCleaner {
         this.model = aModel
     }
 
-    public void cleanDatabase(){
+    void cleanDatabase(){
         repositories.each {it.clear()}
         model.save()
     }

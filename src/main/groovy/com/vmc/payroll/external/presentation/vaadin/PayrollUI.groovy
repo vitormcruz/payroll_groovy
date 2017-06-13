@@ -9,7 +9,7 @@ import com.vaadin.ui.UI
 @Title("Sandbox")
 @Theme("valo")
 @Push
-public class PayrollUI extends UI {
+class PayrollUI extends UI {
 
     protected void init(VaadinRequest request) {
         this.setPollInterval(200)

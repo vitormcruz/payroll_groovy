@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.base.Preconditions
 import com.vmc.payroll.Employee
 import com.vmc.payroll.external.config.ServiceLocator
-import com.vmc.payroll.payment.type.PaymentType
+import com.vmc.payroll.payment.type.api.PaymentType
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 import org.apache.commons.lang.StringUtils
 import org.reflections.Reflections
@@ -44,7 +44,7 @@ class EmployeeJsonConverter implements JsonConverter{
 
     }
 
-    def GenericBuilder meToBuilder() {
+    GenericBuilder meToBuilder() {
         return new GenericBuilder(Employee).withName(name).withAddress(address).withEmail(email).withPayment(paymentTypeClass.paramsFromConverter(this))
     }
 

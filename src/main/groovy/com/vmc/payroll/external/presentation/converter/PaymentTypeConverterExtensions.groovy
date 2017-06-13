@@ -4,7 +4,7 @@ import com.vmc.payroll.payment.type.Monthly
 
 class PaymentTypeConverterExtensions {
 
-    public static fillConverterWithParams(Monthly monthly, EmployeeJsonConverter employeeConverter){
+    static fillConverterWithParams(Monthly monthly, EmployeeJsonConverter employeeConverter){
         employeeConverter.paymentType = Monthly.simpleName
         employeeConverter.salary = monthly.salary
     }

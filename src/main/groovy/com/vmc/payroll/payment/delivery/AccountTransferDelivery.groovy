@@ -1,6 +1,7 @@
 package com.vmc.payroll.payment.delivery
 
 import com.vmc.payroll.Employee
+import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 

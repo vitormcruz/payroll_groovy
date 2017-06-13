@@ -1,6 +1,6 @@
 package com.vmc.payroll.unionAssociation
 
-import com.vmc.payroll.unionAssociation.NoUnionAssociation
+import com.vmc.payroll.unionAssociation.imp.NoUnionAssociation
 import org.junit.Test
 
 import static groovy.test.GroovyAssert.shouldFail
@@ -8,12 +8,12 @@ import static groovy.test.GroovyAssert.shouldFail
 class NoUnionAssociationTest {
 
     @Test
-    def void "Get the unique reference to the NoUnionAssociation is ok"(){
+    void "Get the unique reference to the NoUnionAssociation is ok"(){
         assert NoUnionAssociation.getInstance() != null
     }
 
     @Test
-    def void "Create a NoUnionAssociation fails"(){
+    void "Create a NoUnionAssociation fails"(){
         def ex = shouldFail(UnsupportedOperationException, {new NoUnionAssociation()})
         assert ex.message == "I am a singleton, please get my instance throught the getInstance method."
     }

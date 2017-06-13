@@ -1,8 +1,8 @@
-package com.vmc.payroll.payment.type
+package com.vmc.payroll.payment.type.api
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.attachment.PaymentAttachment
-import com.vmc.payroll.payment.attachment.WorkEvent
+import com.vmc.payroll.payment.attachment.api.PaymentAttachment
+import com.vmc.payroll.payment.attachment.api.WorkEvent
 
 import static com.google.common.base.Preconditions.checkArgument
 
@@ -10,11 +10,11 @@ abstract class GenericPaymentType implements PaymentType{
 
     protected Employee employee
 
-    protected Set<? extends WorkEvent> workEventAttachments = new HashSet<WorkEvent>()
+    protected Set<PaymentAttachment> paymentAttachments = new HashSet<PaymentAttachment>()
 
     private GenericPaymentType() {}
 
-    public GenericPaymentType(Employee anEmployee){
+    GenericPaymentType(Employee anEmployee){
         checkArgument(anEmployee != null, "Employee must be provided for payment types, but I got it null")
         this.employee = anEmployee
         anEmployee.registerAsWorkEventHandler(this)
@@ -33,11 +33,11 @@ abstract class GenericPaymentType implements PaymentType{
     }
 
     void addPaymentAttachment(PaymentAttachment paymentAttachment){
-        workEventAttachments.add(paymentAttachment)
+        paymentAttachments.add(paymentAttachment)
     }
 
-    public Set<PaymentAttachment> getPaymentAttachments(){
-        return new HashSet<PaymentAttachment>(workEventAttachments)
+    Set<PaymentAttachment> getPaymentAttachments(){
+        return new HashSet<PaymentAttachment>(paymentAttachments)
     }
 
 }

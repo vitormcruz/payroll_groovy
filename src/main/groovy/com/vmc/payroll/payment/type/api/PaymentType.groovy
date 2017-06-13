@@ -1,8 +1,8 @@
-package com.vmc.payroll.payment.type
+package com.vmc.payroll.payment.type.api
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.attachment.PaymentAttachment
-import com.vmc.payroll.payment.attachment.WorkEvent
+import com.vmc.payroll.payment.attachment.api.PaymentAttachment
+import com.vmc.payroll.payment.attachment.api.WorkEvent
 
 interface PaymentType {
 

@@ -20,7 +20,7 @@ class ObjectJsonConversionExtensions {
         return new EmployeeJsonConverter(employee)
     }
 
-    public static class DefaultJsonConverter implements JsonConverter{
+    static class DefaultJsonConverter implements JsonConverter{
 
         private Object object
 

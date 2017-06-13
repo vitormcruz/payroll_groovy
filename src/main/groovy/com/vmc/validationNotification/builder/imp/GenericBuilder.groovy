@@ -22,7 +22,7 @@ class GenericBuilder implements CommonBuilder, ValidationObserver{
     protected constructorArgs = new ArrayList()
     protected Class aClass
 
-    public GenericBuilder(Class aClass) {
+    GenericBuilder(Class aClass) {
         if(aClass == null ) throw new IllegalArgumentException("A class to build must be provided")
         this.aClass = aClass
     }
@@ -47,21 +47,21 @@ class GenericBuilder implements CommonBuilder, ValidationObserver{
     }
 
     @Override
-    public buildAndDoOnSuccess(aSuccessClosure){
+    buildAndDoOnSuccess(aSuccessClosure){
         return buildAndDo(aSuccessClosure, {})
     }
 
     @Override
-    public buildAndDoOnFailure(aFailureClosure){
+    buildAndDoOnFailure(aFailureClosure){
         return buildAndDo({}, aFailureClosure)
     }
 
     @Override
-    public build(){
+    build(){
         return buildAndDo({}, {return null})
     }
 
-    public buildAndDo(aSuccessClosure, aFailureClosure) {
+    def buildAndDo(aSuccessClosure, aFailureClosure) {
         ApplicationValidationNotifier.addObserver(this)
         def builtEntity = aClass."newInstance"(*constructorArgs)
         validateConstructorUsed(builtEntity)
@@ -70,7 +70,7 @@ class GenericBuilder implements CommonBuilder, ValidationObserver{
         return builderStrategy.doWithBuiltEntity(builtEntity, aSuccessClosure, aFailureClosure)
     }
 
-    public void validateConstructorUsed(builtEntity) {
+    void validateConstructorUsed(builtEntity) {
         if (builtEntity instanceof BuilderAwareness && !builtEntity.wasBuiltWithValidConstructor()) {
             throw new UsedForbiddenConstructor("The constructor found for ${aClass.getSimpleName()} with " +
                                                "${constructorArgs.collect { it.getClass().simpleName }} arguments is of " +
@@ -86,7 +86,7 @@ class GenericBuilder implements CommonBuilder, ValidationObserver{
     @Override
     void mandatoryObligationIssued(Object subject, Map context, String mandatoryValidationName, String error) {
         mandatoryObligations.put(mandatoryValidationName, error)
-        builderStrategy = new BuilderFailureStrategy();
+        builderStrategy = new BuilderFailureStrategy()
     }
 
     @Override
@@ -97,7 +97,7 @@ class GenericBuilder implements CommonBuilder, ValidationObserver{
 
     @Override
     void errorIssued(Object subject, Map context, String error) {
-        builderStrategy = new BuilderFailureStrategy();
+        builderStrategy = new BuilderFailureStrategy()
     }
 
     @Override

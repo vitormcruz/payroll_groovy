@@ -16,7 +16,7 @@ abstract class IntegrationTestBase extends ValidationNotificationTestSetup{
     }
 
     @Before
-    public void setUp(){
+    void setUp(){
         super.setUp()
         databaseCleaner.cleanDatabase()
     }

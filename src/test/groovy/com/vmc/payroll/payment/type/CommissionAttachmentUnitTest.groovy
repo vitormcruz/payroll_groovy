@@ -9,7 +9,7 @@ import org.junit.Test
 class CommissionAttachmentUnitTest extends ValidationNotificationTestSetup{
 
     @Test
-    def void "Add a sales recipt to a Commission payment type"(){
+    void "Add a sales recipt to a Commission payment type"(){
         def expectedTimeCard = [] as SalesReceipt
         def commission = Commission.newPaymentType([] as Employee, 1, 1)
         commission.postWorkEvent(expectedTimeCard)
@@ -17,7 +17,7 @@ class CommissionAttachmentUnitTest extends ValidationNotificationTestSetup{
     }
 
     @Test
-    def void "Add another payment attachment to a Commission payment type"(){
+    void "Add another payment attachment to a Commission payment type"(){
         def commission = Commission.newPaymentType([] as Employee, 1, 1)
         commission.postWorkEvent([] as TimeCard)
         assert commission.getPaymentAttachments().isEmpty()

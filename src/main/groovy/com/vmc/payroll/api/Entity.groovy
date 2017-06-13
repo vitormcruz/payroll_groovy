@@ -1,4 +1,4 @@
-package com.vmc.payroll
+package com.vmc.payroll.api
 
 
 trait Entity {

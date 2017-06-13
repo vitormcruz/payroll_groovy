@@ -1,8 +1,8 @@
 package com.vmc.payroll.unionAssociation
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.attachment.UnionCharge
-import com.vmc.payroll.payment.attachment.WorkEvent
+import com.vmc.payroll.payment.attachment.api.UnionCharge
+import com.vmc.payroll.payment.attachment.api.WorkEvent
 
 interface UnionAssociation {
 

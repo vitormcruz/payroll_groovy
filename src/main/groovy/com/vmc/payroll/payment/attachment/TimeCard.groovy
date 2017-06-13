@@ -1,5 +1,6 @@
 package com.vmc.payroll.payment.attachment
 
+import com.vmc.payroll.payment.attachment.api.PaymentAttachment
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 import org.joda.time.DateTime
@@ -25,7 +26,7 @@ class TimeCard implements PaymentAttachment, BuilderAwareness{
         })
     }
 
-    public static TimeCard newTimeCard(DateTime date, Integer hours){
+    static TimeCard newTimeCard(DateTime date, Integer hours){
         return new GenericBuilder(TimeCard).withDate(date).withHours(hours).build()
     }
 

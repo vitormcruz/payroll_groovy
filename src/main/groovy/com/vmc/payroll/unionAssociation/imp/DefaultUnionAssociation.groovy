@@ -1,8 +1,9 @@
-package com.vmc.payroll.unionAssociation
+package com.vmc.payroll.unionAssociation.imp
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.attachment.UnionCharge
-import com.vmc.payroll.payment.attachment.WorkEvent
+import com.vmc.payroll.payment.attachment.api.UnionCharge
+import com.vmc.payroll.payment.attachment.api.WorkEvent
+import com.vmc.payroll.unionAssociation.UnionAssociation
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
 import static com.google.common.base.Preconditions.checkArgument
@@ -25,7 +26,7 @@ class DefaultUnionAssociation implements UnionAssociation{
         })
     }
 
-    public static DefaultUnionAssociation newUnionAssociation(Employee employee, Integer aRate){
+    static DefaultUnionAssociation newUnionAssociation(Employee employee, Integer aRate){
         return new GenericBuilder(DefaultUnionAssociation).withEmployee(employee).withRate(aRate).build()
     }
 

@@ -5,7 +5,7 @@ import com.vmc.validationNotification.ValidationObserver
 import org.apache.http.HttpStatus
 import spark.Response
 
-public class SparkControllerValidationListener implements ValidationObserver{
+class SparkControllerValidationListener implements ValidationObserver{
 
     private Map<String, Collection> errorsByValidation
     private currentErrors
@@ -24,7 +24,7 @@ public class SparkControllerValidationListener implements ValidationObserver{
         issueErrorStrategy = issueFirstErrorStrategy
     }
 
-    public Map<String, Collection> getErrorsByValidation(){
+    Map<String, Collection> getErrorsByValidation(){
         return errorsByValidation.findAll {!it.value.isEmpty()}
     }
 
@@ -70,7 +70,7 @@ public class SparkControllerValidationListener implements ValidationObserver{
         return successful && mandatoryObligations.isEmpty()
     }
 
-    public fillResponse(Response response){
+    def fillResponse(Response response){
         mandatoryObligations.each {it.value()}
         mandatoryObligations.clear()
         fillResponseStrategy(response)

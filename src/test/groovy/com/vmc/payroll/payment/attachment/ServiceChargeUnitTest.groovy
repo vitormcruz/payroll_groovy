@@ -10,7 +10,7 @@ import static junit.framework.TestCase.fail
 class ServiceChargeUnitTest extends ValidationNotificationTestSetup {
 
     @Test
-    def void "Create a service charge providing null to required fields"(){
+    void "Create a service charge providing null to required fields"(){
         def serviceChargeBuilder = new GenericBuilder(ServiceCharge).withDate(null)
                                                                     .withAmount(null)
         serviceChargeBuilder.buildAndDo(
@@ -21,7 +21,7 @@ class ServiceChargeUnitTest extends ValidationNotificationTestSetup {
     }
 
     @Test
-    def void "Create a time card providing valid values to required fields"(){
+    void "Create a time card providing valid values to required fields"(){
         def serviceChargeBuilder = new GenericBuilder(ServiceCharge)
         def expectedDateTime = new DateTime()
         serviceChargeBuilder.with(expectedDateTime, 10)

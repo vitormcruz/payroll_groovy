@@ -1,7 +1,8 @@
 package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.attachment.PaymentAttachment
+import com.vmc.payroll.payment.attachment.api.PaymentAttachment
+import com.vmc.payroll.payment.type.api.GenericPaymentType
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
@@ -12,7 +13,7 @@ class Monthly extends GenericPaymentType implements BuilderAwareness{
 
     Integer salary
 
-    public static Monthly newPaymentType(Employee employee, Integer salary){
+    static Monthly newPaymentType(Employee employee, Integer salary){
         return new GenericBuilder(Monthly).withEmployee(employee).withSalary(salary).build()
     }
 

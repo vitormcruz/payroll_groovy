@@ -30,7 +30,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     private Employee employeeUnion5
 
     @Before
-    public void setUp(){
+    void setUp(){
         super.setUp()
         employeeBuilder = new DataSetBuilder(getEmployeeClass(), {
             employeeRepository.add(it)
@@ -50,13 +50,13 @@ class EmployeeIntTest extends IntegrationTestBase {
     }
 
     @Test
-    def void "Get an Employee"(){
+    void "Get an Employee"(){
         def retrievedEmployee = employeeRepository.get(employee1.id)
         assertMonthlyPaidEmployeeIs(retrievedEmployee, "Heloísa", "Street 1", "heloisa@bla.com", 2000)
     }
 
     @Test
-    def void "Add a new monthly paid Employee"(){
+    void "Add a new monthly paid Employee"(){
         Employee addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email")
                                                 .withPaimentType(Monthly, 1000).withPaymentDelivery(MailDelivery, "Street 1").build()
         addedEmployee = employeeRepository.get(addedEmployee.getId())
@@ -64,7 +64,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     }
 
     @Test
-    def void "Add a new hourly paid Employee"(){
+    void "Add a new hourly paid Employee"(){
         Employee addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email")
                                                 .withPaimentType(Hourly, 50).withPaymentDelivery(MailDelivery, "Street 1").build()
         addedEmployee = employeeRepository.get(addedEmployee.getId())
@@ -72,7 +72,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     }
 
     @Test
-    def void "Edit an Employee"(){
+    void "Edit an Employee"(){
         Employee employeeToChange = employeeRepository.get(employee1.id)
         employeeToChange.name = "Change Test"
         employeeToChange.address = "Change Test adress"
@@ -85,14 +85,14 @@ class EmployeeIntTest extends IntegrationTestBase {
     }
 
     @Test
-    def void "Remove an Employee"(){
+    void "Remove an Employee"(){
         employeeRepository.remove(employee1)
         model.save()
         assert employeeRepository.get(employee1.id) == null
     }
 
     @Test
-    def void "Add a new Union member Employee"(){
+    void "Add a new Union member Employee"(){
         def addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email")
                                            .withPaimentType(Monthly, 1000).withPaymentDelivery(MailDelivery, "Street 1").beUnionMember(5).build()
         assertMonthlyPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 1000)
@@ -100,14 +100,14 @@ class EmployeeIntTest extends IntegrationTestBase {
     }
 
     @Test
-    def void "Find Employees"(){
+    void "Find Employees"(){
         def employeeFound = employeeRepository.findAll {it.name.contains("Medina")}
 
         assert employeeFound.collect {it.id} as Set == [employee2, employee4, employeeUnion5].collect {it.id} as Set
     }
 
     @Test
-    def void "Add a new commission paid Employee"(){
+    void "Add a new commission paid Employee"(){
         Employee addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email")
                                                 .withPaimentType(Commission, 1000, 20).withPaymentDelivery(MailDelivery, "Street 1").build()
         addedEmployee = employeeRepository.get(addedEmployee.getId())
@@ -115,7 +115,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     }
 
     @Test
-    def void "Post a time card"(){
+    void "Post a time card"(){
         def expectedDate = new DateTime()
         def expectedTimeCard = TimeCard.newTimeCard(expectedDate, 6)
         employeeUnion5.postWorkEvent(expectedTimeCard)
@@ -128,7 +128,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     }
 
     @Test
-    def void "Post a sales receipt"(){
+    void "Post a sales receipt"(){
         def expectedDate = new DateTime()
         def expectedSalesReceipt = SalesReceipt.newSalesReceipt(expectedDate, 200)
         employee2.postWorkEvent(expectedSalesReceipt)
@@ -141,7 +141,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     }
 
     @Test
-    def void "Post an Union charge"(){
+    void "Post an Union charge"(){
         def expectedDate = new DateTime()
         def expectedServiceCharge = ServiceCharge.newServiceCharge(expectedDate, 5)
         employeeUnion5.postWorkEvent(expectedServiceCharge)
@@ -154,7 +154,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     }
 
     @Test
-    def void "Post attachment to monthly paid employee"(){
+    void "Post attachment to monthly paid employee"(){
         def e = shouldFail UnsupportedOperationException,
                            {employee1.postWorkEvent(SalesReceipt.newSalesReceipt(new DateTime(), 200))}
 

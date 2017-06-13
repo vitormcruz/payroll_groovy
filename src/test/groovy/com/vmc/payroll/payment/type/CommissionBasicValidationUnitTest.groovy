@@ -6,32 +6,32 @@ import org.junit.Test
 class CommissionBasicValidationUnitTest extends MonthlyBasicValidationUnitTest{
 
     @Test
-    def void "Validate positive Commission Rate"(){
+    void "Validate positive Commission Rate"(){
         def commision = getCommissionPaymentTypeWith(1, 500)
         assert commision != null
         assert commision.getCommissionRate() == 500
     }
 
     @Test
-    def void "Validate negative Commission Rate"(){
+    void "Validate negative Commission Rate"(){
         assert getCommissionPaymentTypeWith(1, -1) == null
         assert validationObserver.errors.contains("payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer")
     }
 
     @Test
-    def void "Validate zero Commission Rate"(){
+    void "Validate zero Commission Rate"(){
         assert getCommissionPaymentTypeWith(1, 0) == null
         assert validationObserver.errors.contains("payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer")
     }
 
     @Test
-    def void "Provide null to the Commission Rate"(){
+    void "Provide null to the Commission Rate"(){
         assert getCommissionPaymentTypeWith(1, null) == null
         assert validationObserver.getErrors().contains("payroll.employee.commisionpayment.commissionrate.mandatory")
     }
 
     @Test
-    def void "Change to a positive Commission Rate"(){
+    void "Change to a positive Commission Rate"(){
         def commision = getValidCommissionPaymentType()
         commision.setCommissionRate(100)
         assert commision.getCommissionRate() == 100
@@ -39,7 +39,7 @@ class CommissionBasicValidationUnitTest extends MonthlyBasicValidationUnitTest{
     }
 
     @Test
-    def void "Change to a negative Commission Rate"(){
+    void "Change to a negative Commission Rate"(){
         def commision = getValidCommissionPaymentType()
         commision.setCommissionRate(-1)
         assert commision.getCommissionRate() == 500
@@ -47,7 +47,7 @@ class CommissionBasicValidationUnitTest extends MonthlyBasicValidationUnitTest{
     }
 
     @Test
-    def void "Change to a zero Commission Rate"(){
+    void "Change to a zero Commission Rate"(){
         def commision = getValidCommissionPaymentType()
         commision.setCommissionRate(0)
         assert commision.getCommissionRate() == 500
@@ -55,7 +55,7 @@ class CommissionBasicValidationUnitTest extends MonthlyBasicValidationUnitTest{
     }
 
     @Test
-    def void "Change to a null to the Commission Rate"(){
+    void "Change to a null to the Commission Rate"(){
         def commision = getValidCommissionPaymentType()
         commision.setCommissionRate(null)
         assert commision.getCommissionRate() == 500

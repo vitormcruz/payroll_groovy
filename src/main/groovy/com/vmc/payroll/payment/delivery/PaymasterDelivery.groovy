@@ -1,6 +1,7 @@
 package com.vmc.payroll.payment.delivery
 
 import com.vmc.payroll.Employee
+import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 
 import static com.google.gwt.core.shared.impl.InternalPreconditions.checkArgument
 

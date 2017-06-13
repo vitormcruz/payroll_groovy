@@ -14,7 +14,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
     private Employee employeeForChange
 
     @Before
-    public void setUp(){
+    void setUp(){
         super.setUp()
         employeeForChange = getEmployeeForChange()
     }
@@ -29,7 +29,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
     }
 
     @Test
-    public void "Create employee not providing mandatory information"(){
+    void "Create employee not providing mandatory information"(){
         def employee = new GenericBuilder(getEmployeeClass()).withName(null)
                                                              .withAddress(null)
                                                              .withEmail(null)
@@ -41,7 +41,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
     }
 
     @Test
-    public void "Create employee providing mandatory information"(){
+    void "Create employee providing mandatory information"(){
         def EmployeeBuilder = new GenericBuilder(getEmployeeClass())
         Employee builtEmployee = EmployeeBuilder.withName("test name")
                                                 .withAddress("test address")
@@ -56,7 +56,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
     }
 
     @Test
-    public void "Change employee not providing mandatory information"(){
+    void "Change employee not providing mandatory information"(){
         employeeForChange.setName(null)
         employeeForChange.setEmail(null)
         employeeForChange.setAddress(null)
@@ -64,7 +64,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
     }
 
     @Test
-    public void "Change employee providing mandatory information"(){
+    void "Change employee providing mandatory information"(){
         employeeForChange.setName("test name 2")
         employeeForChange.setEmail("test email 2")
         employeeForChange.setAddress("test address 2")
@@ -78,18 +78,18 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
     }
 
     @Test
-    public void "By default, employee should not be member of Union"(){
+    void "By default, employee should not be member of Union"(){
         assert !getEmployeeForChange().isUnionMember() : "Should not be an union member by default"
     }
 
     @Test
-    public void "Validate register Union association"(){
+    void "Validate register Union association"(){
         employeeForChange.beUnionMember(5)
         assert employeeForChange.isUnionMember() : "Should be an union member"
     }
 
     @Test
-    public void "Validate de-register Union association"(){
+    void "Validate de-register Union association"(){
         employeeForChange.beUnionMember(5)
         employeeForChange.dropUnionMembership()
         assert !employeeForChange.isUnionMember() : "Should not be an union member after de-registration"

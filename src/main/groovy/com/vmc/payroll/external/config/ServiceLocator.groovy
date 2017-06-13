@@ -7,7 +7,7 @@ import com.vmc.concurrency.ModelSnapshot
 import com.vmc.concurrency.inMemory.InMemoryAtomicBlock
 import com.vmc.concurrency.inMemory.InMemoryPersistentModelSnapshot
 import com.vmc.payroll.Employee
-import com.vmc.payroll.Repository
+import com.vmc.payroll.api.Repository
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepository
 
 class ServiceLocator {
