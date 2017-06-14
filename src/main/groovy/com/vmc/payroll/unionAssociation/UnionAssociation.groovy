@@ -8,6 +8,8 @@ interface UnionAssociation {
 
     Integer getRate()
 
+    void setRate(Integer newRate)
+
     Employee getEmployee()
 
     Boolean isUnionMember()

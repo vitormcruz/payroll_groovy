@@ -29,6 +29,11 @@ class NoUnionAssociation implements UnionAssociation{
     }
 
     @Override
+    void setRate(Integer newRate) {
+        throw new UnsupportedOperationException("This employee don't have a union association, you cannot set a rate to it")
+    }
+
+    @Override
     Employee getEmployee() {
         return null
     }
@@ -40,7 +45,7 @@ class NoUnionAssociation implements UnionAssociation{
 
     @Override
     void postWorkEvent(WorkEvent workEvent) {
-        //Do nothing
+        throw new UnsupportedOperationException("This employee don't have a union association, you cannot post a work event to it")
     }
 
     @Override

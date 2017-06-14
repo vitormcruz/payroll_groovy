@@ -21,8 +21,7 @@ class DefaultUnionAssociation implements UnionAssociation{
         this.employee = anEmployee
         this.employee.registerAsWorkEventHandler(this)
         executeNamedValidation("Validate new ServiceCharge", {
-            aRate != null ? this.@rate = aRate : issueError(this, [name:"${this.getClass().getSimpleName()}.rate"],
-                                                                   "payroll.union.association.rate.required")
+            setRate(aRate)
         })
     }
 
@@ -45,6 +44,17 @@ class DefaultUnionAssociation implements UnionAssociation{
     @Override
     Integer getRate() {
         return rate
+    }
+
+    @Override
+    void setRate(Integer newRate) {
+        if(newRate == null){
+            issueError(this, [name:"${this.getClass().getSimpleName()}.rate"], "payroll.union.association.rate.required")
+        } else if(newRate < 1){
+            issueError(this, [name:"${this.getClass().getSimpleName()}.rate"], "payroll.union.association.rate.mustbe.positive.integer")
+        }else {
+            this.@rate = newRate
+        }
     }
 
     @Override
