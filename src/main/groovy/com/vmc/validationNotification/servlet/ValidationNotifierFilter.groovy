@@ -1,4 +1,4 @@
-package com.vmc.validationNotification.external.presentation.servlet
+package com.vmc.validationNotification.servlet
 
 import com.vmc.validationNotification.ApplicationValidationNotifier
 

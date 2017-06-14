@@ -6,7 +6,6 @@ import com.vmc.validationNotification.builder.imp.GenericBuilder
 import org.joda.time.DateTime
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
-import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 
 class ServiceCharge implements UnionCharge, BuilderAwareness{
 
@@ -21,8 +20,8 @@ class ServiceCharge implements UnionCharge, BuilderAwareness{
     //Should be used by builder only
     protected ServiceCharge(DateTime date, amount) {
         executeNamedValidation("Validate new ServiceCharge", {
-            date != null ? this.@date = date : issueError(this, [name:"date"], "payroll.servicecharge.date.required")
-            amount != null ? this.@amount = amount : issueError(this, [name:"amount"], "payroll.servicecharge.amount.required")
+            date != null ? this.@date = date : issueError("payroll.servicecharge.date.required", [property:"date"])
+            amount != null ? this.@amount = amount : issueError("payroll.servicecharge.amount.required", [property:"amount"])
         })
     }
 

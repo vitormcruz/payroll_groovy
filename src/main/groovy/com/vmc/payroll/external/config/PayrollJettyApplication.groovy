@@ -1,7 +1,7 @@
 package com.vmc.payroll.external.config
 
 import com.vaadin.server.VaadinServlet
-import com.vmc.validationNotification.external.presentation.servlet.ValidationNotifierFilter
+import com.vmc.validationNotification.servlet.ValidationNotifierFilter
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.FilterHolder
 import org.eclipse.jetty.servlet.ServletHolder

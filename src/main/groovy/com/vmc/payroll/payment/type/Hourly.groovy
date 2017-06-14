@@ -1,14 +1,13 @@
 package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
-import com.vmc.payroll.payment.workEvent.TimeCard
 import com.vmc.payroll.payment.type.api.GenericPaymentType
+import com.vmc.payroll.payment.workEvent.TimeCard
+import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
-import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 
 class Hourly extends GenericPaymentType implements BuilderAwareness{
 
@@ -33,11 +32,11 @@ class Hourly extends GenericPaymentType implements BuilderAwareness{
     }
 
     void setHourRate(Integer aHourRate) {
-        def context = [name:"hourRate"]
+        def context = [property:"hourRate"]
         if (aHourRate == null) {
-            issueError(this, context, "payroll.employee.hourlypayment.hourRate.mandatory")
+            issueError("payroll.employee.hourlypayment.hourRate.mandatory", context)
         } else if (aHourRate < 1) {
-            issueError(this, context, "payroll.employee.hourlypayment.hourRate.mustbe.positive.integer")
+            issueError("payroll.employee.hourlypayment.hourRate.mustbe.positive.integer", context)
         } else {
             this.hourRate = aHourRate
         }
@@ -46,6 +45,6 @@ class Hourly extends GenericPaymentType implements BuilderAwareness{
     @Override
     void addPaymentAttachment(PaymentAttachment paymentAttachment) {
         paymentAttachment instanceof TimeCard ? this.@paymentAttachments.add(paymentAttachment) :
-                                                issueError(this, [:], "employee.payment.hourly.time.card.payment.info.only")
+                                                issueError("employee.payment.hourly.time.card.payment.info.only")
     }
 }

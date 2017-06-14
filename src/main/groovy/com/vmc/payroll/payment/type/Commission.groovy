@@ -6,7 +6,6 @@ import com.vmc.payroll.payment.workEvent.SalesReceipt
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
-import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 
 class Commission extends Monthly{
 
@@ -27,11 +26,11 @@ class Commission extends Monthly{
     }
 
     void setCommissionRate(Integer aCommissionRate) {
-        def context = [name:"commissionRate"]
+        def context = [property:"commissionRate"]
         if (aCommissionRate == null) {
-            issueError(this, context, "payroll.employee.commisionpayment.commissionrate.mandatory")
+            issueError("payroll.employee.commisionpayment.commissionrate.mandatory", context)
         } else if (aCommissionRate < 1) {
-            issueError(this, context, "payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer")
+            issueError("payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer", context)
         } else {
             this.@commissionRate = aCommissionRate
         }
@@ -40,6 +39,6 @@ class Commission extends Monthly{
     @Override
     void addPaymentAttachment(PaymentAttachment paymentAttachment) {
         paymentAttachment instanceof SalesReceipt ? this.@paymentAttachments.add(paymentAttachment):
-                                                    issueError(this, [:], "employee.payment.commission.sales.receipt.payment.info.only")
+                                                    issueError("employee.payment.commission.sales.receipt.payment.info.only")
     }
 }

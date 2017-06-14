@@ -8,7 +8,6 @@ import com.vmc.validationNotification.builder.imp.GenericBuilder
 
 import static com.google.common.base.Preconditions.checkArgument
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
-import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 
 class DefaultUnionAssociation implements UnionAssociation{
 
@@ -49,9 +48,9 @@ class DefaultUnionAssociation implements UnionAssociation{
     @Override
     void setRate(Integer newRate) {
         if(newRate == null){
-            issueError(this, [name:"${this.getClass().getSimpleName()}.rate"], "payroll.union.association.rate.required")
+            issueError("payroll.union.association.rate.required", [property:"rate"])
         } else if(newRate < 1){
-            issueError(this, [name:"${this.getClass().getSimpleName()}.rate"], "payroll.union.association.rate.mustbe.positive.integer")
+            issueError("payroll.union.association.rate.mustbe.positive.integer", [property:"rate"])
         }else {
             this.@rate = newRate
         }

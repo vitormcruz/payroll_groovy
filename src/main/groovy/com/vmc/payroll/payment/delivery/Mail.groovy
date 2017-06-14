@@ -7,7 +7,6 @@ import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
-import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 
 class Mail implements PaymentDelivery, BuilderAwareness{
 
@@ -38,6 +37,6 @@ class Mail implements PaymentDelivery, BuilderAwareness{
     }
 
     void setAddress(String anAddress) {
-        anAddress ? this.@address = anAddress : issueError(this, [name: "address"], "payroll.mail.delivery.address.mandatory")
+        anAddress ? this.@address = anAddress : issueError("payroll.mail.delivery.address.mandatory", [property: "address"])
     }
 }

@@ -1,13 +1,12 @@
 package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 import com.vmc.payroll.payment.type.api.GenericPaymentType
+import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
-import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 
 class Monthly extends GenericPaymentType implements BuilderAwareness{
 
@@ -32,11 +31,11 @@ class Monthly extends GenericPaymentType implements BuilderAwareness{
     }
 
     void setSalary(Integer aSalary) {
-        def context = [name: "salary"]
+        def context = [property: "salary"]
         if (aSalary == null) {
-            issueError(this, context, "payroll.employee.monthlypayment.salary.mandatory")
+            issueError("payroll.employee.monthlypayment.salary.mandatory", context)
         } else if (aSalary < 1) {
-            issueError(this, context, "payroll.employee.monthlypayment.salary.mustbe.positive.integer")
+            issueError("payroll.employee.monthlypayment.salary.mustbe.positive.integer", context)
         } else {
             this.salary = aSalary
         }

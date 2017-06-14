@@ -4,8 +4,6 @@ import com.vmc.validationNotification.testPreparation.ValidationNotificationTest
 import groovy.test.GroovyAssert
 import org.junit.Test
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
-
 class DataSetBuilderUnitTest extends ValidationNotificationTestSetup{
 
     @Test
@@ -68,8 +66,6 @@ class DataSetBuilderUnitTest extends ValidationNotificationTestSetup{
         assert !inserted : "InsertCommand was called when the build process failed."
     }
 
-
-
     def getDataSetBuilder(Class aClass, Closure insertCommand){
         return new DataSetBuilder(aClass, insertCommand)
     }
@@ -77,7 +73,7 @@ class DataSetBuilderUnitTest extends ValidationNotificationTestSetup{
     static class BuildedClass {
 
         void setError(String error){
-            issueError(this, [:], error)
+            issueError(error)
         }
 
     }

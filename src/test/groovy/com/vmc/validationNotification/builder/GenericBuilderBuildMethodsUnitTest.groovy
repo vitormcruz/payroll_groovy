@@ -5,7 +5,6 @@ import com.vmc.validationNotification.builder.imp.UsedForbiddenConstructor
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 import static groovy.test.GroovyAssert.shouldFail
 import static org.junit.Assert.fail
 
@@ -138,7 +137,7 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
 
         void setAttribute(attribute) {
             if(attribute == "fail"){
-                issueError(this, [:], "error")
+                issueError("error")
             }else{
                 this.attribute = attribute
             }
@@ -150,7 +149,7 @@ class GenericBuilderBuildMethodsUnitTest extends ValidationNotificationTestSetup
 
         TestConstructorWithOneArgument(String attribute) {
             if(attribute == "fail"){
-                issueError(this, [:], "error")
+                issueError("error")
             }else{
                 this.attribute = attribute
             }

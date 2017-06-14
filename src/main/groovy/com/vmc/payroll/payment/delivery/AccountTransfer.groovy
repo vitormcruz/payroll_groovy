@@ -6,7 +6,6 @@ import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
 import static com.google.gwt.core.shared.impl.InternalPreconditions.checkArgument
-import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 
 class AccountTransfer implements PaymentDelivery, BuilderAwareness{
 
@@ -37,10 +36,10 @@ class AccountTransfer implements PaymentDelivery, BuilderAwareness{
     }
 
     void setBank(String aBank) {
-        aBank ? this.@bank = aBank : issueError(this, [name: "bank"], "payroll.account.transfer.delivery.bank.mandatory")
+        aBank ? this.@bank = aBank : issueError("payroll.account.transfer.delivery.bank.mandatory", [property: "bank"])
     }
 
     void setAccount(String anAccount) {
-        anAccount ? this.account = anAccount : issueError(this, [name: "bank"], "payroll.account.transfer.delivery.account.mandatory")
+        anAccount ? this.account = anAccount : issueError("payroll.account.transfer.delivery.account.mandatory", [property: "account"])
     }
 }

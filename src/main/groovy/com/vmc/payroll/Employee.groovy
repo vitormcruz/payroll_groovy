@@ -10,7 +10,6 @@ import com.vmc.payroll.unionAssociation.UnionAssociation
 import com.vmc.validationNotification.builder.BuilderAwareness
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
-import static com.vmc.validationNotification.ApplicationValidationNotifier.issueError
 
 class Employee implements Entity, BuilderAwareness{
 
@@ -51,15 +50,15 @@ class Employee implements Entity, BuilderAwareness{
     }
 
     void setName(String aName) {
-        aName ? this.@name = aName : issueError(this, [name:"employee.name"], "payroll.employee.name.mandatory")
+        aName ? this.@name = aName : issueError("payroll.employee.name.mandatory", [property:"name"])
     }
 
     void setAddress(String anAddress) {
-        anAddress ? this.@address = anAddress : issueError(this, [name:"employee.address"], "payroll.employee.address.mandatory")
+        anAddress ? this.@address = anAddress : issueError("payroll.employee.address.mandatory", [property:"address"])
     }
 
     void setEmail(String anEmail) {
-        anEmail ? this.@email = anEmail : issueError(this, [name:"employee.email"], "payroll.employee.email.mandatory")
+        anEmail ? this.@email = anEmail : issueError("payroll.employee.email.mandatory", [property:"email"])
     }
 
     PaymentType getPaymentType() {
@@ -72,12 +71,12 @@ class Employee implements Entity, BuilderAwareness{
 
     void bePaid(Class<PaymentType> aPaymentTypeClass, ...args){
         aPaymentTypeClass ? paymentType = aPaymentTypeClass.newPaymentType(this, *args) :
-                            issueError(this, [name:"employee.payment.type"], "payroll.employee.payment.type.mandatory")
+                            issueError("payroll.employee.payment.type.mandatory", [property:"payment.type"])
     }
 
     void receivePaymentBy(Class<PaymentDelivery> aPaymentDeliveryClass, ...args){
         aPaymentDeliveryClass ? paymentDelivery = aPaymentDeliveryClass.newPaymentDelivery(this, *args) :
-            issueError(this, [name:"employee.payment.delivery"], "payroll.employee.payment.delivery.mandatory")
+            issueError("payroll.employee.payment.delivery.mandatory", [property:"payment.delivery"])
     }
 
     void postWorkEvent(WorkEvent workEvent){
