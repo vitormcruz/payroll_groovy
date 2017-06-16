@@ -2,7 +2,7 @@ package com.vmc.payroll.payment.delivery
 
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 
-import static com.google.gwt.core.shared.impl.InternalPreconditions.checkArgument
+import static com.google.common.base.Preconditions.checkArgument
 
 class Paymaster implements PaymentDelivery{
 

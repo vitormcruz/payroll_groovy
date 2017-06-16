@@ -1,16 +1,16 @@
 package com.vmc.payroll
 
+import com.vmc.payroll.api.Repository
 import com.vmc.payroll.external.config.ServiceLocator
-import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepository
-import com.vmc.payroll.payment.workEvent.SalesReceipt
-import com.vmc.payroll.payment.workEvent.ServiceCharge
-import com.vmc.payroll.payment.workEvent.TimeCard
 import com.vmc.payroll.payment.delivery.AccountTransfer
-import com.vmc.payroll.payment.delivery.Paymaster
 import com.vmc.payroll.payment.delivery.Mail
+import com.vmc.payroll.payment.delivery.Paymaster
 import com.vmc.payroll.payment.type.Commission
 import com.vmc.payroll.payment.type.Hourly
 import com.vmc.payroll.payment.type.Monthly
+import com.vmc.payroll.payment.workEvent.SalesReceipt
+import com.vmc.payroll.payment.workEvent.ServiceCharge
+import com.vmc.payroll.payment.workEvent.TimeCard
 import com.vmc.payroll.testPreparation.IntegrationTestBase
 import com.vmc.validationNotification.builder.imp.DataSetBuilder
 import org.joda.time.DateTime
@@ -21,7 +21,7 @@ import static groovy.test.GroovyAssert.shouldFail
 
 class EmployeeIntTest extends IntegrationTestBase {
 
-    private CommonInMemoryRepository<Employee> employeeRepository = ServiceLocator.instance.employeeRepository()
+    private Repository<Employee> employeeRepository = ServiceLocator.instance.employeeRepository()
     private DataSetBuilder employeeBuilder
     private Employee employee1
     private Employee employee2

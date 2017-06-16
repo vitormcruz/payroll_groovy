@@ -1,10 +1,10 @@
 package com.vmc.payroll.payment.delivery
 
-import com.google.gwt.core.shared.impl.InternalPreconditions
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
+import static com.google.common.base.Preconditions.checkArgument
 import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
 
 class Mail implements PaymentDelivery, BuilderAwareness{
@@ -23,7 +23,7 @@ class Mail implements PaymentDelivery, BuilderAwareness{
     }
 
     protected Mail(anEmployee, String anAddress) {
-        InternalPreconditions.checkArgument(anEmployee != null, "Did you miss passing my employee?")
+        checkArgument(anEmployee != null, "Did you miss passing my employee?")
         executeNamedValidation("Validate new Mail", {
             this.employee = anEmployee
             setAddress(anAddress)

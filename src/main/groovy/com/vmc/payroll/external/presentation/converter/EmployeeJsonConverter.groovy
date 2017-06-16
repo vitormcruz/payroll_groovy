@@ -1,13 +1,14 @@
 package com.vmc.payroll.external.presentation.converter
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.common.base.Preconditions
 import com.vmc.payroll.Employee
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.payment.type.api.PaymentType
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 import org.apache.commons.lang.StringUtils
 import org.reflections.Reflections
+
+import static com.google.common.base.Preconditions.checkArgument
 
 class EmployeeJsonConverter implements JsonConverter{
 
@@ -38,7 +39,7 @@ class EmployeeJsonConverter implements JsonConverter{
 
     static builderFromJson(String string){
         def employeeConverter = mapper.readValue(string, EmployeeJsonConverter)
-        Preconditions.checkArgument(employeeConverter.paymentType != null, "Json formmat is invalid: you must specify a payment type of one of the following alternatives:" +
+        checkArgument(employeeConverter.paymentType != null, "Json formmat is invalid: you must specify a payment type of one of the following alternatives:" +
                                                                             StringUtils.join(paymentTypes.collect {it.getSimpleName()}, ", "))
         return employeeConverter.meToBuilder()
 
@@ -55,7 +56,7 @@ class EmployeeJsonConverter implements JsonConverter{
     void setPaymentType(String aPaymentType) {
         paymentType = aPaymentType
         paymentTypeClass = paymentTypes.find { it.getSimpleName().equalsIgnoreCase(aPaymentType) }
-        Preconditions.checkArgument(paymentTypeClass!=null, "Json formmat is invalid: you must specify a payment type of one of the following alternatives:" +
+        checkArgument(paymentTypeClass!=null, "Json formmat is invalid: you must specify a payment type of one of the following alternatives:" +
                                                             StringUtils.join(paymentTypes.collect {it.getSimpleName()}, ", "))
     }
 

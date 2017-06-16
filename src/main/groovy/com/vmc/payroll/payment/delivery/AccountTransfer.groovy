@@ -4,7 +4,7 @@ import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
-import static com.google.gwt.core.shared.impl.InternalPreconditions.checkArgument
+import static com.google.common.base.Preconditions.checkArgument
 
 class AccountTransfer implements PaymentDelivery, BuilderAwareness{
 
