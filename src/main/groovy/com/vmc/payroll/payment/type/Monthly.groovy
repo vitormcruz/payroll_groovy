@@ -1,18 +1,17 @@
 package com.vmc.payroll.payment.type
 
-import com.vmc.payroll.Employee
 import com.vmc.payroll.payment.type.api.GenericPaymentType
 import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
 
 class Monthly extends GenericPaymentType implements BuilderAwareness{
 
     Integer salary
 
-    static Monthly newPaymentType(Employee employee, Integer salary){
+    static Monthly newPaymentType(employee, Integer salary){
         return new GenericBuilder(Monthly).withEmployee(employee).withSalary(salary).build()
     }
 
@@ -23,7 +22,7 @@ class Monthly extends GenericPaymentType implements BuilderAwareness{
         invalidForBuilder()
     }
 
-    protected Monthly(Employee employee, Integer aSalary) {
+    protected Monthly(employee, Integer aSalary) {
         super(employee)
         executeNamedValidation("Validate new Monhtly Payment", {
             setSalary(aSalary)

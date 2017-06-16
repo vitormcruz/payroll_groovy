@@ -1,6 +1,6 @@
 package com.vmc.validationNotification.servlet
 
-import com.vmc.validationNotification.ApplicationValidationNotifier
+import com.vmc.validationNotification.imp.ApplicationValidationNotifier
 
 import javax.servlet.*
 

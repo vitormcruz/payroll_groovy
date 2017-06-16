@@ -1,19 +1,18 @@
 package com.vmc.payroll.payment.delivery
 
 import com.google.gwt.core.shared.impl.InternalPreconditions
-import com.vmc.payroll.Employee
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
 
 class Mail implements PaymentDelivery, BuilderAwareness{
 
-    private Employee employee
+    private employee
     String address
 
-    static Mail newPaymentDelivery(Employee employee, String address){
+    static Mail newPaymentDelivery(employee, String address){
         return new GenericBuilder(Mail).withEmployee(employee).withAddress(address).build()
     }
 
@@ -23,7 +22,7 @@ class Mail implements PaymentDelivery, BuilderAwareness{
         invalidForBuilder()
     }
 
-    protected Mail(Employee anEmployee, String anAddress) {
+    protected Mail(anEmployee, String anAddress) {
         InternalPreconditions.checkArgument(anEmployee != null, "Did you miss passing my employee?")
         executeNamedValidation("Validate new Mail", {
             this.employee = anEmployee
@@ -32,7 +31,7 @@ class Mail implements PaymentDelivery, BuilderAwareness{
     }
 
     @Override
-    Employee getEmployee() {
+    def getEmployee() {
         return employee
     }
 

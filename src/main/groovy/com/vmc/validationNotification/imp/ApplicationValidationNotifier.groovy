@@ -1,6 +1,7 @@
-package com.vmc.validationNotification
+package com.vmc.validationNotification.imp
 
-import com.vmc.validationNotification.imp.SimpleValidationObserverImp
+import com.vmc.validationNotification.SimpleValidationObserver
+import com.vmc.validationNotification.ValidationObserver
 
 class ApplicationValidationNotifier {
 

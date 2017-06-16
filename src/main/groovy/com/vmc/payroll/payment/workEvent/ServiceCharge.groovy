@@ -5,7 +5,7 @@ import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 import org.joda.time.DateTime
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
 
 class ServiceCharge implements UnionCharge, BuilderAwareness{
 

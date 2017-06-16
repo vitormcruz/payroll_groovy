@@ -1,21 +1,20 @@
 package com.vmc.payroll.unionAssociation.imp
 
-import com.vmc.payroll.Employee
 import com.vmc.payroll.payment.workEvent.api.UnionCharge
 import com.vmc.payroll.payment.workEvent.api.WorkEvent
 import com.vmc.payroll.unionAssociation.UnionAssociation
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
 import static com.google.common.base.Preconditions.checkArgument
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
 
 class DefaultUnionAssociation implements UnionAssociation{
 
     private Integer rate
-    private Employee employee
+    private employee
     private charges = []
 
-    protected DefaultUnionAssociation(Employee anEmployee, Integer aRate) {
+    protected DefaultUnionAssociation(anEmployee, Integer aRate) {
         checkArgument(anEmployee != null, "An Employee should be provided to a Default Union Association")
         this.employee = anEmployee
         this.employee.registerAsWorkEventHandler(this)
@@ -24,7 +23,7 @@ class DefaultUnionAssociation implements UnionAssociation{
         })
     }
 
-    static DefaultUnionAssociation newUnionAssociation(Employee employee, Integer aRate){
+    static DefaultUnionAssociation newUnionAssociation(employee, Integer aRate){
         return new GenericBuilder(DefaultUnionAssociation).withEmployee(employee).withRate(aRate).build()
     }
 
@@ -57,7 +56,7 @@ class DefaultUnionAssociation implements UnionAssociation{
     }
 
     @Override
-    Employee getEmployee() {
+    def getEmployee() {
         return employee
     }
 

@@ -1,5 +1,4 @@
-package com.vmc.validationNotification
-
+package com.vmc.validationNotification.imp
 
 class ObjectValidationNotificationExtensions {
 

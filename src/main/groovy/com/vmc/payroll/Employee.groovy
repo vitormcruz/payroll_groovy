@@ -9,7 +9,7 @@ import com.vmc.payroll.unionAssociation.imp.NoUnionAssociation
 import com.vmc.payroll.unionAssociation.UnionAssociation
 import com.vmc.validationNotification.builder.BuilderAwareness
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
 
 class Employee implements Entity, BuilderAwareness{
 

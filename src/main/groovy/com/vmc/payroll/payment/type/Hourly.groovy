@@ -1,19 +1,18 @@
 package com.vmc.payroll.payment.type
 
-import com.vmc.payroll.Employee
 import com.vmc.payroll.payment.type.api.GenericPaymentType
 import com.vmc.payroll.payment.workEvent.TimeCard
 import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
 
 class Hourly extends GenericPaymentType implements BuilderAwareness{
 
     Integer hourRate
 
-    static Hourly newPaymentType(Employee employee, Integer hourRate) {
+    static Hourly newPaymentType(employee, Integer hourRate) {
         return new GenericBuilder(Hourly).withEmployee(employee).withHourRate(hourRate).build()
     }
 
@@ -24,7 +23,7 @@ class Hourly extends GenericPaymentType implements BuilderAwareness{
         invalidForBuilder()
     }
 
-    protected Hourly(Employee employee, Integer aHourRate) {
+    protected Hourly(employee, Integer aHourRate) {
         super(employee)
         executeNamedValidation("Validate new Hourly Payment", {
             setHourRate(aHourRate)

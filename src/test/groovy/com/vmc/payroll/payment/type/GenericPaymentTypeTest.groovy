@@ -39,7 +39,7 @@ class GenericPaymentTypeTest {
 
     class GenericPaymentTypeForTest extends GenericPaymentType{
 
-        GenericPaymentTypeForTest(Employee anEmployee) {
+        GenericPaymentTypeForTest(anEmployee) {
             super(anEmployee)
         }
     }

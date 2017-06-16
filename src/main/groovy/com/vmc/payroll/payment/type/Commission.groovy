@@ -1,24 +1,23 @@
 package com.vmc.payroll.payment.type
 
-import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 import com.vmc.payroll.payment.workEvent.SalesReceipt
+import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 import com.vmc.validationNotification.builder.imp.GenericBuilder
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
 
 class Commission extends Monthly{
 
     Integer commissionRate
 
-    static Commission newPaymentType(Employee employee, Integer salary, Integer commissionRate) {
+    static Commission newPaymentType(employee, Integer salary, Integer commissionRate) {
         return new GenericBuilder(Commission).withEmployee(employee).withSalary(salary).withCommissionRate(commissionRate).build()
     }
 
     //Should be used by builder only
     protected Commission() {    }
 
-    protected Commission(Employee employee, Integer aSalary, Integer aCommissionRate) {
+    protected Commission(employee, Integer aSalary, Integer aCommissionRate) {
         super(employee, aSalary)
         executeNamedValidation("Validate new Hourly Payment", {
             setCommissionRate(aCommissionRate)

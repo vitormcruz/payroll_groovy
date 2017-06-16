@@ -1,6 +1,5 @@
 package com.vmc.payroll.payment.delivery
 
-import com.vmc.payroll.Employee
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.validationNotification.builder.BuilderAwareness
 import com.vmc.validationNotification.builder.imp.GenericBuilder
@@ -9,12 +8,12 @@ import static com.google.gwt.core.shared.impl.InternalPreconditions.checkArgumen
 
 class AccountTransfer implements PaymentDelivery, BuilderAwareness{
 
-    private Employee employee
+    private employee
     String bank
     String account
 
     //Should be used by builder only
-    static AccountTransfer newPaymentDelivery(Employee employee, String bank, String account){
+    static AccountTransfer newPaymentDelivery(employee, String bank, String account){
         return new GenericBuilder(AccountTransfer).withEmployee(employee).withBank(bank).withAccount(account).build()
     }
 
@@ -23,7 +22,7 @@ class AccountTransfer implements PaymentDelivery, BuilderAwareness{
         invalidForBuilder()
     }
 
-    protected AccountTransfer(Employee anEmployee, String aBank, String anAccount) {
+    protected AccountTransfer(anEmployee, String aBank, String anAccount) {
         checkArgument(anEmployee != null, "Did you miss passing my employee?")
         this.employee = anEmployee
         setBank(aBank)
@@ -31,7 +30,7 @@ class AccountTransfer implements PaymentDelivery, BuilderAwareness{
     }
 
     @Override
-    Employee getEmployee() {
+    def getEmployee() {
         return employee
     }
 
