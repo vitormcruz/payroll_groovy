@@ -16,7 +16,7 @@
         <groovy-eclipse-compiler.version>2.9.2-01</groovy-eclipse-compiler.version>
         <groovy-eclipse-batch.version>2.4.3-01</groovy-eclipse-batch.version>
         <junit.version>4.12</junit.version>
-        <vaadin.version>7.7.3</vaadin.version>
+        <vaadin.version>8.0.6</vaadin.version>
     </properties>
 
     <!-- Package as an executable jar -->
