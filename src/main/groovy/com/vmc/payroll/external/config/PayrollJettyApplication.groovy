@@ -3,7 +3,7 @@ package com.vmc.payroll.external.config
 import com.vaadin.server.VaadinServlet
 import com.vmc.concurrency.ModelSnapshot
 import com.vmc.payroll.Employee
-import com.vmc.payroll.api.Repository
+import com.vmc.payroll.api.EmployeeRepository
 import com.vmc.payroll.payment.delivery.Mail
 import com.vmc.payroll.payment.type.Monthly
 import com.vmc.validationNotification.builder.imp.GenericBuilder
@@ -22,7 +22,7 @@ class PayrollJettyApplication {
     static private FilterHolder configuredSparkFilterHolder
 
     static private ModelSnapshot modelSnapshot = ServiceLocator.instance.modelSnapshot()
-    static private Repository<Employee> employeeRepository = ServiceLocator.instance.employeeRepository()
+    static private EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository()
 
     static {
         configuredVaadinServletHolder = getConfiguredVaadinServletHolder()
@@ -60,7 +60,7 @@ class PayrollJettyApplication {
         def vaadinServlet = new VaadinServlet()
         def servletVaadinHolder = new ServletHolder(vaadinServlet)
         servletVaadinHolder.setInitParameter("productionMode", "false")
-        servletVaadinHolder.setInitParameter("UI", "com.vmc.payroll.external.presentation.vaadin.PayrollUI")
+        servletVaadinHolder.setInitParameter("UI", "com.vmc.payroll.external.presentation.vaadin.view.PayrollUI")
         servletVaadinHolder.setInitParameter("async-supported", "true")
         servletVaadinHolder.setInitParameter("org.atmosphere.useWebSocketAndServlet3", "true")
         return servletVaadinHolder

@@ -1,32 +1,34 @@
-package com.vmc.payroll.external.presentation.vaadin
+package com.vmc.payroll.external.presentation.vaadin.view
 
 import com.vaadin.ui.*
 import com.vmc.payroll.Employee
-import com.vmc.payroll.api.Repository
-import com.vmc.payroll.external.config.ServiceLocator
+import com.vmc.payroll.api.EmployeeRepository
 
-class EmployeeListView extends VerticalLayout {
-
-    private Repository<Employee> employeeRepository = ServiceLocator.instance.employeeRepository()
+class EmployeeListView extends VerticalLayout{
+    private EmployeeRepository employeeRepository
+    private Closure prepareNewEmployee
     private searchForm
     private Grid grid
 
-    EmployeeListView() {
+    EmployeeListView(EmployeeRepository employeeRepository, Closure prepareNewEmployee) {
+        this.employeeRepository = employeeRepository
+        this.prepareNewEmployee = prepareNewEmployee
         searchForm = createSearchForm()
         grid = createResultingGrid()
         addComponent(searchForm)
         addComponent(grid)
-        setSizeFull()
     }
 
     def createSearchForm() {
         return new HorizontalLayout().with {
-            it.setSizeFull()
             it.addComponent(new TextField("Name: "))
             it.addComponent(new TextField("Address: "))
-            def searchButton = new Button("Search", { Notification.show("Alert", "To be implemented", Notification.Type.ERROR_MESSAGE) } as Button.ClickListener)
+            def searchButton = new Button("Search", {Notification.show("search employee", "to be implemented", Notification.Type.HUMANIZED_MESSAGE)} as Button.ClickListener)
             it.addComponent(searchButton)
             it.setComponentAlignment(searchButton, Alignment.BOTTOM_CENTER)
+            def newButton = new Button("New", prepareNewEmployee as Button.ClickListener)
+            it.addComponent(newButton)
+            it.setComponentAlignment(newButton, Alignment.BOTTOM_CENTER)
             it
         }
     }
