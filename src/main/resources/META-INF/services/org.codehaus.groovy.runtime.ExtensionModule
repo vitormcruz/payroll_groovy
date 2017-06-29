@@ -2,4 +2,6 @@ moduleName=sandbox-module
 moduleVersion=1.0
 extensionClasses=com.vmc.payroll.external.presentation.converter.ObjectJsonConversionExtensions, com.vmc.payroll.external.presentation.converter.PaymentTypeConverterExtensions, \
   com.vmc.validationNotification.imp.ObjectValidationNotificationExtensions
-staticExtensionClasses=com.vmc.payroll.external.presentation.converter.PaymentTypeConverterClassExtensions
+staticExtensionClasses=com.vmc.payroll.external.presentation.vaadin.view.PaymentDeliveryClassViewExtensions, \
+  com.vmc.payroll.external.presentation.vaadin.view.PaymentTypeClassViewExtensions, \
+  com.vmc.payroll.external.presentation.converter.PaymentTypeConverterClassExtensions
