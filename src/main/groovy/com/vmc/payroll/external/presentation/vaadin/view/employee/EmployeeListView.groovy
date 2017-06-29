@@ -1,4 +1,4 @@
-package com.vmc.payroll.external.presentation.vaadin.view
+package com.vmc.payroll.external.presentation.vaadin.view.employee
 
 import com.vaadin.ui.*
 import com.vmc.payroll.Employee
@@ -22,7 +22,6 @@ class EmployeeListView extends VerticalLayout{
     def createSearchForm() {
         return new HorizontalLayout().with {
             it.addComponent(new TextField("Name: "))
-            it.addComponent(new TextField("Address: "))
             def searchButton = new Button("Search", {Notification.show("search employee", "to be implemented", Notification.Type.HUMANIZED_MESSAGE)} as Button.ClickListener)
             it.addComponent(searchButton)
             it.setComponentAlignment(searchButton, Alignment.BOTTOM_CENTER)

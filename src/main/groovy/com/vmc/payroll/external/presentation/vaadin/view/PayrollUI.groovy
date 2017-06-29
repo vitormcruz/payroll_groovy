@@ -7,6 +7,7 @@ import com.vaadin.ui.UI
 import com.vaadin.ui.VerticalLayout
 import com.vmc.payroll.api.EmployeeRepository
 import com.vmc.payroll.external.config.ServiceLocator
+import com.vmc.payroll.external.presentation.vaadin.view.employee.EmployeeView
 
 @Title("Payroll")
 @Theme("valo")

@@ -1,4 +1,4 @@
-package com.vmc.payroll.external.presentation.vaadin.view
+package com.vmc.payroll.external.presentation.vaadin.view.employee
 
 import com.vaadin.ui.VerticalLayout
 import com.vmc.payroll.api.EmployeeRepository
