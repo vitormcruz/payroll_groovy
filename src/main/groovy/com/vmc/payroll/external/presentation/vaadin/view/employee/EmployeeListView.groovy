@@ -3,12 +3,14 @@ package com.vmc.payroll.external.presentation.vaadin.view.employee
 import com.vaadin.ui.*
 import com.vmc.payroll.Employee
 import com.vmc.payroll.api.EmployeeRepository
+import org.apache.commons.lang.StringUtils
 
 class EmployeeListView extends VerticalLayout{
     private EmployeeRepository employeeRepository
     private Closure prepareNewEmployee
     private searchForm
     private Grid grid
+    TextField nameField
 
     EmployeeListView(EmployeeRepository employeeRepository, Closure prepareNewEmployee) {
         this.employeeRepository = employeeRepository
@@ -21,8 +23,11 @@ class EmployeeListView extends VerticalLayout{
 
     def createSearchForm() {
         return new HorizontalLayout().with {
-            it.addComponent(new TextField("Name: "))
-            def searchButton = new Button("Search", {Notification.show("search employee", "to be implemented", Notification.Type.HUMANIZED_MESSAGE)} as Button.ClickListener)
+            nameField = new TextField("Name: ")
+            it.addComponent(nameField)
+            def searchButton = new Button("Search", {
+                grid.setItems(employeeRepository.findAll {StringUtils.containsIgnoreCase(it.name, nameField.getValue())})
+            } as Button.ClickListener)
             it.addComponent(searchButton)
             it.setComponentAlignment(searchButton, Alignment.BOTTOM_CENTER)
             def newButton = new Button("New", prepareNewEmployee as Button.ClickListener)
