@@ -1,4 +1,4 @@
-package com.vmc.payroll.unionAssociation
+package com.vmc.payroll.unionAssociation.api
 
 import com.vmc.payroll.payment.workEvent.api.UnionCharge
 import com.vmc.payroll.payment.workEvent.api.WorkEvent

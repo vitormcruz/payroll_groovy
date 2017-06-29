@@ -4,9 +4,9 @@ import com.vmc.payroll.api.Entity
 import com.vmc.payroll.payment.workEvent.api.WorkEvent
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.payroll.payment.type.api.PaymentType
-import com.vmc.payroll.unionAssociation.imp.DefaultUnionAssociation
-import com.vmc.payroll.unionAssociation.imp.NoUnionAssociation
-import com.vmc.payroll.unionAssociation.UnionAssociation
+import com.vmc.payroll.unionAssociation.DefaultUnionAssociation
+import com.vmc.payroll.unionAssociation.NoUnionAssociation
+import com.vmc.payroll.unionAssociation.api.UnionAssociation
 import com.vmc.validationNotification.builder.BuilderAwareness
 
 import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
