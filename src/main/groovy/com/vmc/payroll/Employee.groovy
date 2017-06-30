@@ -7,9 +7,9 @@ import com.vmc.payroll.payment.type.api.PaymentType
 import com.vmc.payroll.unionAssociation.DefaultUnionAssociation
 import com.vmc.payroll.unionAssociation.NoUnionAssociation
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
-import com.vmc.validationNotification.builder.BuilderAwareness
+import com.vmc.validationNotification.builder.api.BuilderAwareness
 
-import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 
 class Employee implements Entity, BuilderAwareness{
 

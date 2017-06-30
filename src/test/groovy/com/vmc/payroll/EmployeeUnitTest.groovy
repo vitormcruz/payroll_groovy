@@ -4,7 +4,7 @@ import com.vmc.payroll.payment.delivery.AccountTransfer
 import com.vmc.payroll.payment.delivery.Mail
 import com.vmc.payroll.payment.type.Commission
 import com.vmc.payroll.payment.type.Monthly
-import com.vmc.validationNotification.builder.imp.GenericBuilder
+import com.vmc.validationNotification.builder.GenericBuilder
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Before
 import org.junit.Test

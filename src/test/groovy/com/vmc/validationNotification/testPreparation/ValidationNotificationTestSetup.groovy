@@ -1,7 +1,7 @@
 package com.vmc.validationNotification.testPreparation
 
-import com.vmc.validationNotification.imp.ApplicationValidationNotifier
-import com.vmc.validationNotification.imp.SimpleValidationObserverImp
+import com.vmc.validationNotification.ApplicationValidationNotifier
+import com.vmc.validationNotification.SimpleValidationObserverImp
 import org.junit.Before
 
 abstract class ValidationNotificationTestSetup {

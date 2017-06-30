@@ -1,6 +1,6 @@
 package com.vmc.payroll.external.presentation.webservice.spark
 
-import com.vmc.validationNotification.imp.ApplicationValidationNotifier
+import com.vmc.validationNotification.ApplicationValidationNotifier
 
 trait BasicControllerOperationsTrait {
 

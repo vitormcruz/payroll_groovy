@@ -2,7 +2,6 @@ package com.vmc.validationNotification
 
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
-import com.vmc.validationNotification.imp.RequiredValidation
 
 import static junit.framework.TestCase.fail
 

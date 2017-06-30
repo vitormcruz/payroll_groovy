@@ -1,11 +1,14 @@
 package com.vmc.payroll.external.presentation.vaadin.view.employee
 
+import com.vaadin.data.Binder
 import com.vaadin.data.HasValue
 import com.vaadin.ui.*
+import com.vmc.payroll.Employee
 import com.vmc.payroll.api.EmployeeRepository
 import com.vmc.payroll.external.presentation.vaadin.view.components.DynamicComboBox
 import com.vmc.payroll.payment.delivery.Paymaster
 import com.vmc.payroll.payment.type.Monthly
+import com.vmc.validationNotification.vaadin.GeneralVaadinValidationObserver
 
 class NewEmployeeView extends VerticalLayout{
     public static final Class<Monthly> DEFAULT_NEW_EMPLOYEE_PAYMENT_TYPE = Monthly
@@ -17,6 +20,7 @@ class NewEmployeeView extends VerticalLayout{
     private unionMembershipOption
     private DynamicComboBox paymentTypeComboBox
     private DynamicComboBox paymentDeliveryComboBox
+    private Binder<Employee> binder
 
     NewEmployeeView(EmployeeRepository employeeRepository, Closure cancelNewEmployee) {
         this.employeeRepository = employeeRepository
@@ -25,6 +29,8 @@ class NewEmployeeView extends VerticalLayout{
         paymentTypeComboBox.comboBox.setItemCaptionGenerator({ it.simpleName })
         paymentDeliveryComboBox = new DynamicComboBox("Select a payment delivery: ", employeeRepository.getAllPaymentDelivery(), DEFAULT_NEW_EMPLOYEE_PAYMENT_DELIVERY)
         paymentDeliveryComboBox.comboBox.setItemCaptionGenerator({ it.simpleName })
+        binder = new Binder<Employee>(Employee)
+        binder.withValidator(new GeneralVaadinValidationObserver())
         newForm = createNewForm()
         addComponent(newForm)
     }
@@ -32,13 +38,15 @@ class NewEmployeeView extends VerticalLayout{
     def createNewForm() {
         return new FormLayout().with {
             it.setSizeFull()
-            it.addComponent(new TextField("Name: ").with {it.setRequiredIndicatorVisible(true); it})
+            it.addComponent(new TextField("Name: ").with {it.setRequiredIndicatorVisible(true); binder.bind(it, "name"); it})
             it.addComponent(new TextField("Address: ").with {it.setRequiredIndicatorVisible(true); it})
             it.addComponent(new TextField("Email: ").with{ it.setRequiredIndicatorVisible(true); it})
             paymentTypeComboBox.addMeTo(it)
             paymentDeliveryComboBox.addMeTo(it)
             createUnionMemberSection(it)
-            it.addComponent(new Button("Save", {Notification.show("new employee", "to be implemented", Notification.Type.HUMANIZED_MESSAGE)} as Button.ClickListener))
+            it.addComponent(new Button("Save", {
+                binder.writeBean(new Employee())
+            } as Button.ClickListener))
             it.addComponent(new Button("Cancel", cancelNewEmployee as Button.ClickListener))
             it
         }

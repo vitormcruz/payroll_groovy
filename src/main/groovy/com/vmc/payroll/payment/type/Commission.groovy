@@ -2,9 +2,9 @@ package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.payment.workEvent.SalesReceipt
 import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
-import com.vmc.validationNotification.builder.imp.GenericBuilder
+import com.vmc.validationNotification.builder.GenericBuilder
 
-import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 
 class Commission extends Monthly{
 

@@ -1,9 +1,10 @@
-package com.vmc.validationNotification.builder.imp
+package com.vmc.validationNotification.builder
 
-import com.vmc.validationNotification.ValidationObserver
-import com.vmc.validationNotification.builder.BuilderAwareness
-import com.vmc.validationNotification.builder.CommonBuilder
-import com.vmc.validationNotification.imp.ApplicationValidationNotifier
+import com.vmc.validationNotification.api.ValidationObserver
+import com.vmc.validationNotification.builder.api.BuilderAwareness
+import com.vmc.validationNotification.builder.api.BuilderStrategy
+import com.vmc.validationNotification.builder.api.CommonBuilder
+import com.vmc.validationNotification.ApplicationValidationNotifier
 
 /**
  * Provides a generic builder for a given class where with* methods are mapped to constructor arguments in the call

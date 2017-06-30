@@ -1,4 +1,4 @@
-package com.vmc.validationNotification.builder
+package com.vmc.validationNotification.builder.api
 
 /**
  * Builder with common and useful protocols to deal with success and failure scenarios

@@ -1,4 +1,4 @@
-package com.vmc.validationNotification
+package com.vmc.validationNotification.api
 
 interface ValidationObserver {
     void validationStarted(String validationName)

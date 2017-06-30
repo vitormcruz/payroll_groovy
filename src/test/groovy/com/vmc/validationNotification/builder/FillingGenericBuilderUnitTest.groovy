@@ -1,6 +1,5 @@
 package com.vmc.validationNotification.builder
 
-import com.vmc.validationNotification.builder.imp.GenericBuilder
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
 

@@ -1,6 +1,6 @@
-package com.vmc.validationNotification.imp
+package com.vmc.validationNotification
 
-import com.vmc.validationNotification.SimpleValidationObserver
+import com.vmc.validationNotification.api.SimpleValidationObserver
 import org.apache.commons.lang.StringUtils
 
 class SimpleValidationObserverImp implements SimpleValidationObserver{

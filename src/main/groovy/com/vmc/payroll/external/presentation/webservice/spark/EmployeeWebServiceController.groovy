@@ -4,7 +4,7 @@ import com.vmc.concurrency.ModelSnapshot
 import com.vmc.payroll.Employee
 import com.vmc.payroll.api.Repository
 import com.vmc.payroll.external.presentation.converter.EmployeeJsonConverter
-import com.vmc.validationNotification.builder.imp.GenericBuilder
+import com.vmc.validationNotification.builder.GenericBuilder
 import spark.Request
 import spark.Response
 

@@ -1,7 +1,7 @@
 package com.vmc.payroll.external.presentation.webservice.spark
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.vmc.validationNotification.ValidationObserver
+import com.vmc.validationNotification.api.ValidationObserver
 import org.apache.http.HttpStatus
 import spark.Response
 
