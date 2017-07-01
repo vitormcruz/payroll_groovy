@@ -1,6 +1,6 @@
 package com.vmc.payroll
 
-import com.vmc.payroll.api.Repository
+import com.vmc.payroll.api.EmployeeRepository
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.payment.delivery.AccountTransfer
 import com.vmc.payroll.payment.delivery.Mail
@@ -21,7 +21,7 @@ import static groovy.test.GroovyAssert.shouldFail
 
 class EmployeeIntTest extends IntegrationTestBase {
 
-    private Repository<Employee> employeeRepository = ServiceLocator.instance.employeeRepository()
+    private EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository()
     private DataSetBuilder employeeBuilder
     private Employee employee1
     private Employee employee2

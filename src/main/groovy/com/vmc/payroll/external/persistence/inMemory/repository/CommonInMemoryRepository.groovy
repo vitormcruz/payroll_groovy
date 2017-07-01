@@ -7,12 +7,12 @@ class CommonInMemoryRepository<E extends Entity> implements Repository<E> {
 
     @Delegate
     private Collection<E> entities
-    private Map entitiesById
-    private pending = []
+    def final Map entitiesById
+    def final pending = []
 
     CommonInMemoryRepository() {
-        this.entitiesById = new HashMap()
-        this.entities = entitiesById.values()
+        entitiesById = new HashMap()
+        entities = entitiesById.values()
     }
 
     void executeAllPending(){
@@ -25,7 +25,6 @@ class CommonInMemoryRepository<E extends Entity> implements Repository<E> {
         return entitiesById.get(id)
     }
 
-    @Override
     boolean add(E entity) {
         pending.add({
             entitiesById.put(entity.getId(), entity)
@@ -33,7 +32,6 @@ class CommonInMemoryRepository<E extends Entity> implements Repository<E> {
         return false
     }
 
-    @Override
     boolean addAll(Collection<? extends E> c) {
         return false
     }
@@ -46,24 +44,12 @@ class CommonInMemoryRepository<E extends Entity> implements Repository<E> {
         })
     }
 
-    @Override
     boolean remove(entity) {
         pending.add({
             entitiesById.remove(entity.getId())
         })
     }
 
-    @Override
-    boolean removeAll(Collection<?> c) {
-        return false
-    }
-
-    @Override
-    boolean retainAll(Collection<?> c) {
-        return false
-    }
-
-    @Override
     void clear() {
         pending.add({
             entitiesById.clear()
