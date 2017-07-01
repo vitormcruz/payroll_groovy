@@ -1,7 +1,7 @@
 package com.vmc.payroll.external.presentation.vaadin
 
 import com.vaadin.ui.*
-import com.vmc.concurrency.ModelSnapshot
+import com.vmc.concurrency.api.ModelSnapshot
 import com.vmc.payroll.Employee
 import com.vmc.payroll.api.Repository
 import com.vmc.payroll.external.config.ServiceLocator
