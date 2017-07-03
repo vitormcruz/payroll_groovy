@@ -20,6 +20,6 @@ class VaadinValidationNotification {
     void applyValidation() {
         def errorsByContext = validationObserverProvider.call().errorsByContext
         def error = errorsByContext.get(CONTEXT_TYPE, propertyName)
-        if (error != null){ component.setComponentError(new UserError(error)) }
+        error ? component.setComponentError(new UserError(error)) : component.setComponentError(null)
     }
 }
