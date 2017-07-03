@@ -27,9 +27,9 @@ class Commission extends Monthly{
     void setCommissionRate(Integer aCommissionRate) {
         def context = [property:"commissionRate"]
         if (aCommissionRate == null) {
-            issueError("payroll.employee.commisionpayment.commissionrate.mandatory", context)
+            issueError("The commission rate is required", context)
         } else if (aCommissionRate < 1) {
-            issueError("payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer", context)
+            issueError("The commission rate must be a positive integer", context)
         } else {
             this.@commissionRate = aCommissionRate
         }
@@ -38,6 +38,6 @@ class Commission extends Monthly{
     @Override
     void addPaymentAttachment(PaymentAttachment paymentAttachment) {
         paymentAttachment instanceof SalesReceipt ? this.@paymentAttachments.add(paymentAttachment):
-                                                    issueError("employee.payment.commission.sales.receipt.payment.info.only")
+                                                    {throw new IllegalArgumentException("Non Sales Receipt payment attachment was provided to a commission payment type.")}()
     }
 }

@@ -35,10 +35,10 @@ class AccountTransfer implements PaymentDelivery, BuilderAwareness{
     }
 
     void setBank(String aBank) {
-        aBank ? this.@bank = aBank : issueError("payroll.account.transfer.delivery.bank.mandatory", [property: "bank"])
+        aBank ? this.@bank = aBank : issueError("The bank is required", [property: "bank"])
     }
 
     void setAccount(String anAccount) {
-        anAccount ? this.account = anAccount : issueError("payroll.account.transfer.delivery.account.mandatory", [property: "account"])
+        anAccount ? this.account = anAccount : issueError("The account is required", [property: "account"])
     }
 }

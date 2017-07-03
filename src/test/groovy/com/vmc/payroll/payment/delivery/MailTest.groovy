@@ -17,7 +17,7 @@ class MailTest extends ValidationNotificationTestSetup{
     void "Address is mandatory"(){
         def mailDelivery = Mail.newPaymentDelivery([] as Employee, null)
         assert mailDelivery == null
-        assert validationObserver.errors.contains("payroll.mail.delivery.address.mandatory")
+        assert validationObserver.errors.contains("The address for mail delivery is required")
     }
 
     @Test
@@ -32,7 +32,7 @@ class MailTest extends ValidationNotificationTestSetup{
         def mailDelivery = Mail.newPaymentDelivery([] as Employee, "Street 1")
         mailDelivery.setAddress(null)
         assert mailDelivery.address == "Street 1"
-        assert validationObserver.errors.contains("payroll.mail.delivery.address.mandatory")
+        assert validationObserver.errors.contains("The address for mail delivery is required")
     }
 
     @Test

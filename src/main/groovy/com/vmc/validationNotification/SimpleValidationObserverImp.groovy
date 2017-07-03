@@ -30,7 +30,7 @@ class SimpleValidationObserverImp implements SimpleValidationObserver{
     @Override
     void errorIssued(Object subject, Map context, String error) {
         if(context.isEmpty()){
-            errorsByContext.put(null, null, error)
+            errorsByContext.put("", "", error)
         }else {
             context.each {this.@errorsByContext.put(it.key, it.value, error)}
         }

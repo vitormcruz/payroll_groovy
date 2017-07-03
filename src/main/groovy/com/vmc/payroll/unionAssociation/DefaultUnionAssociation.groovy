@@ -47,9 +47,9 @@ class DefaultUnionAssociation implements UnionAssociation{
     @Override
     void setRate(Integer newRate) {
         if(newRate == null){
-            issueError("payroll.union.association.rate.required", [property:"rate"])
+            issueError("The union association rate is required for members", [property:"rate"])
         } else if(newRate < 1){
-            issueError("payroll.union.association.rate.mustbe.positive.integer", [property:"rate"])
+            issueError("The rate must be a positive integer", [property:"rate"])
         }else {
             this.@rate = newRate
         }

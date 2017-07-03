@@ -44,6 +44,6 @@ class Hourly extends GenericPaymentType implements BuilderAwareness{
     @Override
     void addPaymentAttachment(PaymentAttachment paymentAttachment) {
         paymentAttachment instanceof TimeCard ? this.@paymentAttachments.add(paymentAttachment) :
-                                                issueError("employee.payment.hourly.time.card.payment.info.only")
+                                                {throw new IllegalArgumentException("Non Time Card payment attachment was provided to a hourly payment type.")}()
     }
 }

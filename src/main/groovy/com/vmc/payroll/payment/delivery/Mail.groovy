@@ -36,6 +36,6 @@ class Mail implements PaymentDelivery, BuilderAwareness{
     }
 
     void setAddress(String anAddress) {
-        anAddress ? this.@address = anAddress : issueError("payroll.mail.delivery.address.mandatory", [property: "address"])
+        anAddress ? this.@address = anAddress : issueError("The address for mail delivery is required", [property: "address"])
     }
 }

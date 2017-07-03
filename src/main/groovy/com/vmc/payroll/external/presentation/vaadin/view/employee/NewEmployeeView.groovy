@@ -26,50 +26,50 @@ class NewEmployeeView extends VerticalLayout{
     NewEmployeeView(EmployeeRepository employeeRepository, Closure cancelNewEmployee) {
         this.employeeRepository = employeeRepository
         this.cancelNewEmployee = cancelNewEmployee
-        paymentTypeComboBox = new DynamicComboBox("Select a payment type: ", employeeRepository.getAllPaymentTypes(), DEFAULT_NEW_EMPLOYEE_PAYMENT_TYPE)
+        binder = new Binder<Employee>(Employee)
+        paymentTypeComboBox = new DynamicComboBox("Select a payment type: ", employeeRepository.getAllPaymentTypes(), DEFAULT_NEW_EMPLOYEE_PAYMENT_TYPE, binder)
         paymentTypeComboBox.comboBox.setItemCaptionGenerator({ it.simpleName })
         paymentDeliveryComboBox = new DynamicComboBox("Select a payment delivery: ", employeeRepository.getAllPaymentDelivery(), DEFAULT_NEW_EMPLOYEE_PAYMENT_DELIVERY)
         paymentDeliveryComboBox.comboBox.setItemCaptionGenerator({ it.simpleName })
-        binder = new Binder<Employee>(Employee)
         newForm = createNewForm()
         addComponent(newForm)
     }
 
     def createNewForm() {
-        return new FormLayout().with {
-            it.setSizeFull()
-            it.addComponent(new TextField("Name: ").with {
+        return new FormLayout().with {FormLayout form ->
+            form.setSizeFull()
+            form.addComponent(new TextField("Name: ").with {
                 it.setRequiredIndicatorVisible(true)
                 binder.bind(it, "name")
                 validationAdapter.bindValidationFor("name", it)
                 it
             })
 
-            it.addComponent(new TextField("Address: ").with {
+            form.addComponent(new TextField("Address: ").with {
                 it.setRequiredIndicatorVisible(true)
                 binder.bind(it, "address")
                 validationAdapter.bindValidationFor("address", it)
                 it
             })
 
-            it.addComponent(new TextField("Email: ").with{
+            form.addComponent(new TextField("Email: ").with{
                 it.setRequiredIndicatorVisible(true)
                 binder.bind(it, "email")
                 validationAdapter.bindValidationFor("email", it)
                 it
             })
 
-            paymentTypeComboBox.addMeTo(it)
-            paymentDeliveryComboBox.addMeTo(it)
-            createUnionMemberSection(it)
+            paymentTypeComboBox.addMeTo(form)
+            paymentDeliveryComboBox.addMeTo(form)
+            createUnionMemberSection(form)
 
-            it.addComponent(new Button("Save", {
+            form.addComponent(new Button("Save", {
                 validationAdapter.startObservingErrors()
                 binder.writeBean(new Employee())
                 validationAdapter.finishObservingErrors()
             } as Button.ClickListener))
-            it.addComponent(new Button("Cancel", cancelNewEmployee as Button.ClickListener))
-            it
+            form.addComponent(new Button("Cancel", cancelNewEmployee as Button.ClickListener))
+            form
         }
     }
 

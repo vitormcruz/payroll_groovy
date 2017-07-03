@@ -6,6 +6,8 @@ import com.vmc.payroll.payment.workEvent.TimeCard
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
 
+import static groovy.test.GroovyAssert.shouldFail
+
 class HourlyAttachmentUnitTest extends ValidationNotificationTestSetup{
 
     @Test
@@ -19,9 +21,9 @@ class HourlyAttachmentUnitTest extends ValidationNotificationTestSetup{
     @Test
     void "Add another payment attachment to a Hourly payment type"(){
         def hourly =  Hourly.newPaymentType([] as Employee, 1)
-        hourly.postWorkEvent([] as SalesReceipt)
+        def error = shouldFail(IllegalArgumentException, { hourly.postWorkEvent([] as SalesReceipt) })
         assert hourly.getPaymentAttachments().isEmpty()
-        validationObserver.errors.contains("employee.payment.hourly.time.card.payment.info.only")
+        assert error.message == "Non Time Card payment attachment was provided to a hourly payment type."
     }
 
 }

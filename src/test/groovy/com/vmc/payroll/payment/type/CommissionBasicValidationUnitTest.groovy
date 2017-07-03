@@ -15,19 +15,19 @@ class CommissionBasicValidationUnitTest extends MonthlyBasicValidationUnitTest{
     @Test
     void "Validate negative Commission Rate"(){
         assert getCommissionPaymentTypeWith(1, -1) == null
-        assert validationObserver.errors.contains("payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer")
+        assert validationObserver.errors.contains("The commission rate must be a positive integer")
     }
 
     @Test
     void "Validate zero Commission Rate"(){
         assert getCommissionPaymentTypeWith(1, 0) == null
-        assert validationObserver.errors.contains("payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer")
+        assert validationObserver.errors.contains("The commission rate must be a positive integer")
     }
 
     @Test
     void "Provide null to the Commission Rate"(){
         assert getCommissionPaymentTypeWith(1, null) == null
-        assert validationObserver.getErrors().contains("payroll.employee.commisionpayment.commissionrate.mandatory")
+        assert validationObserver.getErrors().contains("The commission rate is required")
     }
 
     @Test
@@ -43,7 +43,7 @@ class CommissionBasicValidationUnitTest extends MonthlyBasicValidationUnitTest{
         def commision = getValidCommissionPaymentType()
         commision.setCommissionRate(-1)
         assert commision.getCommissionRate() == 500
-        assert validationObserver.errors.contains("payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer")
+        assert validationObserver.errors.contains("The commission rate must be a positive integer")
     }
 
     @Test
@@ -51,7 +51,7 @@ class CommissionBasicValidationUnitTest extends MonthlyBasicValidationUnitTest{
         def commision = getValidCommissionPaymentType()
         commision.setCommissionRate(0)
         assert commision.getCommissionRate() == 500
-        assert validationObserver.errors.contains("payroll.employee.commisionpayment.commissionrate.mustbe.positive.integer")
+        assert validationObserver.errors.contains("The commission rate must be a positive integer")
     }
 
     @Test
@@ -59,7 +59,7 @@ class CommissionBasicValidationUnitTest extends MonthlyBasicValidationUnitTest{
         def commision = getValidCommissionPaymentType()
         commision.setCommissionRate(null)
         assert commision.getCommissionRate() == 500
-        assert validationObserver.getErrors().contains("payroll.employee.commisionpayment.commissionrate.mandatory")
+        assert validationObserver.getErrors().contains("The commission rate is required")
     }
 
     @Override

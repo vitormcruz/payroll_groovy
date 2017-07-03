@@ -20,21 +20,21 @@ class DefaultUnionAssociationUnitTest extends ValidationNotificationTestSetup{
     void "Create union association without rate"(){
         def unionAssociation = DefaultUnionAssociation.newUnionAssociation([] as Employee, null)
         assert unionAssociation == null
-        assert validationObserver.errors.contains("payroll.union.association.rate.required")
+        assert validationObserver.errors.contains("The union association rate is required for members")
     }
 
     @Test
     void "Create union association with rate equals 0"(){
         def unionAssociation = DefaultUnionAssociation.newUnionAssociation([] as Employee, 0)
         assert unionAssociation == null
-        assert validationObserver.errors.contains("payroll.union.association.rate.mustbe.positive.integer")
+        assert validationObserver.errors.contains("The rate must be a positive integer")
     }
 
     @Test
     void "Create union association negative rate"(){
         def unionAssociation = DefaultUnionAssociation.newUnionAssociation([] as Employee, -1)
         assert unionAssociation == null
-        assert validationObserver.errors.contains("payroll.union.association.rate.mustbe.positive.integer")
+        assert validationObserver.errors.contains("The rate must be a positive integer")
     }
 
     @Test
@@ -68,7 +68,7 @@ class DefaultUnionAssociationUnitTest extends ValidationNotificationTestSetup{
         def unionAssociation = DefaultUnionAssociation.newUnionAssociation([] as Employee, 10)
         unionAssociation.setRate(null)
         assert unionAssociation.getRate() == 10
-        assert validationObserver.errors.contains("payroll.union.association.rate.required")
+        assert validationObserver.errors.contains("The union association rate is required for members")
     }
 
     @Test
@@ -76,7 +76,7 @@ class DefaultUnionAssociationUnitTest extends ValidationNotificationTestSetup{
         def unionAssociation = DefaultUnionAssociation.newUnionAssociation([] as Employee, 10)
         unionAssociation.setRate(0)
         assert unionAssociation.getRate() == 10
-        assert validationObserver.errors.contains("payroll.union.association.rate.mustbe.positive.integer")
+        assert validationObserver.errors.contains("The rate must be a positive integer")
     }
 
     @Test
@@ -84,7 +84,7 @@ class DefaultUnionAssociationUnitTest extends ValidationNotificationTestSetup{
         def unionAssociation = DefaultUnionAssociation.newUnionAssociation([] as Employee, 10)
         unionAssociation.setRate(-1)
         assert unionAssociation.getRate() == 10
-        assert validationObserver.errors.contains("payroll.union.association.rate.mustbe.positive.integer")
+        assert validationObserver.errors.contains("The rate must be a positive integer")
     }
 
     @Test

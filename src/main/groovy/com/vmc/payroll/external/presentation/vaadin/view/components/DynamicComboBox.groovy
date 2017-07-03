@@ -1,5 +1,6 @@
 package com.vmc.payroll.external.presentation.vaadin.view.components
 
+import com.vaadin.data.Binder
 import com.vaadin.data.HasValue
 import com.vaadin.ui.ComboBox
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
@@ -7,17 +8,17 @@ import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 
 class DynamicComboBox {
 
-    private Collection comboData
-    private Map componentesByDomainElements
-    private defaultElement
     private String comboLabel
+    private Collection comboData
+    private defaultElement
+    private Map componentesByDomainElements
     ComboBox comboBox
 
-    DynamicComboBox(String comboLabel, Collection domainElements, defaultElement) {
+    DynamicComboBox(String comboLabel, Collection domainElements, defaultElement, Binder binder) {
         this.comboLabel = comboLabel
         this.comboData = domainElements
         this.defaultElement = defaultElement
-        componentesByDomainElements = comboData.collectEntries{ [(it), it.myVaadinComponents()] }
+        componentesByDomainElements = comboData.collectEntries{ [(it), it.myVaadinComponents(binder)] }
         comboBox = createComboBox()
     }
 
