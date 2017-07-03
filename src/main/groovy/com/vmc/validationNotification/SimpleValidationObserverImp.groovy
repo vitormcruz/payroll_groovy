@@ -1,12 +1,16 @@
 package com.vmc.validationNotification
 
+import com.google.common.collect.HashBasedTable
+import com.google.common.collect.Table
+import com.google.common.collect.Tables
 import com.vmc.validationNotification.api.SimpleValidationObserver
 import org.apache.commons.lang.StringUtils
 
 class SimpleValidationObserverImp implements SimpleValidationObserver{
 
-    def errors = []
-    def mandatoryObligation = [:]
+    private Collection errors = []
+    private Table<Object, Object, String> errorsByContext = HashBasedTable.create()
+    private Map mandatoryObligation = [:]
 
     @Override
     void validationStarted(String validationName) {
@@ -25,6 +29,12 @@ class SimpleValidationObserverImp implements SimpleValidationObserver{
 
     @Override
     void errorIssued(Object subject, Map context, String error) {
+        if(context.isEmpty()){
+            errorsByContext.put(null, null, error)
+        }else {
+            context.each {this.@errorsByContext.put(it.key, it.value, error)}
+        }
+
         errors.add(error)
     }
 
@@ -36,6 +46,11 @@ class SimpleValidationObserverImp implements SimpleValidationObserver{
     @Override
     Boolean successful() {
         return errors.isEmpty()
+    }
+
+    @Override
+    Table<Object, Object, String> getErrorsByContext() {
+        return Tables.unmodifiableTable(errorsByContext)
     }
 
     @Override
