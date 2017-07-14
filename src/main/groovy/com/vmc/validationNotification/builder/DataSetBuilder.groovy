@@ -1,4 +1,4 @@
-package com.vmc.validationNotification.builder.imp
+package com.vmc.validationNotification.builder
 /**
  * Act as a builder, but receives a closure to insert object on the database at the build end if validation was
  * ok.

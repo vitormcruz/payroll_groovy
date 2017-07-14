@@ -1,8 +1,8 @@
 package com.vmc.payroll.payment.delivery
 
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
-import com.vmc.validationNotification.builder.BuilderAwareness
-import com.vmc.validationNotification.builder.imp.GenericBuilder
+import com.vmc.validationNotification.builder.api.BuilderAwareness
+import com.vmc.validationNotification.builder.GenericBuilder
 
 import static com.google.common.base.Preconditions.checkArgument
 
@@ -35,10 +35,10 @@ class AccountTransfer implements PaymentDelivery, BuilderAwareness{
     }
 
     void setBank(String aBank) {
-        aBank ? this.@bank = aBank : issueError("payroll.account.transfer.delivery.bank.mandatory", [property: "bank"])
+        aBank ? this.@bank = aBank : issueError("The bank is required", [property: "bank"])
     }
 
     void setAccount(String anAccount) {
-        anAccount ? this.account = anAccount : issueError("payroll.account.transfer.delivery.account.mandatory", [property: "account"])
+        anAccount ? this.account = anAccount : issueError("The account is required", [property: "account"])
     }
 }

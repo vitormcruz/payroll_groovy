@@ -1,5 +1,6 @@
 package com.vmc.validationNotification.builder.imp
 
+import com.vmc.validationNotification.builder.DataSetBuilder
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import groovy.test.GroovyAssert
 import org.junit.Test

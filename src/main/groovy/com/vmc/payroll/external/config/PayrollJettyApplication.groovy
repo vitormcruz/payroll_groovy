@@ -6,7 +6,7 @@ import com.vmc.payroll.Employee
 import com.vmc.payroll.api.EmployeeRepository
 import com.vmc.payroll.payment.delivery.Mail
 import com.vmc.payroll.payment.type.Monthly
-import com.vmc.validationNotification.builder.imp.GenericBuilder
+import com.vmc.validationNotification.builder.GenericBuilder
 import com.vmc.validationNotification.servlet.ValidationNotifierFilter
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.FilterHolder

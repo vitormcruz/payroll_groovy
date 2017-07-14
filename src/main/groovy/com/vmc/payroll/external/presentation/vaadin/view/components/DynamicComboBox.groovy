@@ -3,27 +3,30 @@ package com.vmc.payroll.external.presentation.vaadin.view.components
 import com.vaadin.data.HasValue
 import com.vaadin.ui.ComboBox
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
+import com.vmc.validationNotification.vaadin.BinderDecoratorForValidationNotification
 
-
+//TODO revision this class
 class DynamicComboBox {
 
-    private Collection comboData
-    private Map componentesByDomainElements
-    private defaultElement
     private String comboLabel
-    ComboBox comboBox
+    private Collection comboData
+    private defaultElement
+    private Map componentesByDomainElements
+    private components = new ArrayList()
+    private itemCaptionGeneratorClosure
+    private ComboBox comboBox
+    private BinderDecoratorForValidationNotification binder
 
-    DynamicComboBox(String comboLabel, Collection domainElements, defaultElement) {
+    DynamicComboBox(String comboLabel, Collection domainElements, defaultElement, BinderDecoratorForValidationNotification binder, itemCaptionGeneratorClosure) {
         this.comboLabel = comboLabel
         this.comboData = domainElements
+        this.binder = binder
         this.defaultElement = defaultElement
-        componentesByDomainElements = comboData.collectEntries{ [(it), it.myVaadinComponents()] }
+        this.itemCaptionGeneratorClosure = itemCaptionGeneratorClosure
+        componentesByDomainElements = comboData.collectEntries{ [(it), it.myVaadinComponents(binder)] }
         comboBox = createComboBox()
-    }
-
-    def addMeTo(layout) {
-        layout.addComponent(comboBox)
-        createDynamicDataInto(layout)
+        components.add(comboBox)
+        createDynamicDataInto()
         comboBox.setValue(defaultElement)
     }
 
@@ -31,26 +34,31 @@ class DynamicComboBox {
         return comboBox
     }
 
+    def getComponents() {
+        return components
+    }
+
     ComboBox<PaymentDelivery> createComboBox() {
         def comboBox = new ComboBox(comboLabel).with {
             it.setItems(comboData)
             it.addValueChangeListener({ event -> changeComboValue(event) })
             it.setRequiredIndicatorVisible(true)
+            it.setItemCaptionGenerator(itemCaptionGeneratorClosure)
             it
         }
         return comboBox
     }
 
-    public Map createDynamicDataInto(layout) {
+    public Map createDynamicDataInto() {
         componentesByDomainElements.each {
             it.value.each { component -> component.setVisible(false) }
-            layout.addComponents(*it.value)
+            components.addAll(it.value)
         }
     }
 
     def changeComboValue(HasValue.ValueChangeEvent event) {
-        componentesByDomainElements.get(event.getOldValue())?.each {it.setVisible(false)}
-        componentesByDomainElements.get(event.getValue())?.each {it.setVisible(true)}
+        componentesByDomainElements.get(event.getOldValue())?.each {it.setVisible(false); binder.disableBindingFor(it)}
+        componentesByDomainElements.get(event.getValue())?.each {it.setVisible(true); binder.enableBindingFor(it)}
     }
 
 }

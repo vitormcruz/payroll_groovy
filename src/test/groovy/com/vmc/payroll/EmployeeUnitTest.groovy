@@ -4,7 +4,7 @@ import com.vmc.payroll.payment.delivery.AccountTransfer
 import com.vmc.payroll.payment.delivery.Mail
 import com.vmc.payroll.payment.type.Commission
 import com.vmc.payroll.payment.type.Monthly
-import com.vmc.validationNotification.builder.imp.GenericBuilder
+import com.vmc.validationNotification.builder.GenericBuilder
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Before
 import org.junit.Test
@@ -97,14 +97,14 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
 
     private void verifyMandatoryErrorsMessagesForCreationWereIssued() {
         verifyMandatoryErrorsMessagesForChangingWereIssued()
-        assert validationObserver.getErrors().contains("payroll.employee.payment.type.mandatory")
-        assert validationObserver.getErrors().contains("payroll.employee.payment.delivery.mandatory")
+        assert validationObserver.getErrors().contains("The employee payment type is required")
+        assert validationObserver.getErrors().contains("The employee payment delivery is required")
     }
 
     private void verifyMandatoryErrorsMessagesForChangingWereIssued() {
-        assert validationObserver.getErrors().contains("payroll.employee.name.mandatory")
-        assert validationObserver.getErrors().contains("payroll.employee.address.mandatory")
-        assert validationObserver.getErrors().contains("payroll.employee.email.mandatory")
+        assert validationObserver.getErrors().contains("The employee name is required")
+        assert validationObserver.getErrors().contains("The employee address is required")
+        assert validationObserver.getErrors().contains("The employee email is required")
     }
 
 

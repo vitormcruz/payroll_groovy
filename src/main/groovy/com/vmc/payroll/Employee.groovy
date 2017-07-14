@@ -7,9 +7,9 @@ import com.vmc.payroll.payment.type.api.PaymentType
 import com.vmc.payroll.unionAssociation.DefaultUnionAssociation
 import com.vmc.payroll.unionAssociation.NoUnionAssociation
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
-import com.vmc.validationNotification.builder.BuilderAwareness
+import com.vmc.validationNotification.builder.api.BuilderAwareness
 
-import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 
 class Employee implements Entity, BuilderAwareness{
 
@@ -29,6 +29,7 @@ class Employee implements Entity, BuilderAwareness{
     }
 
     //Should be used by builder only
+    //TODO change payment args to a closure receiving the employee so to create a payment.
     protected Employee(String name, String address, String email, paymentArgs, paymentDeliveryArgs) {
         executeNamedValidation("Validate new Employee", {
             setName(name)
@@ -50,15 +51,15 @@ class Employee implements Entity, BuilderAwareness{
     }
 
     void setName(String aName) {
-        aName ? this.@name = aName : issueError("payroll.employee.name.mandatory", [property:"name"])
+        aName ? this.@name = aName : issueError("The employee name is required", [property:"name"])
     }
 
     void setAddress(String anAddress) {
-        anAddress ? this.@address = anAddress : issueError("payroll.employee.address.mandatory", [property:"address"])
+        anAddress ? this.@address = anAddress : issueError("The employee address is required", [property:"address"])
     }
 
     void setEmail(String anEmail) {
-        anEmail ? this.@email = anEmail : issueError("payroll.employee.email.mandatory", [property:"email"])
+        anEmail ? this.@email = anEmail : issueError("The employee email is required", [property:"email"])
     }
 
     PaymentType getPaymentType() {
@@ -71,12 +72,12 @@ class Employee implements Entity, BuilderAwareness{
 
     void bePaid(Class<PaymentType> aPaymentTypeClass, ...args){
         aPaymentTypeClass ? paymentType = aPaymentTypeClass.newPaymentType(this, *args) :
-                            issueError("payroll.employee.payment.type.mandatory", [property:"payment.type"])
+                            issueError("The employee payment type is required", [property:"payment.type"])
     }
 
     void receivePaymentBy(Class<PaymentDelivery> aPaymentDeliveryClass, ...args){
         aPaymentDeliveryClass ? paymentDelivery = aPaymentDeliveryClass.newPaymentDelivery(this, *args) :
-            issueError("payroll.employee.payment.delivery.mandatory", [property:"payment.delivery"])
+            issueError("The employee payment delivery is required", [property:"payment.delivery"])
     }
 
     void postWorkEvent(WorkEvent workEvent){

@@ -1,6 +1,6 @@
 package com.vmc.payroll.payment.workEvent
 
-import com.vmc.validationNotification.builder.imp.GenericBuilder
+import com.vmc.validationNotification.builder.GenericBuilder
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.joda.time.DateTime
 import org.junit.Test

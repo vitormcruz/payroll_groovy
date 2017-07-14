@@ -6,6 +6,8 @@ import com.vmc.payroll.payment.workEvent.TimeCard
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
 
+import static groovy.test.GroovyAssert.shouldFail
+
 class CommissionAttachmentUnitTest extends ValidationNotificationTestSetup{
 
     @Test
@@ -19,8 +21,8 @@ class CommissionAttachmentUnitTest extends ValidationNotificationTestSetup{
     @Test
     void "Add another payment attachment to a Commission payment type"(){
         def commission = Commission.newPaymentType([] as Employee, 1, 1)
-        commission.postWorkEvent([] as TimeCard)
+        def error = shouldFail(IllegalArgumentException, { commission.postWorkEvent([] as TimeCard) })
         assert commission.getPaymentAttachments().isEmpty()
-        validationObserver.errors.contains("employee.payment.commission.sales.receipt.payment.info.only")
+        assert error.message == "Non Sales Receipt payment attachment was provided to a commission payment type."
     }
 }

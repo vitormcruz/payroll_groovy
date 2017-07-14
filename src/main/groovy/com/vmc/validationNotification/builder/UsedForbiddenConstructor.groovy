@@ -1,4 +1,4 @@
-package com.vmc.validationNotification.builder.imp
+package com.vmc.validationNotification.builder
 
 
 class UsedForbiddenConstructor extends RuntimeException{

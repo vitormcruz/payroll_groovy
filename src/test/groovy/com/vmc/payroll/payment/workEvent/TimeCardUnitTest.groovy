@@ -3,7 +3,7 @@ package com.vmc.payroll.payment.workEvent
 import org.joda.time.DateTime
 import org.junit.Test
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
-import com.vmc.validationNotification.builder.imp.GenericBuilder
+import com.vmc.validationNotification.builder.GenericBuilder
 
 import static junit.framework.TestCase.fail
 

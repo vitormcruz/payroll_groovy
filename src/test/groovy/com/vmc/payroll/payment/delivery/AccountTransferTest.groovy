@@ -18,14 +18,14 @@ class AccountTransferTest extends ValidationNotificationTestSetup{
     void "Bank is mandatory"(){
         def accountTransferDelivery = AccountTransfer.newPaymentDelivery([] as Employee, null, "111111")
         assert accountTransferDelivery == null
-        assert validationObserver.errors.contains("payroll.account.transfer.delivery.bank.mandatory")
+        assert validationObserver.errors.contains("The bank is required")
     }
 
     @Test
     void "Account is mandatory"(){
         def accountTransferDelivery = AccountTransfer.newPaymentDelivery([] as Employee, "bank 1", null)
         assert accountTransferDelivery == null
-        assert validationObserver.errors.contains("payroll.account.transfer.delivery.account.mandatory")
+        assert validationObserver.errors.contains("The account is required")
     }
 
     @Test
@@ -33,7 +33,7 @@ class AccountTransferTest extends ValidationNotificationTestSetup{
         def accountTransferDelivery = AccountTransfer.newPaymentDelivery([] as Employee, "bank 1", "111111")
         accountTransferDelivery.setBank(null)
         assert accountTransferDelivery.bank == "bank 1"
-        assert validationObserver.errors.contains("payroll.account.transfer.delivery.bank.mandatory")
+        assert validationObserver.errors.contains("The bank is required")
     }
 
     @Test
@@ -41,7 +41,7 @@ class AccountTransferTest extends ValidationNotificationTestSetup{
         def accountTransferDelivery = AccountTransfer.newPaymentDelivery([] as Employee, "bank 1", "111111")
         accountTransferDelivery.setAccount(null)
         assert accountTransferDelivery.account == "111111"
-        assert validationObserver.errors.contains("payroll.account.transfer.delivery.account.mandatory")
+        assert validationObserver.errors.contains("The account is required")
     }
 
     @Test

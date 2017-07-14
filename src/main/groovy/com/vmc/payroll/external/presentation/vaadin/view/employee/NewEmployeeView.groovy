@@ -1,74 +1,58 @@
 package com.vmc.payroll.external.presentation.vaadin.view.employee
 
-import com.vaadin.data.HasValue
-import com.vaadin.ui.*
+import com.vaadin.data.Binder
+import com.vaadin.ui.Button
+import com.vaadin.ui.FormLayout
+import com.vaadin.ui.Notification
+import com.vaadin.ui.VerticalLayout
+import com.vmc.concurrency.ModelSnapshot
+import com.vmc.payroll.Employee
 import com.vmc.payroll.api.EmployeeRepository
-import com.vmc.payroll.external.presentation.vaadin.view.components.DynamicComboBox
-import com.vmc.payroll.payment.delivery.Paymaster
-import com.vmc.payroll.payment.type.Monthly
+import com.vmc.payroll.payment.delivery.api.PaymentDelivery
+import com.vmc.payroll.payment.type.api.PaymentType
+import com.vmc.payroll.unionAssociation.api.UnionAssociation
+import com.vmc.validationNotification.vaadin.BinderDecoratorForValidationNotification
+
+import static com.vaadin.ui.Notification.show
 
 class NewEmployeeView extends VerticalLayout{
-    public static final Class<Monthly> DEFAULT_NEW_EMPLOYEE_PAYMENT_TYPE = Monthly
-    public static final Class<Monthly> DEFAULT_NEW_EMPLOYEE_PAYMENT_DELIVERY = Paymaster
-
     private EmployeeRepository employeeRepository
     private Closure cancelNewEmployee
-    private FormLayout newForm
-    private unionMembershipOption
-    private DynamicComboBox paymentTypeComboBox
-    private DynamicComboBox paymentDeliveryComboBox
+    private BinderDecoratorForValidationNotification binder
+    private ModelSnapshot modelSnapshot
 
-    NewEmployeeView(EmployeeRepository employeeRepository, Closure cancelNewEmployee) {
+    NewEmployeeView(EmployeeRepository employeeRepository, ModelSnapshot modelSnapshot, Closure cancelNewEmployee) {
         this.employeeRepository = employeeRepository
+        this.modelSnapshot = modelSnapshot
         this.cancelNewEmployee = cancelNewEmployee
-        paymentTypeComboBox = new DynamicComboBox("Select a payment type: ", employeeRepository.getAllPaymentTypes(), DEFAULT_NEW_EMPLOYEE_PAYMENT_TYPE)
-        paymentTypeComboBox.comboBox.setItemCaptionGenerator({ it.simpleName })
-        paymentDeliveryComboBox = new DynamicComboBox("Select a payment delivery: ", employeeRepository.getAllPaymentDelivery(), DEFAULT_NEW_EMPLOYEE_PAYMENT_DELIVERY)
-        paymentDeliveryComboBox.comboBox.setItemCaptionGenerator({ it.simpleName })
-        newForm = createNewForm()
-        addComponent(newForm)
+        this.binder = new BinderDecoratorForValidationNotification(new Binder<VaadinEmployeeDTO>(VaadinEmployeeDTO))
+        addComponent(createNewForm())
     }
 
     def createNewForm() {
-        return new FormLayout().with {
-            it.setSizeFull()
-            it.addComponent(new TextField("Name: ").with {it.setRequiredIndicatorVisible(true); it})
-            it.addComponent(new TextField("Address: ").with {it.setRequiredIndicatorVisible(true); it})
-            it.addComponent(new TextField("Email: ").with{ it.setRequiredIndicatorVisible(true); it})
-            paymentTypeComboBox.addMeTo(it)
-            paymentDeliveryComboBox.addMeTo(it)
-            createUnionMemberSection(it)
-            it.addComponent(new Button("Save", {Notification.show("new employee", "to be implemented", Notification.Type.HUMANIZED_MESSAGE)} as Button.ClickListener))
-            it.addComponent(new Button("Cancel", cancelNewEmployee as Button.ClickListener))
-            it
+        return new FormLayout().with {FormLayout form ->
+            form.setSizeFull()
+            form.addComponents(*Employee.myVaadinComponents(binder))
+            form.addComponents(*PaymentType.myVaadinComponents(binder))
+            form.addComponents(*PaymentDelivery.myVaadinComponents(binder))
+            form.addComponents(*UnionAssociation.myVaadinComponents(binder))
+            form.addComponent(new Button("Save", {saveNewEmployee()} as Button.ClickListener))
+            form.addComponent(new Button("Cancel", cancelNewEmployee as Button.ClickListener))
+            form
         }
     }
 
-    def createUnionMemberSection(FormLayout form) {
-        createIsUnionMemberOption(form)
-        createUnionMembershipSection(form)
-    }
+    public void saveNewEmployee() {
+        def employeeDTO = new VaadinEmployeeDTO()
+        binder.writeBean(employeeDTO)
+        binder.validateExecution {
+            employeeDTO.builderForEntity().buildAndDo({
+                                                         employeeRepository.add(it)
+                                                         modelSnapshot.save()
+                                                         cancelNewEmployee.call()
+                                                     },
+                                                     {show("Could not Create a new Employee", Notification.Type.ERROR_MESSAGE)})
 
-    def RadioButtonGroup<String> createIsUnionMemberOption(form) {
-        form.addComponent(new RadioButtonGroup<String>("Is a Union Member").with {
-            it.setItems(["Yes", "No"])
-            it.setValue("No")
-            it.addValueChangeListener({ event -> isUnionMember(event) })
-            it
-        })
-    }
-
-    def createUnionMembershipSection(form) {
-        unionMembershipOption = new TextField("Union Membership Rate: ").with { it.setRequiredIndicatorVisible(true); it }
-        unionMembershipOption.setVisible(false)
-        form.addComponent(unionMembershipOption)
-    }
-
-    def isUnionMember(HasValue.ValueChangeEvent<String> event) {
-        if(event.getValue() == "Yes" && event.getOldValue() == "No"){
-            unionMembershipOption.setVisible(true)
-        }else if(event.getValue() == "No" && event.getOldValue() == "Yes"){
-            unionMembershipOption.setVisible(false)
         }
     }
 }

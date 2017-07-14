@@ -3,10 +3,10 @@ package com.vmc.payroll.payment.type
 import com.vmc.payroll.payment.type.api.GenericPaymentType
 import com.vmc.payroll.payment.workEvent.TimeCard
 import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
-import com.vmc.validationNotification.builder.BuilderAwareness
-import com.vmc.validationNotification.builder.imp.GenericBuilder
+import com.vmc.validationNotification.builder.api.BuilderAwareness
+import com.vmc.validationNotification.builder.GenericBuilder
 
-import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 
 class Hourly extends GenericPaymentType implements BuilderAwareness{
 
@@ -44,6 +44,6 @@ class Hourly extends GenericPaymentType implements BuilderAwareness{
     @Override
     void addPaymentAttachment(PaymentAttachment paymentAttachment) {
         paymentAttachment instanceof TimeCard ? this.@paymentAttachments.add(paymentAttachment) :
-                                                issueError("employee.payment.hourly.time.card.payment.info.only")
+                                                {throw new IllegalArgumentException("Non Time Card payment attachment was provided to a hourly payment type.")}()
     }
 }

@@ -12,7 +12,7 @@ import com.vmc.payroll.payment.workEvent.SalesReceipt
 import com.vmc.payroll.payment.workEvent.ServiceCharge
 import com.vmc.payroll.payment.workEvent.TimeCard
 import com.vmc.payroll.testPreparation.IntegrationTestBase
-import com.vmc.validationNotification.builder.imp.DataSetBuilder
+import com.vmc.validationNotification.builder.DataSetBuilder
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test

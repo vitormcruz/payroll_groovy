@@ -1,7 +1,6 @@
 package com.vmc.validationNotification.builder
 
-import com.vmc.validationNotification.builder.imp.GenericBuilder
-import com.vmc.validationNotification.builder.imp.UsedForbiddenConstructor
+import com.vmc.validationNotification.builder.api.BuilderAwareness
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
 

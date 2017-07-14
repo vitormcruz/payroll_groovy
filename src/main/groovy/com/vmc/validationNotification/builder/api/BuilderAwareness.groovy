@@ -1,4 +1,4 @@
-package com.vmc.validationNotification.builder
+package com.vmc.validationNotification.builder.api
 
 /**
  * Provides functionality that give the objects awareness of it's possible build process and interfere with it by saying some constructor

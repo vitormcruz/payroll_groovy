@@ -3,10 +3,10 @@ package com.vmc.payroll.unionAssociation
 import com.vmc.payroll.payment.workEvent.api.UnionCharge
 import com.vmc.payroll.payment.workEvent.api.WorkEvent
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
-import com.vmc.validationNotification.builder.imp.GenericBuilder
+import com.vmc.validationNotification.builder.GenericBuilder
 
 import static com.google.common.base.Preconditions.checkArgument
-import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 
 class DefaultUnionAssociation implements UnionAssociation{
 
@@ -47,9 +47,9 @@ class DefaultUnionAssociation implements UnionAssociation{
     @Override
     void setRate(Integer newRate) {
         if(newRate == null){
-            issueError("payroll.union.association.rate.required", [property:"rate"])
+            issueError("The union association rate is required for members", [property:"rate"])
         } else if(newRate < 1){
-            issueError("payroll.union.association.rate.mustbe.positive.integer", [property:"rate"])
+            issueError("The rate must be a positive integer", [property:"rate"])
         }else {
             this.@rate = newRate
         }

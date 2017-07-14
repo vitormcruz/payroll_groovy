@@ -1,9 +1,11 @@
 moduleName=sandbox-module
 moduleVersion=1.0
-extensionClasses=com.vmc.concurrency.singleVM.ObjectSnapshotExtensions, \
-  com.vmc.payroll.external.presentation.converter.ObjectJsonConversionExtensions, \
-  com.vmc.payroll.external.presentation.converter.PaymentTypeConverterExtensions, \
-  com.vmc.validationNotification.imp.ObjectValidationNotificationExtensions
-staticExtensionClasses=com.vmc.payroll.external.presentation.vaadin.view.PaymentDeliveryClassViewExtensions, \
-  com.vmc.payroll.external.presentation.vaadin.view.PaymentTypeClassViewExtensions, \
-  com.vmc.payroll.external.presentation.converter.PaymentTypeConverterClassExtensions
+extensionClasses=com.vmc.payroll.external.presentation.converter.ObjectJsonConversionExtensions, \
+                 com.vmc.payroll.external.presentation.converter.PaymentTypeConverterExtensions, \
+                 com.vmc.validationNotification.ObjectValidationNotificationExtensions
+
+staticExtensionClasses=com.vmc.payroll.external.presentation.vaadin.view.payment.PaymentDeliveryClassViewExtensions, \
+                       com.vmc.payroll.external.presentation.vaadin.view.payment.PaymentTypeClassViewExtensions, \
+                       com.vmc.payroll.external.presentation.converter.PaymentTypeConverterClassExtensions, \
+                       com.vmc.payroll.external.presentation.vaadin.view.unionAssociation.UnionAssociationClassViewExtensions, \
+                       com.vmc.payroll.external.presentation.vaadin.view.employee.EmployeeClassViewExtensions

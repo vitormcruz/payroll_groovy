@@ -1,4 +1,6 @@
-package com.vmc.validationNotification.builder.imp
+package com.vmc.validationNotification.builder
+
+import com.vmc.validationNotification.builder.api.BuilderStrategy
 
 class BuilderSuccessStrategy implements BuilderStrategy{
 

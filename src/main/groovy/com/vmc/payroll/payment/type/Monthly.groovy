@@ -2,10 +2,10 @@ package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.payment.type.api.GenericPaymentType
 import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
-import com.vmc.validationNotification.builder.BuilderAwareness
-import com.vmc.validationNotification.builder.imp.GenericBuilder
+import com.vmc.validationNotification.builder.api.BuilderAwareness
+import com.vmc.validationNotification.builder.GenericBuilder
 
-import static com.vmc.validationNotification.imp.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 
 class Monthly extends GenericPaymentType implements BuilderAwareness{
 
