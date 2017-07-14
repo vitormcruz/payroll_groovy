@@ -29,6 +29,7 @@ class Employee implements Entity, BuilderAwareness{
     }
 
     //Should be used by builder only
+    //TODO change payment args to a closure receiving the employee so to create a payment.
     protected Employee(String name, String address, String email, paymentArgs, paymentDeliveryArgs) {
         executeNamedValidation("Validate new Employee", {
             setName(name)

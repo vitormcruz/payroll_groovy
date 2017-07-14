@@ -1,11 +1,10 @@
 package com.vmc.validationNotification.api
 
-import com.google.common.collect.Table
-
+import com.google.common.collect.SetMultimap
 
 interface SimpleValidationObserver extends ValidationObserver{
 
     def getErrors()
-    Table<Object, Object, String> getErrorsByContext()
+    SetMultimap getErrorsByContext()
 
 }

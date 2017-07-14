@@ -1,15 +1,14 @@
 package com.vmc.validationNotification
 
-import com.google.common.collect.HashBasedTable
-import com.google.common.collect.Table
-import com.google.common.collect.Tables
+import com.google.common.collect.*
 import com.vmc.validationNotification.api.SimpleValidationObserver
+import org.apache.commons.lang.ClassUtils
 import org.apache.commons.lang.StringUtils
 
 class SimpleValidationObserverImp implements SimpleValidationObserver{
 
     private Collection errors = []
-    private Table<Object, Object, String> errorsByContext = HashBasedTable.create()
+    private SetMultimap errorsByContext = new HashMultimap<Map.Entry<String, Object>, String>()
     private Map mandatoryObligation = [:]
 
     @Override
@@ -29,13 +28,27 @@ class SimpleValidationObserverImp implements SimpleValidationObserver{
 
     @Override
     void errorIssued(Object subject, Map context, String error) {
-        if(context.isEmpty()){
-            errorsByContext.put("", "", error)
-        }else {
-            context.each {this.@errorsByContext.put(it.key, it.value, error)}
-        }
-
+        errorsByContext.put(Maps.immutableEntry(issuerObjectContextName(), subject), error)
+        addInheritanceChainAsClassContextForError(subject, error)
+        context.each {this.@errorsByContext.put(Maps.immutableEntry(it.key, it.value), error)}
         errors.add(error)
+    }
+
+    public boolean addInheritanceChainAsClassContextForError(subject, String error) {
+        def classes = ClassUtils.getAllSuperclasses(subject.getClass())
+        classes.remove(Object)
+        classes.add(subject.getClass())
+        return classes.each {this.@errorsByContext.put(Maps.immutableEntry(issuerClassContextName(), it), error)}
+
+    }
+
+    //TODO think better way of doing this. Apply to classes properties as well
+    public static String issuerObjectContextName(){
+        return "issuerObject"
+    }
+
+    public static String issuerClassContextName(){
+        return "issuerClass"
     }
 
     @Override
@@ -48,9 +61,10 @@ class SimpleValidationObserverImp implements SimpleValidationObserver{
         return errors.isEmpty()
     }
 
+    //TODO make tests for this
     @Override
-    Table<Object, Object, String> getErrorsByContext() {
-        return Tables.unmodifiableTable(errorsByContext)
+    SetMultimap getErrorsByContext() {
+        return Multimaps.unmodifiableSetMultimap(errorsByContext)
     }
 
     @Override

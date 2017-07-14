@@ -5,6 +5,7 @@ import com.vaadin.annotations.Title
 import com.vaadin.server.VaadinRequest
 import com.vaadin.ui.UI
 import com.vaadin.ui.VerticalLayout
+import com.vmc.concurrency.ModelSnapshot
 import com.vmc.payroll.api.EmployeeRepository
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.external.presentation.vaadin.view.employee.EmployeeView
@@ -14,11 +15,12 @@ import com.vmc.payroll.external.presentation.vaadin.view.employee.EmployeeView
 class PayrollUI extends UI {
 
     private EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository()
+    private ModelSnapshot modelSnapshot = ServiceLocator.instance.modelSnapshot()
 
     protected void init(VaadinRequest request) {
         def mainContent = new VerticalLayout().with {
             it.setMargin(false)
-            def employeeListView = new EmployeeView(employeeRepository)
+            def employeeListView = new EmployeeView(employeeRepository, modelSnapshot)
             it.addComponent(employeeListView)
             it
         }
