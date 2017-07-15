@@ -23,8 +23,8 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
         return new GenericBuilder(getEmployeeClass()).withName("test name")
                                                      .withAddress("test address")
                                                      .withEmail("test email")
-                                                     .withPaimentType(Monthly, 1000)
-                                                     .withPaymentDelivery(Mail, "Street 1")
+                                                     .withPaimentType({Monthly.newPaymentType(it, 1000)})
+                                                     .withPaymentDelivery({Mail.newPaymentDelivery(it, "Street 1")})
                                                      .build()
     }
 
@@ -46,8 +46,8 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
         Employee builtEmployee = EmployeeBuilder.withName("test name")
                                                 .withAddress("test address")
                                                 .withEmail("test email")
-                                                .withPaimentType(Monthly, 1000)
-                                                .withPaymentDelivery(Mail, "Street 1")
+                                                .withPaimentType({Monthly.newPaymentType(it, 1000)})
+                                                .withPaymentDelivery({Mail.newPaymentDelivery(it, "Street 1")})
                                                 .build()
 
         verifyEmployeeWithExpectedData(builtEmployee, "test name", "test address", "test email")
@@ -68,8 +68,8 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
         employeeForChange.setName("test name 2")
         employeeForChange.setEmail("test email 2")
         employeeForChange.setAddress("test address 2")
-        employeeForChange.bePaid(Commission, 1000, 100)
-        employeeForChange.receivePaymentBy(AccountTransfer, "bank 1", "111111")
+        employeeForChange.bePaid({Commission.newPaymentType(it, 1000, 100)})
+        employeeForChange.receivePaymentBy({AccountTransfer.newPaymentDelivery(it, "bank 1", "111111")})
         verifyEmployeeWithExpectedData(employeeForChange, "test name 2", "test address 2", "test email 2")
         assert employeeForChange.getPaymentType().getClass() == Commission
         assert employeeForChange.getPaymentType().getSalary() == 1000

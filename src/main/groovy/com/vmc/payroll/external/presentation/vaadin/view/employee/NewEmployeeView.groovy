@@ -5,7 +5,7 @@ import com.vaadin.ui.Button
 import com.vaadin.ui.FormLayout
 import com.vaadin.ui.Notification
 import com.vaadin.ui.VerticalLayout
-import com.vmc.concurrency.ModelSnapshot
+import com.vmc.concurrency.api.ModelSnapshot
 import com.vmc.payroll.Employee
 import com.vmc.payroll.api.EmployeeRepository
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
