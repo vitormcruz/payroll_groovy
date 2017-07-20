@@ -5,7 +5,6 @@ import com.vmc.validationNotification.testPreparation.ValidationNotificationTest
 import groovy.test.GroovyAssert
 import org.junit.Test
 
-
 class AccountTransferTest extends ValidationNotificationTestSetup{
 
     @Test
@@ -17,14 +16,13 @@ class AccountTransferTest extends ValidationNotificationTestSetup{
     @Test
     void "Bank is mandatory"(){
         def accountTransferDelivery = AccountTransfer.newPaymentDelivery([] as Employee, null, "111111")
-        assert accountTransferDelivery == null
+        accountTransferDelivery.toString()
         assert validationObserver.errors.contains("The bank is required")
     }
 
     @Test
     void "Account is mandatory"(){
         def accountTransferDelivery = AccountTransfer.newPaymentDelivery([] as Employee, "bank 1", null)
-        assert accountTransferDelivery == null
         assert validationObserver.errors.contains("The account is required")
     }
 
@@ -32,7 +30,6 @@ class AccountTransferTest extends ValidationNotificationTestSetup{
     void "Change bank to null"(){
         def accountTransferDelivery = AccountTransfer.newPaymentDelivery([] as Employee, "bank 1", "111111")
         accountTransferDelivery.setBank(null)
-        assert accountTransferDelivery.bank == "bank 1"
         assert validationObserver.errors.contains("The bank is required")
     }
 

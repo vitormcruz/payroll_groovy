@@ -1,28 +1,29 @@
 package com.vmc.payroll.payment.delivery
 
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
-import com.vmc.validationNotification.builder.api.BuilderAwareness
-import com.vmc.validationNotification.builder.GenericBuilder
+import com.vmc.validationNotification.Validate
 
 import static com.google.common.base.Preconditions.checkArgument
 
-class AccountTransfer implements PaymentDelivery, BuilderAwareness{
+class AccountTransfer implements PaymentDelivery{
 
     private employee
     String bank
     String account
 
-    //Should be used by builder only
     static AccountTransfer newPaymentDelivery(employee, String bank, String account){
-        return new GenericBuilder(AccountTransfer).withEmployee(employee).withBank(bank).withAccount(account).build()
+        return Validate.validate {new AccountTransfer(employee, bank, account)}
     }
 
-    protected AccountTransfer() {
-        //Available only for reflection magic
-        invalidForBuilder()
-    }
+    /**
+     * Should be used for reflection magic only
+     */
+    AccountTransfer() {}
 
-    protected AccountTransfer(anEmployee, String aBank, String anAccount) {
+    /**
+     * Use newPaymentDelivery instead, otherwise be careful as you can end up with an invalid object.
+     */
+    AccountTransfer(anEmployee, String aBank, String anAccount) {
         checkArgument(anEmployee != null, "Did you miss passing my employee?")
         this.employee = anEmployee
         setBank(aBank)

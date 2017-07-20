@@ -7,9 +7,9 @@ import org.apache.commons.lang.StringUtils
 
 class SimpleValidationObserverImp implements SimpleValidationObserver{
 
-    private Collection errors = []
-    private SetMultimap errorsByContext = new HashMultimap<Map.Entry<String, Object>, String>()
-    private Map mandatoryObligation = [:]
+    protected Collection errors = []
+    protected SetMultimap errorsByContext = new HashMultimap<Map.Entry<String, Object>, String>()
+    protected Map mandatoryObligation = [:]
 
     @Override
     void validationStarted(String validationName) {
