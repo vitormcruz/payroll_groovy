@@ -30,19 +30,14 @@ class Employee implements Entity, BuilderAwareness{
 
     //Should be used by builder only
     //TODO change payment args to a closure receiving the employee so to create a payment.
-    protected Employee(String name, String address, String email, paymentArgs, paymentDeliveryArgs) {
+    protected Employee(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
         executeNamedValidation("Validate new Employee", {
             setName(name)
             setAddress(address)
             setEmail(email)
-            bePaid(*toSpreadable(paymentArgs))
-            receivePaymentBy(*toSpreadable(paymentDeliveryArgs))
+            bePaid(paymentTypeProvider)
+            receivePaymentBy(paymentDeliveryProvider)
         })
-    }
-
-    def toSpreadable(possibleSpreadable){
-        def spreadable = [possibleSpreadable].flatten()
-        return spreadable
     }
 
     @Override
@@ -70,13 +65,13 @@ class Employee implements Entity, BuilderAwareness{
         return paymentDelivery
     }
 
-    void bePaid(Class<PaymentType> aPaymentTypeClass, ...args){
-        aPaymentTypeClass ? paymentType = aPaymentTypeClass.newPaymentType(this, *args) :
+    void bePaid(paymentTypeProvider){
+        paymentTypeProvider ? paymentType = paymentTypeProvider(this) :
                             issueError("The employee payment type is required", [property:"payment.type"])
     }
 
-    void receivePaymentBy(Class<PaymentDelivery> aPaymentDeliveryClass, ...args){
-        aPaymentDeliveryClass ? paymentDelivery = aPaymentDeliveryClass.newPaymentDelivery(this, *args) :
+    void receivePaymentBy(paymentDeliveryProvider){
+        paymentDeliveryProvider ? paymentDelivery = paymentDeliveryProvider(this) :
             issueError("The employee payment delivery is required", [property:"payment.delivery"])
     }
 

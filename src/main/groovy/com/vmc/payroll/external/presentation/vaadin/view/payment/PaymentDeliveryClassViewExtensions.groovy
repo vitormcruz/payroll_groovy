@@ -59,15 +59,15 @@ class PaymentDeliveryClassViewExtensions {
     }
 
     static fromVaadinDTO(Paymaster paymaster, VaadinEmployeeDTO dto){
-        return [Paymaster]
+        return {Paymaster.newPaymentDelivery(it)}
     }
 
     static fromVaadinDTO(Mail mail, VaadinEmployeeDTO dto){
-        return [Mail, dto.mailAddress]
+        return {Mail.newPaymentDelivery(it, dto.mailAddress)}
     }
 
     static fromVaadinDTO(AccountTransfer accountTransfer, VaadinEmployeeDTO dto){
-        return [AccountTransfer, dto.bank, dto.account]
+        return {AccountTransfer.newPaymentDelivery(it, dto.bank, dto.account)}
     }
 
 }

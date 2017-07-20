@@ -2,10 +2,10 @@ package com.vmc.payroll.external.config
 
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.vmc.concurrency.AtomicBlock
-import com.vmc.concurrency.ModelSnapshot
-import com.vmc.concurrency.inMemory.InMemoryAtomicBlock
-import com.vmc.concurrency.inMemory.InMemoryPersistentModelSnapshot
+import com.vmc.concurrency.api.AtomicBlock
+import com.vmc.concurrency.api.ModelSnapshot
+import com.vmc.concurrency.singleVM.SingleVMAtomicBlock
+import com.vmc.concurrency.singleVM.SingleVMModelSnapshot
 import com.vmc.payroll.Employee
 import com.vmc.payroll.api.EmployeeRepository
 import com.vmc.payroll.api.Repository
@@ -16,8 +16,8 @@ class ServiceLocator {
     private static myself = new ServiceLocator()
 
     private ObjectMapper mapper = new ObjectMapper().configure(MapperFeature.AUTO_DETECT_FIELDS, false)
-    AtomicBlock atomicBlock = new InMemoryAtomicBlock()
-    private ModelSnapshot modelSnapshot = new InMemoryPersistentModelSnapshot(atomicBlock())
+    AtomicBlock atomicBlock = new SingleVMAtomicBlock()
+    private ModelSnapshot modelSnapshot = new SingleVMModelSnapshot(atomicBlock())
     private Repository<Employee> employeeRepository = new InMemoryEmployeeRepository()
 
     protected ServiceLocator(){

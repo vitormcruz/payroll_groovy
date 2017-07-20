@@ -1,4 +1,4 @@
-package com.vmc.concurrency
+package com.vmc.concurrency.api
 
 interface AtomicBlock {
 

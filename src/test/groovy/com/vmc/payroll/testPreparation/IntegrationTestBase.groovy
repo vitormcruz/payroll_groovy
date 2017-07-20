@@ -1,6 +1,6 @@
 package com.vmc.payroll.testPreparation
 
-import com.vmc.concurrency.ModelSnapshot
+import com.vmc.concurrency.api.ModelSnapshot
 import com.vmc.payroll.external.config.DatabaseCleaner
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup

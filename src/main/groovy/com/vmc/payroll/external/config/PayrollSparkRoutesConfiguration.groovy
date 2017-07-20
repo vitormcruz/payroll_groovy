@@ -1,7 +1,7 @@
 package com.vmc.payroll.external.config
 
-import com.vmc.concurrency.inMemory.InMemoryAtomicBlock
-import com.vmc.concurrency.inMemory.InMemoryPersistentModelSnapshot
+import com.vmc.concurrency.singleVM.SingleVMAtomicBlock
+import com.vmc.concurrency.singleVM.SingleVMModelSnapshot
 import com.vmc.payroll.Employee
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepository
 import com.vmc.payroll.external.presentation.webservice.spark.EmployeeWebServiceController
@@ -13,7 +13,7 @@ import static spark.Spark.*
 class PayrollSparkRoutesConfiguration implements SparkApplication {
 
     EmployeeWebServiceController employeeWebServiceController = new EmployeeWebServiceController(new CommonInMemoryRepository<Employee>(),
-                                                                                                 new InMemoryPersistentModelSnapshot(new InMemoryAtomicBlock()))
+                                                                                                 new SingleVMModelSnapshot(new SingleVMAtomicBlock()))
 
     @Override
     void init() {

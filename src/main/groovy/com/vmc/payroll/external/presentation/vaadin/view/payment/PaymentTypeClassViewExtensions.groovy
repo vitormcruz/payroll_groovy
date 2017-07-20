@@ -71,14 +71,14 @@ class PaymentTypeClassViewExtensions {
     }
 
     static fromVaadinDTO(Monthly monthly, VaadinEmployeeDTO dto){
-        return [Monthly, dto.salary]
+        return {Monthly.newPaymentType(it, dto.salary)}
     }
 
     static fromVaadinDTO(Hourly hourly, VaadinEmployeeDTO dto){
-        return [Hourly, dto.hourRate]
+        return {Hourly.newPaymentType(it, dto.hourRate)}
     }
 
     static fromVaadinDTO(Commission commission, VaadinEmployeeDTO dto){
-        return [Commission, dto.salary, dto.commissionRate]
+        return {Commission.newPaymentType(it, dto.salary, dto.commissionRate)}
     }
 }

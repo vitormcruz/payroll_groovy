@@ -1,14 +1,14 @@
-package com.vmc.concurrency.inMemory
+package com.vmc.concurrency.singleVM
 
-import com.vmc.concurrency.AtomicBlock
-import com.vmc.concurrency.ModelSnapshot
+import com.vmc.concurrency.api.AtomicBlock
+import com.vmc.concurrency.api.ModelSnapshot
 
-class InMemoryPersistentModelSnapshot implements ModelSnapshot{
+class SingleVMModelSnapshot implements ModelSnapshot{
 
     private AtomicBlock atomicBlock
     private modelObjects = []
 
-    InMemoryPersistentModelSnapshot(AtomicBlock atomicBlock) {
+    SingleVMModelSnapshot(AtomicBlock atomicBlock) {
         this.atomicBlock = atomicBlock
     }
 

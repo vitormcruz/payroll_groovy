@@ -1,7 +1,7 @@
 package com.vmc.payroll.external.config
 
 import com.vaadin.server.VaadinServlet
-import com.vmc.concurrency.ModelSnapshot
+import com.vmc.concurrency.api.ModelSnapshot
 import com.vmc.payroll.Employee
 import com.vmc.payroll.api.EmployeeRepository
 import com.vmc.payroll.payment.delivery.Mail
@@ -34,10 +34,14 @@ class PayrollJettyApplication {
 
 
         employeeRepository.add(new GenericBuilder(Employee).withName("Sofia").withAddress("Street 1").withEmail("sofia@bla.com")
-                                    .withPaimentType(Monthly, 2000).withPaymentDelivery(Mail, "Street 1").build())
+                                    .withPaimentType({Monthly.newPaymentType(it, 2000)})
+                                    .withPaymentDelivery({Mail.newPaymentDelivery(it, "Street 1")})
+                                    .build())
 
         employeeRepository.add(new GenericBuilder(Employee).withName("Heloísa").withAddress("Street 1").withEmail("heloisa@bla.com")
-                                    .withPaimentType(Monthly, 2000).withPaymentDelivery(Mail, "Street 1").build())
+                                    .withPaimentType({Monthly.newPaymentType(it, 2000)})
+                                    .withPaymentDelivery({Mail.newPaymentDelivery(it, "Street 1")})
+                                    .build())
 
         modelSnapshot.save()
 
