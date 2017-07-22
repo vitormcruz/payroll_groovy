@@ -1,24 +1,33 @@
 package com.vmc.payroll.unionAssociation
 
-import com.vmc.payroll.payment.paymentAttachment.api.UnionCharge
 import com.vmc.payroll.payment.paymentAttachment.api.PaymentAttachment
+import com.vmc.payroll.payment.paymentAttachment.api.UnionCharge
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
-import com.vmc.validationNotification.builder.GenericBuilder
 
 import static com.google.common.base.Preconditions.checkArgument
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.Validate.validate
 
-class DefaultUnionAssociation implements UnionAssociation{
+class BasicUnionAssociation implements UnionAssociation{
 
     private Integer rate
     private employee
     private charges = []
 
-    static DefaultUnionAssociation newUnionAssociation(employee, Integer aRate){
-        return new GenericBuilder(DefaultUnionAssociation).withEmployee(employee).withRate(aRate).build()
+    static BasicUnionAssociation newUnionAssociation(employee, Integer aRate){
+        return validate { new BasicUnionAssociation(employee, aRate)}
     }
 
-    protected DefaultUnionAssociation(anEmployee, Integer aRate) {
+    /**
+     * Should be used for reflection magic only
+     */
+    BasicUnionAssociation() {
+    }
+
+    /**
+     * Use newUnionAssociation instead, otherwise be careful as you can end up with an invalid object.
+     */
+    BasicUnionAssociation(anEmployee, Integer aRate) {
         checkArgument(anEmployee != null, "An Employee should be provided to a Default Union Association")
         this.employee = anEmployee
         this.employee.registerAsPaymentAttachmentHandler(this)

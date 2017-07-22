@@ -4,7 +4,7 @@ import com.vmc.payroll.api.Entity
 import com.vmc.payroll.payment.paymentAttachment.api.PaymentAttachment
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.payroll.payment.type.api.PaymentType
-import com.vmc.payroll.unionAssociation.DefaultUnionAssociation
+import com.vmc.payroll.unionAssociation.BasicUnionAssociation
 import com.vmc.payroll.unionAssociation.NoUnionAssociation
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
 import com.vmc.validationNotification.builder.api.BuilderAwareness
@@ -88,7 +88,7 @@ class Employee implements Entity, BuilderAwareness{
     }
 
     void beUnionMember(Integer rate) {
-        unionAssociation = DefaultUnionAssociation.newUnionAssociation(this, rate)
+        unionAssociation = BasicUnionAssociation.newUnionAssociation(this, rate)
     }
 
     UnionAssociation getUnionAssociation() {

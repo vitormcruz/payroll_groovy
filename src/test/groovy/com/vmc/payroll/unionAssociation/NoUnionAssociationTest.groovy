@@ -14,6 +14,6 @@ class NoUnionAssociationTest {
     @Test
     void "Create a NoUnionAssociation fails"(){
         def ex = shouldFail(UnsupportedOperationException, {new NoUnionAssociation()})
-        assert ex.message == "I am a singleton, please get my instance throught the getInstance method."
+        assert ex.message == "I am a singleton, please get my instance thought the getInstance method."
     }
 }
