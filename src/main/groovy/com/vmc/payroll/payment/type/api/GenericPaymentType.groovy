@@ -16,7 +16,7 @@ abstract class GenericPaymentType implements PaymentType{
     GenericPaymentType(anEmployee){
         checkArgument(anEmployee != null, "Employee must be provided for payment types, but I got it null")
         this.employee = anEmployee
-        anEmployee.registerAsWorkEventHandler(this)
+        anEmployee.registerAsPaymentAttachmentHandler(this)
     }
 
     @Override

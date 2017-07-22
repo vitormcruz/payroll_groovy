@@ -13,7 +13,7 @@ interface UnionAssociation {
 
     Boolean isUnionMember()
 
-    void postPaymentAttachment(PaymentAttachment workEvent)
+    void postPaymentAttachment(PaymentAttachment paymentAttachment)
 
     Collection<UnionCharge> getCharges()
 }

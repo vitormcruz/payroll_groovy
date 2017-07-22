@@ -10,7 +10,7 @@ interface PaymentType {
     /**
      * Post an work event
      */
-    void postPaymentAttachment(PaymentAttachment workEvent)
+    void postPaymentAttachment(PaymentAttachment paymentAttachment)
 
     Set<WorkDoneProof> getPaymentAttachments()
 }

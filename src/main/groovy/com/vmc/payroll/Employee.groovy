@@ -21,7 +21,7 @@ class Employee implements Entity, BuilderAwareness{
     private PaymentType paymentType
     private PaymentDelivery paymentDelivery
     private UnionAssociation unionAssociation = NoUnionAssociation.getInstance()
-    private workEventHandlers = []
+    private paymentAttachmentHandlers = []
 
     private Employee() {
         //Available only for reflection magic
@@ -75,12 +75,12 @@ class Employee implements Entity, BuilderAwareness{
             issueError("The employee payment delivery is required", [property:"payment.delivery"])
     }
 
-    void postPaymentAttachment(PaymentAttachment workEvent){
-        workEventHandlers.each {it.postPaymentAttachment(workEvent)}
+    void postPaymentAttachment(PaymentAttachment paymentAttachment){
+        paymentAttachmentHandlers.each {it.postPaymentAttachment(paymentAttachment)}
     }
 
-    void registerAsWorkEventHandler(handler) {
-        workEventHandlers.add(handler)
+    void registerAsPaymentAttachmentHandler(handler) {
+        paymentAttachmentHandlers.add(handler)
     }
 
     def getPaymentAttachments(){

@@ -21,16 +21,16 @@ class DefaultUnionAssociation implements UnionAssociation{
     protected DefaultUnionAssociation(anEmployee, Integer aRate) {
         checkArgument(anEmployee != null, "An Employee should be provided to a Default Union Association")
         this.employee = anEmployee
-        this.employee.registerAsWorkEventHandler(this)
+        this.employee.registerAsPaymentAttachmentHandler(this)
         executeNamedValidation("Validate new ServiceCharge", {
             setRate(aRate)
         })
     }
 
     @Override
-    void postPaymentAttachment(PaymentAttachment workEvent) {
-        if(workEvent instanceof UnionCharge){
-            charges.add(workEvent)
+    void postPaymentAttachment(PaymentAttachment paymentAttachment) {
+        if(paymentAttachment instanceof UnionCharge){
+            charges.add(paymentAttachment)
         }
     }
 

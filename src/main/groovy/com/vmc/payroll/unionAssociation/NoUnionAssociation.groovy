@@ -42,7 +42,7 @@ class NoUnionAssociation implements UnionAssociation{
     }
 
     @Override
-    void postPaymentAttachment(PaymentAttachment workEvent) {
+    void postPaymentAttachment(PaymentAttachment paymentAttachment) {
         throw new UnsupportedOperationException("This employee don't have a union association, you cannot post a work event to it")
     }
 
