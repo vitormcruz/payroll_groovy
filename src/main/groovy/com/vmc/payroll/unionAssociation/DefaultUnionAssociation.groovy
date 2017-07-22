@@ -14,6 +14,10 @@ class DefaultUnionAssociation implements UnionAssociation{
     private employee
     private charges = []
 
+    static DefaultUnionAssociation newUnionAssociation(employee, Integer aRate){
+        return new GenericBuilder(DefaultUnionAssociation).withEmployee(employee).withRate(aRate).build()
+    }
+
     protected DefaultUnionAssociation(anEmployee, Integer aRate) {
         checkArgument(anEmployee != null, "An Employee should be provided to a Default Union Association")
         this.employee = anEmployee
@@ -21,10 +25,6 @@ class DefaultUnionAssociation implements UnionAssociation{
         executeNamedValidation("Validate new ServiceCharge", {
             setRate(aRate)
         })
-    }
-
-    static DefaultUnionAssociation newUnionAssociation(employee, Integer aRate){
-        return new GenericBuilder(DefaultUnionAssociation).withEmployee(employee).withRate(aRate).build()
     }
 
     @Override

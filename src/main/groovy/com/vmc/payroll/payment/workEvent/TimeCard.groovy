@@ -1,32 +1,33 @@
 package com.vmc.payroll.payment.workEvent
 
-import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
-import com.vmc.validationNotification.builder.api.BuilderAwareness
-import com.vmc.validationNotification.builder.GenericBuilder
+import com.vmc.payroll.payment.workEvent.api.WorkDoneProof
+import com.vmc.validationNotification.Validate
 import org.joda.time.DateTime
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 
-class TimeCard implements PaymentAttachment, BuilderAwareness{
+class TimeCard implements WorkDoneProof{
 
     private DateTime date
     private Integer hours
 
-    private TimeCard() {
-        //Available only for reflection magic
-        invalidForBuilder()
+    static TimeCard newTimeCard(DateTime date, Integer hours){
+        return Validate.validate {new TimeCard(date, hours)}
     }
 
-    //Should be used by builder only
-    protected TimeCard(DateTime date, Integer hours) {
+    /**
+     * Should be used for reflection magic only
+     */
+    TimeCard() {}
+
+    /**
+     * Use newTimeCard instead, otherwise be careful as you can end up with an invalid object.
+     */
+    TimeCard(DateTime date, Integer hours) {
         executeNamedValidation("Validate new TimeCard", {
             date != null ? this.@date = date : issueError("payroll.timecard.date.required", [property:"date"])
             hours != null ? this.@hours = hours : issueError("payroll.timecard.hours.required", [property:"hours"])
         })
-    }
-
-    static TimeCard newTimeCard(DateTime date, Integer hours){
-        return new GenericBuilder(TimeCard).withDate(date).withHours(hours).build()
     }
 
     DateTime getDate() {

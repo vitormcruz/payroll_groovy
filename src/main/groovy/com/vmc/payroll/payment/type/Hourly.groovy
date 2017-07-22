@@ -2,7 +2,7 @@ package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.payment.type.api.GenericPaymentType
 import com.vmc.payroll.payment.workEvent.TimeCard
-import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
+import com.vmc.payroll.payment.workEvent.api.WorkDoneProof
 import com.vmc.validationNotification.builder.api.BuilderAwareness
 import com.vmc.validationNotification.builder.GenericBuilder
 
@@ -42,7 +42,7 @@ class Hourly extends GenericPaymentType implements BuilderAwareness{
     }
 
     @Override
-    void addPaymentAttachment(PaymentAttachment paymentAttachment) {
+    void addPaymentAttachment(WorkDoneProof paymentAttachment) {
         paymentAttachment instanceof TimeCard ? this.@paymentAttachments.add(paymentAttachment) :
                                                 {throw new IllegalArgumentException("Non Time Card payment attachment was provided to a hourly payment type.")}()
     }

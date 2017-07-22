@@ -1,7 +1,7 @@
 package com.vmc.payroll.unionAssociation
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
+import com.vmc.payroll.payment.workEvent.api.WorkDoneProof
 import com.vmc.payroll.payment.workEvent.api.UnionCharge
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
@@ -58,7 +58,7 @@ class DefaultUnionAssociationUnitTest extends ValidationNotificationTestSetup{
     @Test
     void "Adding a non work event attachment"(){
         def unionAssociation = DefaultUnionAssociation.newUnionAssociation([] as Employee, 10)
-        def nonUnionCharge = [] as PaymentAttachment
+        def nonUnionCharge = [] as WorkDoneProof
         unionAssociation.postWorkEvent(nonUnionCharge)
         assert !unionAssociation.getCharges().contains(nonUnionCharge)
     }

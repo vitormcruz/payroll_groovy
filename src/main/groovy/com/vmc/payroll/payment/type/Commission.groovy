@@ -1,7 +1,7 @@
 package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.payment.workEvent.SalesReceipt
-import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
+import com.vmc.payroll.payment.workEvent.api.WorkDoneProof
 import com.vmc.validationNotification.builder.GenericBuilder
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
@@ -36,7 +36,7 @@ class Commission extends Monthly{
     }
 
     @Override
-    void addPaymentAttachment(PaymentAttachment paymentAttachment) {
+    void addPaymentAttachment(WorkDoneProof paymentAttachment) {
         paymentAttachment instanceof SalesReceipt ? this.@paymentAttachments.add(paymentAttachment):
                                                     {throw new IllegalArgumentException("Non Sales Receipt payment attachment was provided to a commission payment type.")}()
     }

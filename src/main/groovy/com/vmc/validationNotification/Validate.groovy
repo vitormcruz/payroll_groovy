@@ -8,8 +8,8 @@ class Validate extends SimpleValidationObserverImp {
     protected ValidationResult validationResult = new ValidationSuccess()
     protected executionResult
 
-    static validate(Closure aClusureToValidate) {
-        return new Validate(aClusureToValidate).getResult()
+    static <R> R validate(Closure<R> aClusureToValidate) {
+        return (R) new Validate(aClusureToValidate).getResult()
     }
 
     Validate(Closure aClosureToValidate) {

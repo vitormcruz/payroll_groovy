@@ -1,7 +1,7 @@
 package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.payment.type.api.GenericPaymentType
-import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
+import com.vmc.payroll.payment.workEvent.api.WorkDoneProof
 import com.vmc.validationNotification.builder.api.BuilderAwareness
 import com.vmc.validationNotification.builder.GenericBuilder
 
@@ -41,7 +41,7 @@ class Monthly extends GenericPaymentType implements BuilderAwareness{
     }
 
     @Override
-    void addPaymentAttachment(PaymentAttachment paymentAttachment) {
+    void addPaymentAttachment(WorkDoneProof paymentAttachment) {
         throw new UnsupportedOperationException("Monthly payment does not have payment attachments")
     }
 }
