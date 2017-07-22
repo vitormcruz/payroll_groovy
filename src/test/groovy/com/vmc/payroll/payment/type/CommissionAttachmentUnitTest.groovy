@@ -14,14 +14,14 @@ class CommissionAttachmentUnitTest extends ValidationNotificationTestSetup{
     void "Add a sales recipt to a Commission payment type"(){
         def expectedTimeCard = [] as SalesReceipt
         def commission = Commission.newPaymentType([] as Employee, 1, 1)
-        commission.postWorkEvent(expectedTimeCard)
+        commission.postPaymentAttachment(expectedTimeCard)
         assert commission.getPaymentAttachments().contains(expectedTimeCard)
     }
 
     @Test
     void "Add another payment attachment to a Commission payment type"(){
         def commission = Commission.newPaymentType([] as Employee, 1, 1)
-        def error = shouldFail(IllegalArgumentException, { commission.postWorkEvent([] as TimeCard) })
+        def error = shouldFail(IllegalArgumentException, { commission.postPaymentAttachment([] as TimeCard) })
         assert commission.getPaymentAttachments().isEmpty()
         assert error.message == "Non Sales Receipt payment attachment was provided to a commission payment type."
     }

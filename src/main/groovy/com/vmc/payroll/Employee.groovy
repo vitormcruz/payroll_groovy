@@ -1,7 +1,7 @@
 package com.vmc.payroll
 
 import com.vmc.payroll.api.Entity
-import com.vmc.payroll.payment.workEvent.api.WorkEvent
+import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.payroll.payment.type.api.PaymentType
 import com.vmc.payroll.unionAssociation.DefaultUnionAssociation
@@ -75,8 +75,8 @@ class Employee implements Entity, BuilderAwareness{
             issueError("The employee payment delivery is required", [property:"payment.delivery"])
     }
 
-    void postWorkEvent(WorkEvent workEvent){
-        workEventHandlers.each {it.postWorkEvent(workEvent)}
+    void postPaymentAttachment(PaymentAttachment workEvent){
+        workEventHandlers.each {it.postPaymentAttachment(workEvent)}
     }
 
     void registerAsWorkEventHandler(handler) {

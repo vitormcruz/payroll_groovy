@@ -1,7 +1,7 @@
 package com.vmc.payroll.unionAssociation
 
 import com.vmc.payroll.payment.workEvent.api.UnionCharge
-import com.vmc.payroll.payment.workEvent.api.WorkEvent
+import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
 import com.vmc.validationNotification.builder.GenericBuilder
 
@@ -28,7 +28,7 @@ class DefaultUnionAssociation implements UnionAssociation{
     }
 
     @Override
-    void postWorkEvent(WorkEvent workEvent) {
+    void postPaymentAttachment(PaymentAttachment workEvent) {
         if(workEvent instanceof UnionCharge){
             charges.add(workEvent)
         }

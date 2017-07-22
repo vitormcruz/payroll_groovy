@@ -143,7 +143,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     void "Post a time card"(){
         def expectedDate = new DateTime()
         def expectedTimeCard = TimeCard.newTimeCard(expectedDate, 6)
-        employeeUnion5.postWorkEvent(expectedTimeCard)
+        employeeUnion5.postPaymentAttachment(expectedTimeCard)
         employeeRepository.update(employeeUnion5)
         model.save()
         def employeeChanged = employeeRepository.get(employeeUnion5.id)
@@ -156,7 +156,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     void "Post a sales receipt"(){
         def expectedDate = new DateTime()
         def expectedSalesReceipt = SalesReceipt.newSalesReceipt(expectedDate, 200)
-        employee2.postWorkEvent(expectedSalesReceipt)
+        employee2.postPaymentAttachment(expectedSalesReceipt)
         employeeRepository.update(employee2)
         model.save()
         def employeeChanged = employeeRepository.get(employee2.id)
@@ -169,7 +169,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     void "Post an Union charge"(){
         def expectedDate = new DateTime()
         def expectedServiceCharge = ServiceCharge.newServiceCharge(expectedDate, 5)
-        employeeUnion5.postWorkEvent(expectedServiceCharge)
+        employeeUnion5.postPaymentAttachment(expectedServiceCharge)
         employeeRepository.update(employeeUnion5)
         model.save()
         def employeeChanged = employeeRepository.get(employeeUnion5.id)
@@ -181,7 +181,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     @Test
     void "Post attachment to monthly paid employee"(){
         def e = shouldFail UnsupportedOperationException,
-                           {employee1.postWorkEvent(SalesReceipt.newSalesReceipt(new DateTime(), 200))}
+                           {employee1.postPaymentAttachment(SalesReceipt.newSalesReceipt(new DateTime(), 200))}
 
         assert e.getMessage() == "Monthly payment does not have payment attachments"
     }

@@ -1,7 +1,7 @@
 package com.vmc.payroll.payment.type.api
 
 import com.vmc.payroll.payment.workEvent.api.WorkDoneProof
-import com.vmc.payroll.payment.workEvent.api.WorkEvent
+import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 
 import static com.google.common.base.Preconditions.checkArgument
 
@@ -25,9 +25,9 @@ abstract class GenericPaymentType implements PaymentType{
     }
 
     @Override
-    void postWorkEvent(WorkEvent workEvent) {
-        if(workEvent instanceof WorkDoneProof){
-            addPaymentAttachment(workEvent)
+    void postPaymentAttachment(PaymentAttachment paymentAttachment) {
+        if(paymentAttachment instanceof WorkDoneProof){
+            addPaymentAttachment(paymentAttachment)
         }
     }
 

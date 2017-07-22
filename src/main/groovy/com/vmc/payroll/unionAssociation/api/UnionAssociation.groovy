@@ -1,7 +1,7 @@
 package com.vmc.payroll.unionAssociation.api
 
 import com.vmc.payroll.payment.workEvent.api.UnionCharge
-import com.vmc.payroll.payment.workEvent.api.WorkEvent
+import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 
 interface UnionAssociation {
 
@@ -13,7 +13,7 @@ interface UnionAssociation {
 
     Boolean isUnionMember()
 
-    void postWorkEvent(WorkEvent workEvent)
+    void postPaymentAttachment(PaymentAttachment workEvent)
 
     Collection<UnionCharge> getCharges()
 }

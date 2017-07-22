@@ -1,7 +1,7 @@
 package com.vmc.payroll.unionAssociation
 
 import com.vmc.payroll.payment.workEvent.api.UnionCharge
-import com.vmc.payroll.payment.workEvent.api.WorkEvent
+import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
 /**
  * I am used when there is no union membership. I am, therefore, a singleton Null Object for UnionAssociation interface, and my instance should
@@ -42,7 +42,7 @@ class NoUnionAssociation implements UnionAssociation{
     }
 
     @Override
-    void postWorkEvent(WorkEvent workEvent) {
+    void postPaymentAttachment(PaymentAttachment workEvent) {
         throw new UnsupportedOperationException("This employee don't have a union association, you cannot post a work event to it")
     }
 

@@ -1,7 +1,7 @@
 package com.vmc.payroll.payment.type.api
 
 import com.vmc.payroll.payment.workEvent.api.WorkDoneProof
-import com.vmc.payroll.payment.workEvent.api.WorkEvent
+import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
 
 interface PaymentType {
 
@@ -10,7 +10,7 @@ interface PaymentType {
     /**
      * Post an work event
      */
-    void postWorkEvent(WorkEvent workEvent)
+    void postPaymentAttachment(PaymentAttachment workEvent)
 
     Set<WorkDoneProof> getPaymentAttachments()
 }

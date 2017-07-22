@@ -1,13 +1,12 @@
 package com.vmc.payroll.payment.workEvent
 
 import com.vmc.payroll.payment.workEvent.api.UnionCharge
-import com.vmc.validationNotification.builder.api.BuilderAwareness
 import org.joda.time.DateTime
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 import static com.vmc.validationNotification.Validate.validate
 
-class ServiceCharge implements UnionCharge, BuilderAwareness{
+class ServiceCharge implements UnionCharge{
 
     private DateTime date
     private amount

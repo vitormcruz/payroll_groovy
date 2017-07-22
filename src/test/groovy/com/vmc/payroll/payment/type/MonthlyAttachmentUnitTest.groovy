@@ -10,7 +10,7 @@ class MonthlyAttachmentUnitTest extends ValidationNotificationTestSetup{
 
     @Test
     void "Add a payment attachment to a Monthly payment type"(){
-        def ex = GroovyAssert.shouldFail {Monthly.newPaymentType([] as Employee,1).postWorkEvent({} as WorkDoneProof)}
+        def ex = GroovyAssert.shouldFail {Monthly.newPaymentType([] as Employee,1).postPaymentAttachment({} as WorkDoneProof)}
         assert ex.message == "Monthly payment does not have payment attachments"
     }
 

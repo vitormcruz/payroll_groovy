@@ -51,7 +51,7 @@ class DefaultUnionAssociationUnitTest extends ValidationNotificationTestSetup{
     void "Adding an Union Charge"(){
         def unionAssociation = DefaultUnionAssociation.newUnionAssociation([] as Employee, 10)
         def unionChargeExpected = [] as UnionCharge
-        unionAssociation.postWorkEvent(unionChargeExpected)
+        unionAssociation.postPaymentAttachment(unionChargeExpected)
         assert unionAssociation.getCharges().contains(unionChargeExpected)
     }
 
@@ -59,7 +59,7 @@ class DefaultUnionAssociationUnitTest extends ValidationNotificationTestSetup{
     void "Adding a non work event attachment"(){
         def unionAssociation = DefaultUnionAssociation.newUnionAssociation([] as Employee, 10)
         def nonUnionCharge = [] as WorkDoneProof
-        unionAssociation.postWorkEvent(nonUnionCharge)
+        unionAssociation.postPaymentAttachment(nonUnionCharge)
         assert !unionAssociation.getCharges().contains(nonUnionCharge)
     }
 

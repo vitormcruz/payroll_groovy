@@ -25,7 +25,7 @@ class GenericPaymentTypeTest {
     void "Adding a payment attachment"(){
         def paymentType = new GenericPaymentTypeForTest([] as Employee)
         def paymentAttachmentExpected = [] as WorkDoneProof
-        paymentType.postWorkEvent(paymentAttachmentExpected)
+        paymentType.postPaymentAttachment(paymentAttachmentExpected)
         assert paymentType.getPaymentAttachments().contains(paymentAttachmentExpected)
     }
 
@@ -33,7 +33,7 @@ class GenericPaymentTypeTest {
     void "Adding a non payment attachment"(){
         def paymentType = new GenericPaymentTypeForTest([] as Employee)
         def nonPaymentAttachment = [] as UnionCharge
-        paymentType.postWorkEvent(nonPaymentAttachment)
+        paymentType.postPaymentAttachment(nonPaymentAttachment)
         assert !paymentType.getPaymentAttachments().contains(nonPaymentAttachment)
     }
 
