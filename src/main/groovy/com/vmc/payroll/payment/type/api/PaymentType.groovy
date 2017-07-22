@@ -7,9 +7,6 @@ interface PaymentType {
 
     def getEmployee()
 
-    /**
-     * Post an work event
-     */
     void postPaymentAttachment(PaymentAttachment paymentAttachment)
 
     Set<WorkDoneProof> getPaymentAttachments()

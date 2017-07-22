@@ -1,28 +1,28 @@
 package com.vmc.payroll.payment.type
 
-import com.vmc.payroll.payment.type.api.GenericPaymentType
 import com.vmc.payroll.payment.paymentAttachment.TimeCard
 import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
-import com.vmc.validationNotification.builder.api.BuilderAwareness
-import com.vmc.validationNotification.builder.GenericBuilder
+import com.vmc.payroll.payment.type.api.GenericPaymentType
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.Validate.validate
 
-class Hourly extends GenericPaymentType implements BuilderAwareness{
+class Hourly extends GenericPaymentType {
 
     Integer hourRate
 
     static Hourly newPaymentType(employee, Integer hourRate) {
-        return new GenericBuilder(Hourly).withEmployee(employee).withHourRate(hourRate).build()
+        return validate {new Hourly(employee, hourRate)}
     }
 
-    //Should be used by builder only
-    private Hourly() {
-        super()
-        //Available only for reflection magic
-        invalidForBuilder()
-    }
+    /**
+     * Should be used for reflection magic only
+     */
+    Hourly() {}
 
+    /**
+     * Use newPaymentType instead, otherwise be careful as you can end up with an invalid object.
+     */
     protected Hourly(employee, Integer aHourRate) {
         super(employee)
         executeNamedValidation("Validate new Hourly Payment", {

@@ -2,21 +2,26 @@ package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.payment.paymentAttachment.SalesReceipt
 import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
-import com.vmc.validationNotification.builder.GenericBuilder
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.Validate.validate
 
 class Commission extends Monthly{
 
     Integer commissionRate
 
     static Commission newPaymentType(employee, Integer salary, Integer commissionRate) {
-        return new GenericBuilder(Commission).withEmployee(employee).withSalary(salary).withCommissionRate(commissionRate).build()
+        return validate {new Commission(employee, salary, commissionRate)}
     }
 
-    //Should be used by builder only
-    protected Commission() {    }
+    /**
+     * Should be used for reflection magic only
+     */
+    protected Commission() {}
 
+    /**
+     * Use newPaymentType instead, otherwise be careful as you can end up with an invalid object.
+     */
     protected Commission(employee, Integer aSalary, Integer aCommissionRate) {
         super(employee, aSalary)
         executeNamedValidation("Validate new Hourly Payment", {
@@ -38,6 +43,8 @@ class Commission extends Monthly{
     @Override
     void addPaymentAttachment(WorkDoneProof paymentAttachment) {
         paymentAttachment instanceof SalesReceipt ? this.@paymentAttachments.add(paymentAttachment):
-                                                    {throw new IllegalArgumentException("Non Sales Receipt payment attachment was provided to a commission payment type.")}()
+                                                    {throw new IllegalArgumentException("Non Sales Receipt payment " +
+                                                                                        "attachment was provided to a " +
+                                                                                        "commission payment type.")}()
     }
 }

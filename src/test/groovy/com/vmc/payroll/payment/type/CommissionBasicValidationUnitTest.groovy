@@ -14,19 +14,19 @@ class CommissionBasicValidationUnitTest extends MonthlyBasicValidationUnitTest{
 
     @Test
     void "Validate negative Commission Rate"(){
-        assert getCommissionPaymentTypeWith(1, -1) == null
+        getCommissionPaymentTypeWith(1, -1)
         assert validationObserver.errors.contains("The commission rate must be a positive integer")
     }
 
     @Test
     void "Validate zero Commission Rate"(){
-        assert getCommissionPaymentTypeWith(1, 0) == null
+        getCommissionPaymentTypeWith(1, 0)
         assert validationObserver.errors.contains("The commission rate must be a positive integer")
     }
 
     @Test
     void "Provide null to the Commission Rate"(){
-        assert getCommissionPaymentTypeWith(1, null) == null
+        getCommissionPaymentTypeWith(1, null)
         assert validationObserver.getErrors().contains("The commission rate is required")
     }
 

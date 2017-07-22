@@ -12,26 +12,25 @@ class MonthlyBasicValidationUnitTest extends ValidationNotificationTestSetup{
     @Test
     void "Validate positive Salary"(){
         def monthlySalary = getMonthlyPaymentTypeWith(VALID_SALARY)
-        assert monthlySalary != null
         assert monthlySalary.getSalary() == VALID_SALARY
         assert validationObserver.successful() : "${validationObserver.getCommaSeparatedErrors()}"
     }
 
     @Test
     void "Validate negative Salary"(){
-        assert getMonthlyPaymentTypeWith(-1) == null
+        getMonthlyPaymentTypeWith(-1)
         assert validationObserver.errors.contains("payroll.employee.monthlypayment.salary.mustbe.positive.integer")
     }
 
     @Test
     void "Validate zero Salary"(){
-        assert getMonthlyPaymentTypeWith(0) == null
+        getMonthlyPaymentTypeWith(0)
         assert validationObserver.errors.contains("payroll.employee.monthlypayment.salary.mustbe.positive.integer")
     }
 
     @Test
     void "Provide null to the salary"(){
-        assert getMonthlyPaymentTypeWith(null) == null
+        getMonthlyPaymentTypeWith(null)
         assert validationObserver.getErrors().contains("payroll.employee.monthlypayment.salary.mandatory")
     }
 

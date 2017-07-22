@@ -6,7 +6,6 @@ import org.junit.Test
 
 class HourlyBasicValidationUnitTest extends ValidationNotificationTestSetup{
 
-
     public static final int VALID_HOUR_RATE = 3
 
     @Test
@@ -18,19 +17,19 @@ class HourlyBasicValidationUnitTest extends ValidationNotificationTestSetup{
 
     @Test
     void "Validate negative Hour Rate"(){
-        assert getHourlyWith(-1) == null
+        getHourlyWith(-1)
         assert validationObserver.errors.contains("payroll.employee.hourlypayment.hourRate.mustbe.positive.integer")
     }
 
     @Test
     void "Validate zero Hour Rate"(){
-        assert getHourlyWith(0) == null
+        getHourlyWith(0)
         assert validationObserver.errors.contains("payroll.employee.hourlypayment.hourRate.mustbe.positive.integer")
     }
 
     @Test
     void "Provide null to the Hour Rate"(){
-        assert getHourlyWith(null) == null
+        getHourlyWith(null)
         assert validationObserver.getErrors().contains("payroll.employee.hourlypayment.hourRate.mandatory")
     }
 

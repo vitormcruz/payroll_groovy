@@ -11,7 +11,7 @@ abstract class GenericPaymentType implements PaymentType{
 
     protected Set<WorkDoneProof> paymentAttachments = new HashSet<WorkDoneProof>()
 
-    private GenericPaymentType() {}
+    GenericPaymentType() {}
 
     GenericPaymentType(anEmployee){
         checkArgument(anEmployee != null, "Employee must be provided for payment types, but I got it null")

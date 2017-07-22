@@ -1,27 +1,27 @@
 package com.vmc.payroll.payment.type
 
-import com.vmc.payroll.payment.type.api.GenericPaymentType
 import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
-import com.vmc.validationNotification.builder.api.BuilderAwareness
-import com.vmc.validationNotification.builder.GenericBuilder
+import com.vmc.payroll.payment.type.api.GenericPaymentType
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.Validate.validate
 
-class Monthly extends GenericPaymentType implements BuilderAwareness{
+class Monthly extends GenericPaymentType {
 
     Integer salary
 
     static Monthly newPaymentType(employee, Integer salary){
-        return new GenericBuilder(Monthly).withEmployee(employee).withSalary(salary).build()
+        return validate {new Monthly(employee, salary)}
     }
 
-    //Should be used by builder only
-    protected Monthly() {
-        super()
-        //Available only for reflection magic
-        invalidForBuilder()
-    }
+    /**
+     * Should be used for reflection magic only
+     */
+    Monthly() {}
 
+    /**
+     * Use newPaymentType instead, otherwise be careful as you can end up with an invalid object.
+     */
     protected Monthly(employee, Integer aSalary) {
         super(employee)
         executeNamedValidation("Validate new Monhtly Payment", {
