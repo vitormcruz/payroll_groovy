@@ -1,4 +1,4 @@
-package com.vmc.payroll.payment.workEvent
+package com.vmc.payroll.payment.paymentAttachment
 
 import org.joda.time.DateTime
 import org.junit.Test

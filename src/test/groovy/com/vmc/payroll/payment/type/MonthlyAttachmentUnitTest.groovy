@@ -1,7 +1,7 @@
 package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.workEvent.api.WorkDoneProof
+import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import groovy.test.GroovyAssert
 import org.junit.Test

@@ -1,8 +1,8 @@
 package com.vmc.payroll.unionAssociation
 
 import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.workEvent.api.WorkDoneProof
-import com.vmc.payroll.payment.workEvent.api.UnionCharge
+import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
+import com.vmc.payroll.payment.paymentAttachment.api.UnionCharge
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
 

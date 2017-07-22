@@ -1,4 +1,4 @@
-package com.vmc.payroll.payment.workEvent.api
+package com.vmc.payroll.payment.paymentAttachment.api
 
 interface WorkDoneProof extends PaymentAttachment{
 

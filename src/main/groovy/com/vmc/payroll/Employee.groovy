@@ -1,7 +1,7 @@
 package com.vmc.payroll
 
 import com.vmc.payroll.api.Entity
-import com.vmc.payroll.payment.workEvent.api.PaymentAttachment
+import com.vmc.payroll.payment.paymentAttachment.api.PaymentAttachment
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.payroll.payment.type.api.PaymentType
 import com.vmc.payroll.unionAssociation.DefaultUnionAssociation

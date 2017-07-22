@@ -8,9 +8,9 @@ import com.vmc.payroll.payment.delivery.Paymaster
 import com.vmc.payroll.payment.type.Commission
 import com.vmc.payroll.payment.type.Hourly
 import com.vmc.payroll.payment.type.Monthly
-import com.vmc.payroll.payment.workEvent.SalesReceipt
-import com.vmc.payroll.payment.workEvent.ServiceCharge
-import com.vmc.payroll.payment.workEvent.TimeCard
+import com.vmc.payroll.payment.paymentAttachment.SalesReceipt
+import com.vmc.payroll.payment.paymentAttachment.ServiceCharge
+import com.vmc.payroll.payment.paymentAttachment.TimeCard
 import com.vmc.payroll.testPreparation.IntegrationTestBase
 import com.vmc.validationNotification.builder.DataSetBuilder
 import org.joda.time.DateTime

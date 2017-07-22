@@ -1,7 +1,7 @@
 package com.vmc.payroll.payment.type
 
-import com.vmc.payroll.payment.workEvent.SalesReceipt
-import com.vmc.payroll.payment.workEvent.api.WorkDoneProof
+import com.vmc.payroll.payment.paymentAttachment.SalesReceipt
+import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
 import com.vmc.validationNotification.builder.GenericBuilder
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation

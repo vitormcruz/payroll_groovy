@@ -1,4 +1,4 @@
-package com.vmc.payroll.payment.workEvent
+package com.vmc.payroll.payment.paymentAttachment
 
 import com.vmc.validationNotification.builder.GenericBuilder
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup

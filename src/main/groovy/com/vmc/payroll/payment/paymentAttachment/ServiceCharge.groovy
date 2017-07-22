@@ -1,6 +1,6 @@
-package com.vmc.payroll.payment.workEvent
+package com.vmc.payroll.payment.paymentAttachment
 
-import com.vmc.payroll.payment.workEvent.api.UnionCharge
+import com.vmc.payroll.payment.paymentAttachment.api.UnionCharge
 import org.joda.time.DateTime
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
