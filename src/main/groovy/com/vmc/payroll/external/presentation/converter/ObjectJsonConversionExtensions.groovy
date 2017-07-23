@@ -17,7 +17,7 @@ class ObjectJsonConversionExtensions {
     }
 
     static JsonConverter asJsonConverter(Employee employee){
-        return new EmployeeJsonConverter(employee)
+        return new EmployeeJsonDTO(employee)
     }
 
     static class DefaultJsonConverter implements JsonConverter{

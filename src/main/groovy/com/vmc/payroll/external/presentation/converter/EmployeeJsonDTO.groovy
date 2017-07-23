@@ -10,7 +10,7 @@ import org.reflections.Reflections
 
 import static com.google.common.base.Preconditions.checkArgument
 
-class EmployeeJsonConverter implements JsonConverter{
+class EmployeeJsonDTO implements JsonConverter{
 
     private static ObjectMapper mapper = ServiceLocator.getInstance().mapper()
     private static Set<Class> paymentTypes = new Reflections("com.vmc.payroll.payment.type").getSubTypesOf(PaymentType)
@@ -26,10 +26,10 @@ class EmployeeJsonConverter implements JsonConverter{
     Integer hourRate
     Integer rate
 
-    EmployeeJsonConverter() {
+    EmployeeJsonDTO() {
     }
 
-    EmployeeJsonConverter(Employee employee) {
+    EmployeeJsonDTO(Employee employee) {
         id = employee.id
         name = employee.name
         address = employee.address
@@ -38,7 +38,7 @@ class EmployeeJsonConverter implements JsonConverter{
     }
 
     static builderFromJson(String string){
-        def employeeConverter = mapper.readValue(string, EmployeeJsonConverter)
+        def employeeConverter = mapper.readValue(string, EmployeeJsonDTO)
         checkArgument(employeeConverter.paymentType != null, "Json formmat is invalid: you must specify a payment type of one of the following alternatives:" +
                                                                             StringUtils.join(paymentTypes.collect {it.getSimpleName()}, ", "))
         return employeeConverter.meToBuilder()
