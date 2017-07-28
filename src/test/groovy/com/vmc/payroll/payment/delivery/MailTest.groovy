@@ -16,7 +16,6 @@ class MailTest extends ValidationNotificationTestSetup{
     @Test
     void "Address is mandatory"(){
         def mailDelivery = Mail.newPaymentDelivery([] as Employee, null)
-        assert mailDelivery == null
         assert validationObserver.errors.contains("The address for mail delivery is required")
     }
 

@@ -1,27 +1,28 @@
 package com.vmc.payroll.payment.delivery
 
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
-import com.vmc.validationNotification.builder.api.BuilderAwareness
-import com.vmc.validationNotification.builder.GenericBuilder
 
 import static com.google.common.base.Preconditions.checkArgument
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.Validate.validate
 
-class Mail implements PaymentDelivery, BuilderAwareness{
+class Mail implements PaymentDelivery{
 
     private employee
     String address
 
     static Mail newPaymentDelivery(employee, String address){
-        return new GenericBuilder(Mail).withEmployee(employee).withAddress(address).build()
+        return validate {new Mail(employee, address)}
     }
 
-    //Should be used by builder only
-    protected Mail() {
-        //Available only for reflection magic
-        invalidForBuilder()
-    }
+    /**
+     * Should be used for reflection magic only
+     */
+    protected Mail() {}
 
+    /**
+     * Use newPaymentDelivery instead, otherwise be careful as you can end up with an invalid object.
+     */
     protected Mail(anEmployee, String anAddress) {
         checkArgument(anEmployee != null, "Did you miss passing my employee?")
         executeNamedValidation("Validate new Mail", {
