@@ -9,6 +9,7 @@ import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.FirstParam
 //todo document
 //todo more tests
+//todo create test for employee creating a lot of objects
 //switch cglib for byte budy
 /**
  *
@@ -22,21 +23,29 @@ class ObjectMother<E> {
     //for reflection magic
     ObjectMother() {}
 
-    ObjectMother(Class<E> aClass, Closure postBirthScript) {
-        this(aClass)
-        this.postBirthScript = postBirthScript? postBirthScript : {}
-    }
-
-
     ObjectMother(Class<E> aClass) {
         if(aClass == null ) throw new IllegalArgumentException("A class to build must be provided")
         this.childClass = aClass
     }
 
-    E addBirthScript(@DelegatesTo(genericTypeIndex = 0, strategy = Closure.DELEGATE_FIRST)
+    ObjectMother(Class<E> childClass, List<Closure> birthScripts, Closure postBirthScript) {
+        this(childClass)
+        this.birthScripts = birthScripts
+        this.postBirthScript = postBirthScript? postBirthScript : {}
+    }
+
+    ObjectMother<E> setPostBirthScript(@ClosureParams(FirstParam.FirstGenericType)
+                                    Closure<E> aPostBirthScript) {
+
+        return new ObjectMother<E>(childClass, birthScripts, aPostBirthScript)
+    }
+
+
+    ObjectMother<E> addBirthScript(@DelegatesTo(genericTypeIndex = 0, strategy = Closure.DELEGATE_FIRST)
                      @ClosureParams(FirstParam.FirstGenericType)
                      Closure<E> birthScript) {
-        birthScripts.add(birthScript)
+
+        return new ObjectMother<E>(childClass, [birthScripts, [birthScript]].collectMany {it}, postBirthScript)
     }
 
     E createNewBornWithScript(@DelegatesTo(genericTypeIndex = 0, strategy = Closure.DELEGATE_FIRST)
@@ -58,20 +67,18 @@ class ObjectMother<E> {
     }
 
     static void main(String[] args) {
-        ObjectMother<Employee> employeeMother = new ObjectMother<Employee>(Employee, { Employee emp ->
-            print(emp.name + ", ")
-        })
-
         def faker = new Faker(new Locale("pt-BR"))
-        employeeMother.addBirthScript {
-            setName({faker.name().firstName()}())
-            setAddress({faker.address().streetAddress()}())
-            setEmail("teste@bla.com")
-            bePaid({Monthly.newPaymentType(it, 2000)})
-            receivePaymentBy({Mail.newPaymentDelivery(it, "Street 1")})
-        }
+        ObjectMother<Employee> employeeMother = new ObjectMother<Employee>(Employee)
+                .setPostBirthScript { Employee emp -> print(emp.name + " ${emp.email}, ")}
+                .addBirthScript {
+                    setName({faker.name().firstName()}())
+                    setAddress({faker.address().streetAddress()}())
+                    setEmail("teste@bla.com")
+                    bePaid({Monthly.newPaymentType(it, 2000)})
+                    receivePaymentBy({Mail.newPaymentDelivery(it, "Street 1")})
+                }
 
-
+        employeeMother = employeeMother.addBirthScript({setEmail({faker.name().name()}())})
         (1..100).each {
             employeeMother.createNewBorn()
         }

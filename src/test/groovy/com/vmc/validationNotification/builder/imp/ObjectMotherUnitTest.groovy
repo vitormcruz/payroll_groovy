@@ -23,14 +23,13 @@ class ObjectMotherUnitTest extends ValidationNotificationTestSetup{
     @Test
     void "InsertCommand should not be called upon failure"(){
         def inserted = false
-        ObjectMother<BuildedClass> objectMother = getObjectMother(BuildedClass, { inserted = true })
-        objectMother.addBirthScript {setError("Error")}
+        ObjectMother<BuildedClass> objectMother = getObjectMother(BuildedClass, { inserted = true }).addBirthScript {setError("Error")}
         objectMother.createNewBorn()
         assert !inserted : "Post script command was called when the build process failed."
     }
 
     def getObjectMother(Class aClass, Closure insertCommand){
-        return new ObjectMother(aClass, insertCommand)
+        return new ObjectMother(aClass).setPostBirthScript(insertCommand)
     }
 
     static class BuildedClass {

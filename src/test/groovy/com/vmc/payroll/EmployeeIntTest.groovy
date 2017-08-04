@@ -32,32 +32,32 @@ class EmployeeIntTest extends IntegrationTestBase {
     @Before
     void setUp(){
         super.setUp()
-        employeeMother = new ObjectMother<Employee>(getEmployeeClass(),{
+        employeeMother = new ObjectMother<Employee>(getEmployeeClass()).setPostBirthScript({
             employeeRepository.add(it)
             model.save()
         })
 
         employee1 = employeeMother.createNewBornWithScript { setName("Heloísa"); setAddress("Street 1"); setEmail("heloisa@bla.com")
-                                                                   bePaid {Monthly.newPaymentType(it, 2000)}
-                                                                   receivePaymentBy {Mail.newPaymentDelivery(it, "Street 1")} }
+                                                             bePaid {Monthly.newPaymentType(it, 2000)}
+                                                             receivePaymentBy {Mail.newPaymentDelivery(it, "Street 1")} }
 
         employee2 = employeeMother.createNewBornWithScript { setName("Heloísa Medina"); setAddress("test address"); setEmail("test email")
-                                                                   bePaid {Commission.newPaymentType(it,2000, 100)}
-                                                                   receivePaymentBy {Paymaster.newPaymentDelivery(it)}}
+                                                             bePaid {Commission.newPaymentType(it,2000, 100)}
+                                                             receivePaymentBy {Paymaster.newPaymentDelivery(it)}}
 
         employee3 = employeeMother.createNewBornWithScript{ setName("Sofia"); setAddress("test address"); setEmail("test email")
-                                                                  bePaid {Monthly.newPaymentType(it, 2000)}
-                                                                  receivePaymentBy {AccountTransfer.newPaymentDelivery(it,"bank 1", "111111")}}
+                                                            bePaid {Monthly.newPaymentType(it, 2000)}
+                                                            receivePaymentBy {AccountTransfer.newPaymentDelivery(it,"bank 1", "111111")}}
 
         employee4 = employeeMother.createNewBornWithScript{ setName("Sofia Medina"); setAddress("test address"); setEmail("test email")
-                                                                  bePaid {Monthly.newPaymentType(it, 2000)}
-                                                                  receivePaymentBy {Mail.newPaymentDelivery(it,"Street 1")} }
+                                                            bePaid {Monthly.newPaymentType(it, 2000)}
+                                                            receivePaymentBy {Mail.newPaymentDelivery(it,"Street 1")} }
 
 
         employee5 = employeeMother.createNewBornWithScript { setName("Sofia Medina Carvalho"); setAddress("test address"); setEmail("test email")
-                                                                   bePaid {Hourly.newPaymentType(it, 100)}
-                                                                   receivePaymentBy {Mail.newPaymentDelivery(it,"Street 1")}
-                                                                   beUnionMember(5) }
+                                                             bePaid {Hourly.newPaymentType(it, 100)}
+                                                             receivePaymentBy {Mail.newPaymentDelivery(it,"Street 1")}
+                                                             beUnionMember(5) }
     }
 
     @Test
@@ -69,8 +69,8 @@ class EmployeeIntTest extends IntegrationTestBase {
     @Test
     void "Add a new monthly paid Employee"(){
         Employee addedEmployee = employeeMother.createNewBornWithScript{ setName("New Employee"); setAddress("test adress"); setEmail("test email")
-                                                                               bePaid {Monthly.newPaymentType(it,1000)}
-                                                                               receivePaymentBy {Mail.newPaymentDelivery(it, "Street 1")} }
+                                                                         bePaid {Monthly.newPaymentType(it,1000)}
+                                                                         receivePaymentBy {Mail.newPaymentDelivery(it, "Street 1")} }
 
         addedEmployee = employeeRepository.get(addedEmployee.getId())
         assertMonthlyPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 1000)
@@ -79,8 +79,8 @@ class EmployeeIntTest extends IntegrationTestBase {
     @Test
     void "Add a new hourly paid Employee"(){
         Employee addedEmployee  = employeeMother.createNewBornWithScript { setName("New Employee"); setAddress("test adress"); setEmail("test email")
-                                                                                 bePaid {Hourly.newPaymentType(it,50)}
-                                                                                 receivePaymentBy {Mail.newPaymentDelivery(it, "Street 1")} }
+                                                                           bePaid {Hourly.newPaymentType(it,50)}
+                                                                           receivePaymentBy {Mail.newPaymentDelivery(it, "Street 1")} }
 
         assertHourlyPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 50)
     }
@@ -109,9 +109,9 @@ class EmployeeIntTest extends IntegrationTestBase {
     @Test
     void "Add a new Union member Employee"(){
         def addedEmployee = employeeMother.createNewBornWithScript { setName("New Employee"); setAddress("test adress"); setEmail("test email")
-                                                                           bePaid {Monthly.newPaymentType(it,1000)}
-                                                                           receivePaymentBy {Mail.newPaymentDelivery(it,"Street 1")}
-                                                                           beUnionMember(5) }
+                                                                     bePaid {Monthly.newPaymentType(it,1000)}
+                                                                     receivePaymentBy {Mail.newPaymentDelivery(it,"Street 1")}
+                                                                     beUnionMember(5) }
 
         assertMonthlyPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 1000)
         assert addedEmployee.isUnionMember() : "Should be an Union Member"
@@ -127,8 +127,8 @@ class EmployeeIntTest extends IntegrationTestBase {
     @Test
     void "Add a new commission paid Employee"(){
         Employee addedEmployee = employeeMother.createNewBornWithScript{ setName("New Employee"); setAddress("test adress"); setEmail("test email")
-                                                                               bePaid{Commission.newPaymentType(it, 1000, 20)}
-                                                                               receivePaymentBy{Mail.newPaymentDelivery(it, "Street 1")}}
+                                                                         bePaid{Commission.newPaymentType(it, 1000, 20)}
+                                                                         receivePaymentBy{Mail.newPaymentDelivery(it, "Street 1")}}
 
         assertCommissionPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 1000, 20)
     }
