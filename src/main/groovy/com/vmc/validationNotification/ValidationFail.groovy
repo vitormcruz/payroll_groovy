@@ -8,6 +8,7 @@ import net.sf.cglib.proxy.MethodProxy
 import java.lang.reflect.Method
 
 //TODO Add tests
+//TODO Use Byte Buddy instead
 class ValidationFail implements ValidationResult{
 
     private nullObject

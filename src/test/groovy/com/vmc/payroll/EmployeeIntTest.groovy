@@ -37,24 +37,24 @@ class EmployeeIntTest extends IntegrationTestBase {
             model.save()
         })
 
-        employee1 = employeeMother.createNewBornWithEmbryoConfig { setName("Heloísa"); setAddress("Street 1"); setEmail("heloisa@bla.com")
+        employee1 = employeeMother.createNewBornWithScript { setName("Heloísa"); setAddress("Street 1"); setEmail("heloisa@bla.com")
                                                                    bePaid {Monthly.newPaymentType(it, 2000)}
                                                                    receivePaymentBy {Mail.newPaymentDelivery(it, "Street 1")} }
 
-        employee2 = employeeMother.createNewBornWithEmbryoConfig { setName("Heloísa Medina"); setAddress("test address"); setEmail("test email")
+        employee2 = employeeMother.createNewBornWithScript { setName("Heloísa Medina"); setAddress("test address"); setEmail("test email")
                                                                    bePaid {Commission.newPaymentType(it,2000, 100)}
                                                                    receivePaymentBy {Paymaster.newPaymentDelivery(it)}}
 
-        employee3 = employeeMother.createNewBornWithEmbryoConfig{ setName("Sofia"); setAddress("test address"); setEmail("test email")
+        employee3 = employeeMother.createNewBornWithScript{ setName("Sofia"); setAddress("test address"); setEmail("test email")
                                                                   bePaid {Monthly.newPaymentType(it, 2000)}
                                                                   receivePaymentBy {AccountTransfer.newPaymentDelivery(it,"bank 1", "111111")}}
 
-        employee4 = employeeMother.createNewBornWithEmbryoConfig{ setName("Sofia Medina"); setAddress("test address"); setEmail("test email")
+        employee4 = employeeMother.createNewBornWithScript{ setName("Sofia Medina"); setAddress("test address"); setEmail("test email")
                                                                   bePaid {Monthly.newPaymentType(it, 2000)}
                                                                   receivePaymentBy {Mail.newPaymentDelivery(it,"Street 1")} }
 
 
-        employee5 = employeeMother.createNewBornWithEmbryoConfig { setName("Sofia Medina Carvalho"); setAddress("test address"); setEmail("test email")
+        employee5 = employeeMother.createNewBornWithScript { setName("Sofia Medina Carvalho"); setAddress("test address"); setEmail("test email")
                                                                    bePaid {Hourly.newPaymentType(it, 100)}
                                                                    receivePaymentBy {Mail.newPaymentDelivery(it,"Street 1")}
                                                                    beUnionMember(5) }
@@ -68,7 +68,7 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @Test
     void "Add a new monthly paid Employee"(){
-        Employee addedEmployee = employeeMother.createNewBornWithEmbryoConfig{ setName("New Employee"); setAddress("test adress"); setEmail("test email")
+        Employee addedEmployee = employeeMother.createNewBornWithScript{ setName("New Employee"); setAddress("test adress"); setEmail("test email")
                                                                                bePaid {Monthly.newPaymentType(it,1000)}
                                                                                receivePaymentBy {Mail.newPaymentDelivery(it, "Street 1")} }
 
@@ -78,7 +78,7 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @Test
     void "Add a new hourly paid Employee"(){
-        Employee addedEmployee  = employeeMother.createNewBornWithEmbryoConfig { setName("New Employee"); setAddress("test adress"); setEmail("test email")
+        Employee addedEmployee  = employeeMother.createNewBornWithScript { setName("New Employee"); setAddress("test adress"); setEmail("test email")
                                                                                  bePaid {Hourly.newPaymentType(it,50)}
                                                                                  receivePaymentBy {Mail.newPaymentDelivery(it, "Street 1")} }
 
@@ -108,7 +108,7 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @Test
     void "Add a new Union member Employee"(){
-        def addedEmployee = employeeMother.createNewBornWithEmbryoConfig { setName("New Employee"); setAddress("test adress"); setEmail("test email")
+        def addedEmployee = employeeMother.createNewBornWithScript { setName("New Employee"); setAddress("test adress"); setEmail("test email")
                                                                            bePaid {Monthly.newPaymentType(it,1000)}
                                                                            receivePaymentBy {Mail.newPaymentDelivery(it,"Street 1")}
                                                                            beUnionMember(5) }
@@ -126,7 +126,7 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @Test
     void "Add a new commission paid Employee"(){
-        Employee addedEmployee = employeeMother.createNewBornWithEmbryoConfig{ setName("New Employee"); setAddress("test adress"); setEmail("test email")
+        Employee addedEmployee = employeeMother.createNewBornWithScript{ setName("New Employee"); setAddress("test adress"); setEmail("test email")
                                                                                bePaid{Commission.newPaymentType(it, 1000, 20)}
                                                                                receivePaymentBy{Mail.newPaymentDelivery(it, "Street 1")}}
 

@@ -7,13 +7,6 @@ import com.vmc.payroll.payment.type.Monthly
 import com.vmc.validationNotification.Validate
 import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.FirstParam
-import net.sf.cglib.proxy.Enhancer
-import net.sf.cglib.proxy.Factory
-import net.sf.cglib.proxy.MethodInterceptor
-import net.sf.cglib.proxy.MethodProxy
-
-import java.lang.reflect.Method
-
 //todo document
 //todo more tests
 //switch cglib for byte budy
@@ -22,102 +15,65 @@ import java.lang.reflect.Method
  */
 class ObjectMother<E> {
 
-    protected WeakHashMap<E, Map<String, Object[]>> messagesCall = new HashMap<String, Object[]>()
-    protected Map providers = [:]
     protected Class<E> childClass
-    protected Closure postBornScript = {}
-    protected E embryo
-    protected Factory embryoFactory
-    protected Collection<String> methodsToRecord
+    protected List<Closure> birthScripts = new ArrayList<Closure>()
+    protected Closure postBirthScript = {}
 
     //for reflection magic
     ObjectMother() {}
 
-    ObjectMother(Class<E> aClass, Closure postBornScript) {
+    ObjectMother(Class<E> aClass, Closure postBirthScript) {
         this(aClass)
-        this.postBornScript = postBornScript? postBornScript : {}
+        this.postBirthScript = postBirthScript? postBirthScript : {}
     }
 
 
     ObjectMother(Class<E> aClass) {
         if(aClass == null ) throw new IllegalArgumentException("A class to build must be provided")
         this.childClass = aClass
-        methodsToRecord = childClass.declaredMethodsFromMyInheritanceTree()
-        embryoFactory = createEmbryoCGFactory(methodsToRecord)
-        embryo = embryoFactory
-        messagesCall.put(embryo, [:])
     }
 
-    E createEmbryoCGFactory(aListMethodsToRecord) {
-        return Enhancer.create(childClass, { Object obj, Method method, Object[] args, MethodProxy proxy ->
-            if (aListMethodsToRecord.contains(method.name)) {
-                messagesCall.get(obj).put(method.name, args)
-            } else {
-                proxy.invokeSuper(obj, args)
-            }
-        } as MethodInterceptor)
+    E addBirthScript(@DelegatesTo(genericTypeIndex = 0, strategy = Closure.DELEGATE_FIRST)
+                     @ClosureParams(FirstParam.FirstGenericType)
+                     Closure<E> birthScript) {
+        birthScripts.add(birthScript)
     }
 
-    E getEmbryo() {
-        return embryo
-    }
-
-    E createNewBornWithEmbryoConfig(@DelegatesTo(genericTypeIndex = 0, strategy = Closure.DELEGATE_FIRST)
-                                    @ClosureParams(FirstParam.FirstGenericType)
-                                    Closure<E> embryoConfiguration) {
-        def newEmbryo = createNewEmbryo()
-        newEmbryo.with embryoConfiguration
-        return createNewBorn(newEmbryo)
-    }
-
-    E createNewEmbryo() {
-        def newEmbryo = embryoFactory.newInstance(embryoFactory.getCallbacks())
-        messagesCall.put(newEmbryo, [:])
-        return newEmbryo
+    E createNewBornWithScript(@DelegatesTo(genericTypeIndex = 0, strategy = Closure.DELEGATE_FIRST)
+                              @ClosureParams(FirstParam.FirstGenericType)
+                              Closure<E> ...birthScript) {
+        return createNewBorn(birthScript as List)
     }
 
     E createNewBorn() {
-        return createNewBorn(embryo)
+        return createNewBorn(birthScripts)
     }
 
-    E createNewBorn(E anEmbryo){
+    E createNewBorn(List<Closure> birthScripts){
         return Validate.validate({
             def newBornChild = childClass.newInstance()
-            messagesCall.get(anEmbryo).each { String name, args ->
-                newBornChild."${name}"(*args.collect { field -> providers.get(field) ? providers.get(field)() : field })
-            }
+            birthScripts.each {birthScript -> newBornChild .with birthScript}
             return newBornChild
-        }).onBuildSucess(postBornScript)
-    }
-
-    def setProvider(providerKey, Closure provider) {
-        providers.put(providerKey, provider)
+        }).onBuildSucess(postBirthScript)
     }
 
     static void main(String[] args) {
         ObjectMother<Employee> employeeMother = new ObjectMother<Employee>(Employee, { Employee emp ->
-//            print(emp.name)
+            print(emp.name + ", ")
         })
+
         def faker = new Faker(new Locale("pt-BR"))
-
-        (1..1000000).each {
-            if(it % 1000 == 0){
-                println(employeeMother.messagesCall.size())
-            }
-            employeeMother.createNewBornWithEmbryoConfig {
-                setName(employeeMother.provider {faker.name().firstName()} )
-                setAddress(employeeMother.provider {faker.address().streetAddress()} )
-                setEmail("teste@bla.com")
-                bePaid({Monthly.newPaymentType(it, 2000)})
-                receivePaymentBy({Mail.newPaymentDelivery(it, "Street 1")})
-            }
-
+        employeeMother.addBirthScript {
+            setName({faker.name().firstName()}())
+            setAddress({faker.address().streetAddress()}())
+            setEmail("teste@bla.com")
+            bePaid({Monthly.newPaymentType(it, 2000)})
+            receivePaymentBy({Mail.newPaymentDelivery(it, "Street 1")})
         }
-    }
 
-    public <P> P provider(Closure<P> provider) {
-        def providerKey = provider()
-        this.setProvider(providerKey, provider)
-        return providerKey
+
+        (1..100).each {
+            employeeMother.createNewBorn()
+        }
     }
 }
