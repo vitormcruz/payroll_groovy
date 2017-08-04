@@ -4,7 +4,6 @@ import com.vmc.payroll.Employee
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.payroll.payment.type.api.PaymentType
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
-import com.vmc.validationNotification.builder.GenericBuilder
 
 class VaadinEmployeeDTO {
 
@@ -25,7 +24,7 @@ class VaadinEmployeeDTO {
     Class<UnionAssociation> unionAssociation
     Integer rate
 
-    GenericBuilder builderForEntity() {
-        return new GenericBuilder(Employee).withName(name).withAddress(address).withEmail(email).withPaymentArgs(paymentType.fromVaadinDTO(this)).withPaymentDeliveryArgs(paymentDelivery.fromVaadinDTO(this))
+    Employee toEntity() {
+        return Employee.newEmployee(name, address, email, paymentType.fromVaadinDTO(this), paymentDelivery.fromVaadinDTO(this))
     }
 }

@@ -1,6 +1,5 @@
 package com.vmc.payroll.payment.paymentAttachment
 
-import com.vmc.validationNotification.builder.GenericBuilder
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.joda.time.DateTime
 import org.junit.Test
@@ -11,24 +10,18 @@ class ServiceChargeUnitTest extends ValidationNotificationTestSetup {
 
     @Test
     void "Create a service charge providing null to required fields"(){
-        def serviceChargeBuilder = new GenericBuilder(ServiceCharge).withDate(null)
-                                                                    .withAmount(null)
-        serviceChargeBuilder.buildAndDo(
-          {fail("Creating a Service Charge without required fields should fail.")},
-          {assert validationObserver.errors.containsAll("payroll.servicecharge.date.required",
-                                                        "payroll.servicecharge.amount.required")})
+        ServiceCharge serviceCharge = ServiceCharge.newServiceCharge(null, null)
+        serviceCharge.onBuildSucess({fail("Creating a Service Charge without required fields should fail.")})
+                     .onBuildFailure({assert validationObserver.errors.containsAll("payroll.servicecharge.date.required", "payroll.servicecharge.amount.required")})
 
     }
 
     @Test
     void "Create a time card providing valid values to required fields"(){
-        def serviceChargeBuilder = new GenericBuilder(ServiceCharge)
         def expectedDateTime = new DateTime()
-        serviceChargeBuilder.with(expectedDateTime, 10)
-        serviceChargeBuilder.buildAndDo(
-          {assert it.date == expectedDateTime
-           assert it.amount == 10 },
-          {fail("Creating a Service Charge with required fields should be successful.")})
+        def serviceCharge = ServiceCharge.newServiceCharge(expectedDateTime, 10)
+        assert serviceCharge.date == expectedDateTime
+        assert serviceCharge.amount == 10
     }
 
 

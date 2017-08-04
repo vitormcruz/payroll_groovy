@@ -46,7 +46,7 @@ class NewEmployeeView extends VerticalLayout{
         def employeeDTO = new VaadinEmployeeDTO()
         binder.writeBean(employeeDTO)
         binder.validateExecution {
-            employeeDTO.builderForEntity().buildAndDo({
+            employeeDTO.toEntity().buildAndDo({
                                                          employeeRepository.add(it)
                                                          modelSnapshot.save()
                                                          cancelNewEmployee.call()

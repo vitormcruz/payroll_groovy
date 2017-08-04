@@ -22,7 +22,8 @@ class ObjectValidationNotificationExtensions {
      * Execute aSuccessClosure if the object building was ok passing myself as parameter.
      */
     static onBuildSucess(Object buildObject, Closure aSuccessClosure){
-        return aSuccessClosure(this)
+        aSuccessClosure(buildObject)
+        return buildObject
     }
 
     /**
@@ -42,7 +43,7 @@ class ObjectValidationNotificationExtensions {
      */
 
     static onBuildFailure(Object buildObject, Closure aFailureClosure){
-        return null
+        return buildObject
     }
 
 

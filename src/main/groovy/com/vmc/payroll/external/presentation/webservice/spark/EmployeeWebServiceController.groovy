@@ -4,7 +4,6 @@ import com.vmc.concurrency.api.ModelSnapshot
 import com.vmc.payroll.Employee
 import com.vmc.payroll.api.Repository
 import com.vmc.payroll.external.presentation.converter.EmployeeJsonDTO
-import com.vmc.validationNotification.builder.GenericBuilder
 import spark.Request
 import spark.Response
 
@@ -20,8 +19,8 @@ class EmployeeWebServiceController implements BasicControllerOperationsTrait{
 
     void newEmployee(Request request, Response response) {
         def listener = getValidationListener()
-        GenericBuilder employeeBuilder = EmployeeJsonDTO.builderFromJson(request.body())
-        employeeBuilder.buildAndDoOnSuccess { newEmployee ->
+        Employee employeeBuilder = EmployeeJsonDTO.employeeFromJson(request.body())
+        employeeBuilder.onBuildSucess { newEmployee ->
             employeeRepository.add(newEmployee)
             listener.setBody(newEmployee.asJson())
             model.save()

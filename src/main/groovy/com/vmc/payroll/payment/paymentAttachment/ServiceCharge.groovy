@@ -18,7 +18,7 @@ class ServiceCharge implements UnionCharge{
     /**
      * Should be used for reflection magic only
      */
-    private ServiceCharge() {}
+    ServiceCharge() {}
 
     /**
      * Use newServiceCharge instead, otherwise be careful as you can end up with an invalid object.

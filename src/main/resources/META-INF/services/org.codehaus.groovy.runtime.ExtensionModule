@@ -3,7 +3,8 @@ moduleVersion=1.0
 extensionClasses=com.vmc.concurrency.singleVM.ObjectSnapshotExtensions, \
                  com.vmc.payroll.external.presentation.converter.ObjectJsonConversionExtensions, \
                  com.vmc.payroll.external.presentation.converter.PaymentTypeConverterExtensions, \
-                 com.vmc.validationNotification.ObjectValidationNotificationExtensions
+                 com.vmc.validationNotification.ObjectValidationNotificationExtensions, \
+                 com.vmc.proxy.ClassProxyExtensionsMethod
 
 staticExtensionClasses=com.vmc.payroll.external.presentation.vaadin.view.payment.PaymentDeliveryClassViewExtensions, \
                        com.vmc.payroll.external.presentation.vaadin.view.payment.PaymentTypeClassViewExtensions, \

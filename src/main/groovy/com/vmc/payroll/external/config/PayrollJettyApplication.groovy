@@ -6,7 +6,6 @@ import com.vmc.payroll.Employee
 import com.vmc.payroll.api.EmployeeRepository
 import com.vmc.payroll.payment.delivery.Mail
 import com.vmc.payroll.payment.type.Monthly
-import com.vmc.validationNotification.builder.GenericBuilder
 import com.vmc.validationNotification.servlet.ValidationNotifierFilter
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.FilterHolder
@@ -32,17 +31,8 @@ class PayrollJettyApplication {
     static void main(String[] args) {
         Server server = new Server(7003)
 
-
-        employeeRepository.add(new GenericBuilder(Employee).withName("Sofia").withAddress("Street 1").withEmail("sofia@bla.com")
-                                    .withPaimentType({Monthly.newPaymentType(it, 2000)})
-                                    .withPaymentDelivery({Mail.newPaymentDelivery(it, "Street 1")})
-                                    .build())
-
-        employeeRepository.add(new GenericBuilder(Employee).withName("Heloísa").withAddress("Street 1").withEmail("heloisa@bla.com")
-                                    .withPaimentType({Monthly.newPaymentType(it, 2000)})
-                                    .withPaymentDelivery({Mail.newPaymentDelivery(it, "Street 1")})
-                                    .build())
-
+        employeeRepository.add(Employee.newEmployee("Sofia", "Street 1", "sofia@bla.com", {Monthly.newPaymentType(it, 2000)}, {Mail.newPaymentDelivery(it, "Street 1")}))
+        employeeRepository.add(Employee.newEmployee("Heloísa", "Street 1", "heloisa@bla.com", {Monthly.newPaymentType(it, 2000)}, {Mail.newPaymentDelivery(it, "Street 1")}))
         modelSnapshot.save()
 
         def webAppContext = new WebAppContext()

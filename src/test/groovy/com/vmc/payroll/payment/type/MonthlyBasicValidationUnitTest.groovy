@@ -6,7 +6,6 @@ import org.junit.Test
 
 class MonthlyBasicValidationUnitTest extends ValidationNotificationTestSetup{
 
-
     public static final int VALID_SALARY = 10
 
     @Test

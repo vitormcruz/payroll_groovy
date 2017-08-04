@@ -5,14 +5,14 @@ import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.payment.delivery.AccountTransfer
 import com.vmc.payroll.payment.delivery.Mail
 import com.vmc.payroll.payment.delivery.Paymaster
-import com.vmc.payroll.payment.type.Commission
-import com.vmc.payroll.payment.type.Hourly
-import com.vmc.payroll.payment.type.Monthly
 import com.vmc.payroll.payment.paymentAttachment.SalesReceipt
 import com.vmc.payroll.payment.paymentAttachment.ServiceCharge
 import com.vmc.payroll.payment.paymentAttachment.TimeCard
+import com.vmc.payroll.payment.type.Commission
+import com.vmc.payroll.payment.type.Hourly
+import com.vmc.payroll.payment.type.Monthly
 import com.vmc.payroll.testPreparation.IntegrationTestBase
-import com.vmc.validationNotification.builder.DataSetBuilder
+import com.vmc.validationNotification.builder.ObjectMother
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
@@ -22,45 +22,42 @@ import static groovy.test.GroovyAssert.shouldFail
 class EmployeeIntTest extends IntegrationTestBase {
 
     private EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository()
-    private DataSetBuilder employeeBuilder
+    private ObjectMother<Employee> employeeMother
     private Employee employee1
     private Employee employee2
     private Employee employee3
     private Employee employee4
-    private Employee employeeUnion5
+    private Employee employee5
 
     @Before
     void setUp(){
         super.setUp()
-        employeeBuilder = new DataSetBuilder(getEmployeeClass(), {
+        employeeMother = new ObjectMother<Employee>(getEmployeeClass(),{
             employeeRepository.add(it)
             model.save()
         })
 
-        employee1 = employeeBuilder.withName("Heloísa").withAddress("Street 1").withEmail("heloisa@bla.com")
-                                   .withPaimentType({Monthly.newPaymentType(it, 2000)})
-                                   .withPaymentDelivery({Mail.newPaymentDelivery(it, "Street 1")})
-                                   .build()
+        employee1 = employeeMother.createNewBornWithEmbryoConfig { setName("Heloísa"); setAddress("Street 1"); setEmail("heloisa@bla.com")
+                                                                   bePaid {Monthly.newPaymentType(it, 2000)}
+                                                                   receivePaymentBy {Mail.newPaymentDelivery(it, "Street 1")} }
 
-        employee2 = employeeBuilder.withName("Heloísa Medina").withAddress("test address").withEmail("test email")
-                                   .withPaimentType({Commission.newPaymentType(it,2000, 100)})
-                                   .withPaymentDelivery({Paymaster.newPaymentDelivery(it)})
-                                   .build()
+        employee2 = employeeMother.createNewBornWithEmbryoConfig { setName("Heloísa Medina"); setAddress("test address"); setEmail("test email")
+                                                                   bePaid {Commission.newPaymentType(it,2000, 100)}
+                                                                   receivePaymentBy {Paymaster.newPaymentDelivery(it)}}
 
-        employee3 = employeeBuilder.withName("Sofia").withAddress("test address").withEmail("test email")
-                                   .withPaimentType({Monthly.newPaymentType(it, 2000)})
-                                   .withPaymentDelivery({AccountTransfer.newPaymentDelivery(it,"bank 1", "111111")})
-                                   .build()
+        employee3 = employeeMother.createNewBornWithEmbryoConfig{ setName("Sofia"); setAddress("test address"); setEmail("test email")
+                                                                  bePaid {Monthly.newPaymentType(it, 2000)}
+                                                                  receivePaymentBy {AccountTransfer.newPaymentDelivery(it,"bank 1", "111111")}}
 
-        employee4 = employeeBuilder.withName("Sofia Medina").withAddress("test address").withEmail("test email")
-                                   .withPaimentType({Monthly.newPaymentType(it,2000)})
-                                   .withPaymentDelivery({Mail.newPaymentDelivery(it,"Street 1")})
-                                   .build()
+        employee4 = employeeMother.createNewBornWithEmbryoConfig{ setName("Sofia Medina"); setAddress("test address"); setEmail("test email")
+                                                                  bePaid {Monthly.newPaymentType(it, 2000)}
+                                                                  receivePaymentBy {Mail.newPaymentDelivery(it,"Street 1")} }
 
-        employeeUnion5 = employeeBuilder.withName("Sofia Medina Carvalho").withAddress("test address").withEmail("test email")
-                                        .beUnionMember(5).withPaimentType({Hourly.newPaymentType(it, 100)})
-                                        .withPaymentDelivery({Mail.newPaymentDelivery(it,"Street 1")})
-                                        .build()
+
+        employee5 = employeeMother.createNewBornWithEmbryoConfig { setName("Sofia Medina Carvalho"); setAddress("test address"); setEmail("test email")
+                                                                   bePaid {Hourly.newPaymentType(it, 100)}
+                                                                   receivePaymentBy {Mail.newPaymentDelivery(it,"Street 1")}
+                                                                   beUnionMember(5) }
     }
 
     @Test
@@ -71,10 +68,9 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @Test
     void "Add a new monthly paid Employee"(){
-        Employee addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email")
-                                                .withPaimentType({Monthly.newPaymentType(it,1000)})
-                                                .withPaymentDelivery({Mail.newPaymentDelivery(it, "Street 1")})
-                                                .build()
+        Employee addedEmployee = employeeMother.createNewBornWithEmbryoConfig{ setName("New Employee"); setAddress("test adress"); setEmail("test email")
+                                                                               bePaid {Monthly.newPaymentType(it,1000)}
+                                                                               receivePaymentBy {Mail.newPaymentDelivery(it, "Street 1")} }
 
         addedEmployee = employeeRepository.get(addedEmployee.getId())
         assertMonthlyPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 1000)
@@ -82,12 +78,10 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @Test
     void "Add a new hourly paid Employee"(){
-        Employee addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email")
-                                                .withPaimentType({Hourly.newPaymentType(it,50)})
-                                                .withPaymentDelivery({Mail.newPaymentDelivery(it, "Street 1")})
-                                                .build()
+        Employee addedEmployee  = employeeMother.createNewBornWithEmbryoConfig { setName("New Employee"); setAddress("test adress"); setEmail("test email")
+                                                                                 bePaid {Hourly.newPaymentType(it,50)}
+                                                                                 receivePaymentBy {Mail.newPaymentDelivery(it, "Street 1")} }
 
-        addedEmployee = employeeRepository.get(addedEmployee.getId())
         assertHourlyPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 50)
     }
 
@@ -114,10 +108,11 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @Test
     void "Add a new Union member Employee"(){
-        def addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email")
-                                           .withPaimentType({Monthly.newPaymentType(it,1000)})
-                                           .withPaymentDelivery({Mail.newPaymentDelivery(it,"Street 1")})
-                                           .beUnionMember(5).build()
+        def addedEmployee = employeeMother.createNewBornWithEmbryoConfig { setName("New Employee"); setAddress("test adress"); setEmail("test email")
+                                                                           bePaid {Monthly.newPaymentType(it,1000)}
+                                                                           receivePaymentBy {Mail.newPaymentDelivery(it,"Street 1")}
+                                                                           beUnionMember(5) }
+
         assertMonthlyPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 1000)
         assert addedEmployee.isUnionMember() : "Should be an Union Member"
     }
@@ -126,16 +121,15 @@ class EmployeeIntTest extends IntegrationTestBase {
     void "Find Employees"(){
         def employeeFound = employeeRepository.findAll {it.name.contains("Medina")}
 
-        assert employeeFound.collect {it.id} as Set == [employee2, employee4, employeeUnion5].collect {it.id} as Set
+        assert employeeFound.collect {it.id} as Set == [employee2, employee4, employee5].collect {it.id} as Set
     }
 
     @Test
     void "Add a new commission paid Employee"(){
-        Employee addedEmployee = employeeBuilder.withName("New Employee").withAddress("test adress").withEmail("test email")
-                                                .withPaimentType({Commission.newPaymentType(it, 1000, 20)})
-                                                .withPaymentDelivery({Mail.newPaymentDelivery(it, "Street 1")})
-                                                .build()
-        addedEmployee = employeeRepository.get(addedEmployee.getId())
+        Employee addedEmployee = employeeMother.createNewBornWithEmbryoConfig{ setName("New Employee"); setAddress("test adress"); setEmail("test email")
+                                                                               bePaid{Commission.newPaymentType(it, 1000, 20)}
+                                                                               receivePaymentBy{Mail.newPaymentDelivery(it, "Street 1")}}
+
         assertCommissionPaidEmployeeIs(addedEmployee, "New Employee", "test adress", "test email", 1000, 20)
     }
 
@@ -143,10 +137,10 @@ class EmployeeIntTest extends IntegrationTestBase {
     void "Post a time card"(){
         def expectedDate = new DateTime()
         def expectedTimeCard = TimeCard.newTimeCard(expectedDate, 6)
-        employeeUnion5.postPaymentAttachment(expectedTimeCard)
-        employeeRepository.update(employeeUnion5)
+        employee5.postPaymentAttachment(expectedTimeCard)
+        employeeRepository.update(employee5)
         model.save()
-        def employeeChanged = employeeRepository.get(employeeUnion5.id)
+        def employeeChanged = employeeRepository.get(employee5.id)
         assert validationObserver.successful() : "${validationObserver.getCommaSeparatedErrors()}"
         assert employeeChanged.paymentType.getPaymentAttachments().collect{ it.getDate().toString() + "_" + it.getHours()} ==
                [expectedDate.toString() + "_" + 6]
@@ -169,10 +163,10 @@ class EmployeeIntTest extends IntegrationTestBase {
     void "Post an Union charge"(){
         def expectedDate = new DateTime()
         def expectedServiceCharge = ServiceCharge.newServiceCharge(expectedDate, 5)
-        employeeUnion5.postPaymentAttachment(expectedServiceCharge)
-        employeeRepository.update(employeeUnion5)
+        employee5.postPaymentAttachment(expectedServiceCharge)
+        employeeRepository.update(employee5)
         model.save()
-        def employeeChanged = employeeRepository.get(employeeUnion5.id)
+        def employeeChanged = employeeRepository.get(employee5.id)
         assert validationObserver.successful() : "${validationObserver.getCommaSeparatedErrors()}"
         assert employeeChanged.unionAssociation.getCharges().collect{ it.getDate().toString() + "_" + it.getAmount()} ==
                 [expectedDate.toString() + "_" + 5]

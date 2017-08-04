@@ -1,17 +1,17 @@
 package com.vmc.payroll
 
 import com.vmc.payroll.api.Entity
-import com.vmc.payroll.payment.paymentAttachment.api.PaymentAttachment
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
+import com.vmc.payroll.payment.paymentAttachment.api.PaymentAttachment
 import com.vmc.payroll.payment.type.api.PaymentType
 import com.vmc.payroll.unionAssociation.BasicUnionAssociation
 import com.vmc.payroll.unionAssociation.NoUnionAssociation
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
-import com.vmc.validationNotification.builder.api.BuilderAwareness
+import com.vmc.validationNotification.Validate
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 
-class Employee implements Entity, BuilderAwareness{
+class Employee implements Entity{
 
     private String id = UUID.randomUUID()
 
@@ -23,13 +23,16 @@ class Employee implements Entity, BuilderAwareness{
     private UnionAssociation unionAssociation = NoUnionAssociation.getInstance()
     private paymentAttachmentHandlers = []
 
-    private Employee() {
-        //Available only for reflection magic
-        invalidForBuilder()
+    static newEmployee(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
+        return Validate.validate {new Employee(name, address, email, paymentTypeProvider, paymentDeliveryProvider)}
     }
 
-    //Should be used by builder only
-    //TODO change payment args to a closure receiving the employee so to create a payment.
+    //for reflection magic
+    Employee() {}
+
+    /**
+     * Use newEmployee instead, otherwise be careful as you can end up with an invalid object.
+     */
     protected Employee(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
         executeNamedValidation("Validate new Employee", {
             setName(name)

@@ -4,7 +4,7 @@ import com.vmc.payroll.payment.delivery.AccountTransfer
 import com.vmc.payroll.payment.delivery.Mail
 import com.vmc.payroll.payment.type.Commission
 import com.vmc.payroll.payment.type.Monthly
-import com.vmc.validationNotification.builder.GenericBuilder
+import com.vmc.validationNotification.builder.ObjectMother
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Before
 import org.junit.Test
@@ -12,6 +12,7 @@ import org.junit.Test
 class EmployeeUnitTest extends ValidationNotificationTestSetup{
 
     private Employee employeeForChange
+    private ObjectMother<Employee> employeeMother = new ObjectMother(Employee)
 
     @Before
     void setUp(){
@@ -20,36 +21,18 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
     }
 
     Employee getEmployeeForChange(){
-        return new GenericBuilder(getEmployeeClass()).withName("test name")
-                                                     .withAddress("test address")
-                                                     .withEmail("test email")
-                                                     .withPaimentType({Monthly.newPaymentType(it, 1000)})
-                                                     .withPaymentDelivery({Mail.newPaymentDelivery(it, "Street 1")})
-                                                     .build()
+        return Employee.newEmployee("test name", "test address", "test email", {Monthly.newPaymentType(it, 1000)}, {Mail.newPaymentDelivery(it, "Street 1")})
     }
 
     @Test
     void "Create employee not providing mandatory information"(){
-        def employee = new GenericBuilder(getEmployeeClass()).withName(null)
-                                                             .withAddress(null)
-                                                             .withEmail(null)
-                                                             .withPaimentType(null)
-                                                             .withPaymentDelivery(null)
-                                                             .build()
-        assert employee == null
+        Employee employee = Employee.newEmployee(null, null, null, null, null)
         verifyMandatoryErrorsMessagesForCreationWereIssued()
     }
 
     @Test
     void "Create employee providing mandatory information"(){
-        def EmployeeBuilder = new GenericBuilder(getEmployeeClass())
-        Employee builtEmployee = EmployeeBuilder.withName("test name")
-                                                .withAddress("test address")
-                                                .withEmail("test email")
-                                                .withPaimentType({Monthly.newPaymentType(it, 1000)})
-                                                .withPaymentDelivery({Mail.newPaymentDelivery(it, "Street 1")})
-                                                .build()
-
+        Employee builtEmployee = Employee.newEmployee("test name", "test address", "test email", {Monthly.newPaymentType(it, 1000)}, {Mail.newPaymentDelivery(it, "Street 1")})
         verifyEmployeeWithExpectedData(builtEmployee, "test name", "test address", "test email")
         assert builtEmployee.paymentType.class == Monthly
         assert builtEmployee.paymentType.getSalary() == 1000

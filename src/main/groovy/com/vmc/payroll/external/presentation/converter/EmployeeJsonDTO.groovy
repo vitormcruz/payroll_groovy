@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.vmc.payroll.Employee
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.payment.type.api.PaymentType
-import com.vmc.validationNotification.builder.GenericBuilder
 import org.apache.commons.lang.StringUtils
 import org.reflections.Reflections
 
@@ -37,16 +36,16 @@ class EmployeeJsonDTO implements JsonConverter{
 
     }
 
-    static builderFromJson(String string){
+    static employeeFromJson(String string){
         def employeeConverter = mapper.readValue(string, EmployeeJsonDTO)
         checkArgument(employeeConverter.paymentType != null, "Json formmat is invalid: you must specify a payment type of one of the following alternatives:" +
                                                                             StringUtils.join(paymentTypes.collect {it.getSimpleName()}, ", "))
-        return employeeConverter.meToBuilder()
+        return employeeConverter.toEmployee()
 
     }
 
-    GenericBuilder meToBuilder() {
-        return new GenericBuilder(Employee).withName(name).withAddress(address).withEmail(email).withPayment(paymentTypeClass.paramsFromConverter(this))
+    Employee toEmployee() {
+        return Employee.newEmployee(name, address, email, paymentTypeClass.paramsFromConverter(this), null)
     }
 
     String getPaymentType() {
