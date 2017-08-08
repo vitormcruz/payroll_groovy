@@ -6,9 +6,9 @@ import com.vmc.payroll.api.Repository
 class CommonInMemoryRepository<E extends Entity> implements Repository<E> {
 
     @Delegate
-    private Collection<E> entities
-    def final Map entitiesById
-    def final pending = []
+    protected Collection<E> entities
+    protected Map entitiesById
+    protected pending = []
 
     CommonInMemoryRepository() {
         entitiesById = new HashMap()
