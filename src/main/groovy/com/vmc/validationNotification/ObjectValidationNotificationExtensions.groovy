@@ -2,20 +2,38 @@ package com.vmc.validationNotification
 
 class ObjectValidationNotificationExtensions {
 
-    static String issueError(Object subject, String message){
+    static void issueError(Object subject, String message){
         ApplicationValidationNotifier.issueError(subject, [:], message)
     }
 
-    static String issueError(Object subject, String instantValidationName, String message){
+    static void issueError(Object subject, String instantValidationName, String message){
         ApplicationValidationNotifier.issueError(subject, [:], instantValidationName, message)
     }
 
-    static String issueError(Object subject, String message, Map mapEntries){
-        ApplicationValidationNotifier.issueError(subject, mapEntries, message)
+    static void issueError(Object subject, String message, Map context){
+        ApplicationValidationNotifier.issueError(subject, context, message)
     }
 
-    static String issueError(Object subject, String instantValidationName, String message, Map mapEntries){
-        ApplicationValidationNotifier.issueError(subject, mapEntries, instantValidationName, message)
+    static void issueError(Object subject, String instantValidationName, String message, Map context){
+        ApplicationValidationNotifier.issueError(subject, context, instantValidationName, message)
+    }
+
+    static String issueMandatoryObligation(Object subject, String error, Map context) {
+        def mandatoryObligationName = UUID.randomUUID().toString()
+        ApplicationValidationNotifier.issueMandatoryObligation(subject, context, mandatoryObligationName, error)
+        return mandatoryObligationName
+    }
+
+    static String issueMandatoryObligation(Object subject, String error) {
+        return issueMandatoryObligation(subject, error, [:])
+    }
+
+    static void issueMandatoryObligationComplied(Object subject, String mandatoryObligationId, Map context) {
+        ApplicationValidationNotifier.issueMandatoryObligationComplied(subject, context, mandatoryObligationId)
+    }
+
+    static void issueMandatoryObligationComplied(Object subject, String mandatoryObligationId) {
+        issueMandatoryObligationComplied(subject, mandatoryObligationId, [:])
     }
 
     /**

@@ -10,7 +10,6 @@ import groovy.transform.stc.FirstParam
 //todo document
 //todo more tests
 //todo create test for employee creating a lot of objects
-//switch cglib for byte budy
 /**
  *
  */
@@ -80,7 +79,7 @@ class ObjectMother<E> {
 
         employeeMother = employeeMother.addBirthScript({setEmail({faker.name().name()}())})
         (1..100).each {
-            employeeMother.createNewBorn()
+            employeeMother.createNewBorn().onBuildFailure {println(it)}
         }
     }
 }

@@ -15,9 +15,9 @@ class Employee implements Entity{
 
     private String id = UUID.randomUUID()
 
-    String name
-    String address
-    String email
+    private Mandatory<String> name = new Mandatory<String>(null, "The employee name is required", [property:"name"])
+    private Mandatory<String> address = new Mandatory<String>(null, "The employee address is required", [property:"address"])
+    private Mandatory<String> email = new Mandatory<String>(null, "The employee email is required", [property:"email"])
     private PaymentType paymentType
     private PaymentDelivery paymentDelivery
     private UnionAssociation unionAssociation = NoUnionAssociation.getInstance()
@@ -48,16 +48,28 @@ class Employee implements Entity{
         return id
     }
 
+    String getName() {
+        return name.get()
+    }
+
     void setName(String aName) {
-        aName ? this.@name = aName : issueError("The employee name is required", [property:"name"])
+        this.@name.set(aName)
+    }
+
+    String getAddress() {
+        return address.get()
     }
 
     void setAddress(String anAddress) {
-        anAddress ? this.@address = anAddress : issueError("The employee address is required", [property:"address"])
+        this.@address.set(anAddress)
+    }
+
+    String getEmail() {
+        return email.get()
     }
 
     void setEmail(String anEmail) {
-        anEmail ? this.@email = anEmail : issueError("The employee email is required", [property:"email"])
+        this.@email.set(anEmail)
     }
 
     PaymentType getPaymentType() {
