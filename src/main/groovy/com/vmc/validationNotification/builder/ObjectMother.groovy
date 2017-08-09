@@ -9,7 +9,6 @@ import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.FirstParam
 //todo document
 //todo more tests
-//todo create test for employee creating a lot of objects
 /**
  *
  */
@@ -34,7 +33,7 @@ class ObjectMother<E> {
     }
 
     ObjectMother<E> setPostBirthScript(@ClosureParams(FirstParam.FirstGenericType)
-                                    Closure<E> aPostBirthScript) {
+                                       Closure<E> aPostBirthScript) {
 
         return new ObjectMother<E>(childClass, birthScripts, aPostBirthScript)
     }
@@ -62,7 +61,7 @@ class ObjectMother<E> {
             def newBornChild = childClass.newInstance()
             birthScripts.each {birthScript -> newBornChild .with birthScript}
             return newBornChild
-        }).onBuildSucess(postBirthScript)
+        }).onBuildSuccess(postBirthScript)
     }
 
     static void main(String[] args) {

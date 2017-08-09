@@ -20,7 +20,7 @@ class EmployeeWebServiceController implements BasicControllerOperationsTrait{
     void newEmployee(Request request, Response response) {
         def listener = getValidationListener()
         Employee employeeBuilder = EmployeeJsonDTO.employeeFromJson(request.body())
-        employeeBuilder.onBuildSucess { newEmployee ->
+        employeeBuilder.onBuildSuccess { newEmployee ->
             employeeRepository.add(newEmployee)
             listener.setBody(newEmployee.asJson())
             model.save()

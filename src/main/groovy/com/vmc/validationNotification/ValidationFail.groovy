@@ -40,7 +40,7 @@ class ValidationFail implements ValidationResult{
 
         } as MethodInterceptor)
 
-        proxy.metaClass."onBuildSucess" = {Closure aSucessClosure -> return delegate}
+        proxy.metaClass."onBuildSuccess" = {Closure aSuccessClosure -> return delegate}
         proxy.metaClass."onBuildFailure" = {Closure aFailureClosure ->
             aFailureClosure(validateObject.errorsByContext)
             return delegate

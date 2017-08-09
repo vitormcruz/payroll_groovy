@@ -11,7 +11,7 @@ class TimeCardUnitTest extends ValidationNotificationTestSetup {
     @Test
     void "Create a time card providing null to required fields"(){
         def timeCard = TimeCard.newTimeCard(null, null)
-        timeCard.onBuildSucess({fail("Creating a Time Card without required fields should fail.")})
+        timeCard.onBuildSuccess({fail("Creating a Time Card without required fields should fail.")})
                 .onBuildFailure({assert validationObserver.errors.containsAll("payroll.timecard.date.required",
                                                                               "payroll.timecard.hours.required")})
     }

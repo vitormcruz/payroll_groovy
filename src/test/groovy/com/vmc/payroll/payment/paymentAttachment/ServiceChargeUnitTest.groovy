@@ -11,7 +11,7 @@ class ServiceChargeUnitTest extends ValidationNotificationTestSetup {
     @Test
     void "Create a service charge providing null to required fields"(){
         ServiceCharge serviceCharge = ServiceCharge.newServiceCharge(null, null)
-        serviceCharge.onBuildSucess({fail("Creating a Service Charge without required fields should fail.")})
+        serviceCharge.onBuildSuccess({fail("Creating a Service Charge without required fields should fail.")})
                      .onBuildFailure({assert validationObserver.errors.containsAll("payroll.servicecharge.date.required", "payroll.servicecharge.amount.required")})
 
     }

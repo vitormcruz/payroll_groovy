@@ -39,7 +39,7 @@ class ObjectValidationNotificationExtensions {
     /**
      * Execute aSuccessClosure if the object building was ok passing myself as parameter.
      */
-    static onBuildSucess(Object buildObject, Closure aSuccessClosure){
+    static <E> E onBuildSuccess(E buildObject, Closure aSuccessClosure){
         aSuccessClosure(buildObject)
         return buildObject
     }
@@ -60,7 +60,7 @@ class ObjectValidationNotificationExtensions {
      * @see com.google.common.collect.SetMultimap
      */
 
-    static onBuildFailure(Object buildObject, Closure aFailureClosure){
+    static <E> E onBuildFailure(E buildObject, Closure aFailureClosure){
         return buildObject
     }
 
