@@ -2,9 +2,8 @@ package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.payment.paymentAttachment.TimeCard
 import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
-import com.vmc.payroll.payment.type.api.GenericPaymentType
+import com.vmc.validationNotification.api.ConstructorValidator
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 import static com.vmc.validationNotification.Validate.validate
 
 class Hourly extends GenericPaymentType {
@@ -12,22 +11,21 @@ class Hourly extends GenericPaymentType {
     Integer hourRate
 
     static Hourly newPaymentType(employee, Integer hourRate) {
-        return validate {new Hourly(employee, hourRate)}
+        return validate(Hourly, {new Hourly(employee, hourRate)})
     }
 
-    /**
-     * Should be used for reflection magic only
-     */
-    Hourly() {}
+    Hourly() {
+    }
 
-    /**
-     * Use newPaymentType instead, otherwise be careful as you can end up with an invalid object.
-     */
-    protected Hourly(employee, Integer aHourRate) {
-        super(employee)
-        executeNamedValidation("Validate new Hourly Payment", {
-            setHourRate(aHourRate)
-        })
+    Hourly(employee, Integer aHourRate) {
+        def constructorValidator = new ConstructorValidator()
+        prepareConstructor(employee, aHourRate)
+        constructorValidator.validateConstruction()
+    }
+
+    void prepareConstructor(Object anEmployee, Integer aHourRate) {
+        super.prepareConstructor(anEmployee)
+        setHourRate(aHourRate)
     }
 
     void setHourRate(Integer aHourRate) {

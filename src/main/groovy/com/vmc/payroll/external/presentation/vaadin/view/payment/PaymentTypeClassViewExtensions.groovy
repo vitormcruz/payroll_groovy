@@ -5,7 +5,7 @@ import com.vmc.payroll.external.presentation.vaadin.view.employee.VaadinEmployee
 import com.vmc.payroll.payment.type.Commission
 import com.vmc.payroll.payment.type.Hourly
 import com.vmc.payroll.payment.type.Monthly
-import com.vmc.payroll.payment.type.api.GenericPaymentType
+import com.vmc.payroll.payment.type.GenericPaymentType
 import com.vmc.payroll.payment.type.api.PaymentType
 import com.vmc.validationNotification.vaadin.BinderDecoratorForValidationNotification
 import org.reflections.Reflections

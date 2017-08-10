@@ -1,6 +1,7 @@
 package com.vmc.validationNotification
 
 import static ApplicationValidationNotifier.*
+
 /**
  * Utility to validate mandatory fields
  */

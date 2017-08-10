@@ -26,17 +26,17 @@ class ValidationFail implements ValidationResult{
     }
 
     /**
-     * I create a NullObject for validated objects that dynamically "overrides" the result object from validateObject. I implement onBuildSucess and onBuildFailure accordinly
-     * and throw an UnsupportedOperationException for every method call that is not implemented on the Object class.
+     * I create a NullObject for validated objects that dynamically "overrides" onBuildSucess and onBuildFailure
+     * accordingly and throw an UnsupportedOperationException for every method call that is not implemented on the
+     * Object class.
      */
     def createNullObject(Validate validateObject) {
-        def classToProxyAsNullObject = validateObject.executionResult.getClass()
-        def proxy = Enhancer.create(classToProxyAsNullObject, { Object obj, Method method, Object[] args, MethodProxy proxyMethod ->
+        def proxy = Enhancer.create(validateObject.getClassValidated(), { Object obj, Method method, Object[] args, MethodProxy proxyMethod ->
             if (methodsToRespondEvenIfNullObject().contains(method.name)) {
                 return proxyMethod.invokeSuper(obj, args)
             }
 
-            throw new UnsupportedOperationException("I am a NullObject of ${classToProxyAsNullObject}, and I cannot respond to the ${method.name} message.")
+            throw new UnsupportedOperationException("I am a NullObject and I cannot respond to the ${method.name} message.")
 
         } as MethodInterceptor)
 

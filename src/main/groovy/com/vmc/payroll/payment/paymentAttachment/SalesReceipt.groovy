@@ -1,9 +1,9 @@
 package com.vmc.payroll.payment.paymentAttachment
 
 import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
+import com.vmc.validationNotification.api.ConstructorValidator
 import org.joda.time.DateTime
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 import static com.vmc.validationNotification.Validate.validate
 
 class SalesReceipt implements WorkDoneProof{
@@ -12,23 +12,21 @@ class SalesReceipt implements WorkDoneProof{
     private amount
 
     static SalesReceipt newSalesReceipt(DateTime date, amount){
-        return validate {new SalesReceipt(date, amount)}
+        return validate(SalesReceipt, {new SalesReceipt(date, amount)})
     }
 
-    /**
-     * Should be used for reflection magic only
-     */
-    SalesReceipt() {}
+    SalesReceipt() {
+    }
 
-
-    /**
-     * Use newSalesReceipt instead, otherwise be careful as you can end up with an invalid object.
-     */
     SalesReceipt(DateTime date, amount) {
-        executeNamedValidation("Validate new SalesReceipt", {
-            date != null? this.@date = date : issueError("payroll.salesreceipt.date.required", [property:"date"])
-            amount != null? this.@amount = amount : issueError("payroll.salesreceipt.amount.required", [property:"amount"])
-        })
+        def constructorValidator = new ConstructorValidator()
+        prepareConstructor(date, amount)
+        constructorValidator.validateConstruction()
+    }
+
+    void prepareConstructor(DateTime date, amount) {
+        date != null ? this.@date = date : issueError("payroll.salesreceipt.date.required", [property: "date"])
+        amount != null ? this.@amount = amount : issueError("payroll.salesreceipt.amount.required", [property: "amount"])
     }
 
     DateTime getDate() {

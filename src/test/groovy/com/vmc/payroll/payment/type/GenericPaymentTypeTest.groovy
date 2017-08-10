@@ -3,7 +3,6 @@ package com.vmc.payroll.payment.type
 import com.vmc.payroll.Employee
 import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
 import com.vmc.payroll.payment.paymentAttachment.api.UnionCharge
-import com.vmc.payroll.payment.type.api.GenericPaymentType
 import groovy.test.GroovyAssert
 import org.junit.Test
 

@@ -57,7 +57,7 @@ class ObjectMother<E> {
     }
 
     E createNewBorn(List<Closure> birthScripts){
-        return Validate.validate({
+        return Validate.validate(childClass, {
             def newBornChild = childClass.newInstance()
             birthScripts.each {birthScript -> newBornChild .with birthScript}
             return newBornChild

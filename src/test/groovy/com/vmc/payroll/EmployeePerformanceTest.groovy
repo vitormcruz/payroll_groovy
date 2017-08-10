@@ -10,7 +10,7 @@ import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.payroll.payment.type.Commission
 import com.vmc.payroll.payment.type.Hourly
 import com.vmc.payroll.payment.type.Monthly
-import com.vmc.payroll.payment.type.api.GenericPaymentType
+import com.vmc.payroll.payment.type.GenericPaymentType
 import com.vmc.payroll.testPreparation.IntegrationTestBase
 import com.vmc.validationNotification.builder.ObjectMother
 import org.junit.BeforeClass

@@ -1,7 +1,8 @@
-package com.vmc.payroll.payment.type.api
+package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
 import com.vmc.payroll.payment.paymentAttachment.api.PaymentAttachment
+import com.vmc.payroll.payment.type.api.PaymentType
 
 import static com.google.common.base.Preconditions.checkArgument
 
@@ -14,6 +15,10 @@ abstract class GenericPaymentType implements PaymentType{
     GenericPaymentType() {}
 
     GenericPaymentType(anEmployee){
+        prepareConstructor(anEmployee)
+    }
+
+    void prepareConstructor(anEmployee) {
         checkArgument(anEmployee != null, "Employee must be provided for payment types, but I got it null")
         this.employee = anEmployee
         anEmployee.registerAsPaymentAttachmentHandler(this)

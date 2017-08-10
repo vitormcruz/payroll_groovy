@@ -1,26 +1,41 @@
 package com.vmc.validationNotification
 
 import com.vmc.validationNotification.api.ValidationResult
+import com.vmc.validationNotification.builder.ConstructionValidationFailedException
 
 //TODO Add tests, review, comment
 class Validate extends SimpleValidationObserverImp {
 
     protected ValidationResult validationResult = new ValidationSuccess()
     protected executionResult
+    private Class classValidated
 
-    static <R> R validate(Closure<R> aClusureToValidate) {
-        return (R) new Validate(aClusureToValidate).getResult()
+    static <R> R validate(Class<R> classValidated, Closure<R> aClusureToValidate) {
+        return (R) new Validate(classValidated, aClusureToValidate).getResult()
     }
 
-    Validate(Closure aClosureToValidate) {
+    Validate(Class classValidated, Closure aClosureToValidate) {
+        this.classValidated = classValidated
         ApplicationValidationNotifier.addObserver(this)
-        executionResult = aClosureToValidate()
+        executeIgnoringConstructorValidationException(aClosureToValidate)
         ApplicationValidationNotifier.removeObserver(this)
         validationResult.setValidateObject(this)
     }
 
+    private void executeIgnoringConstructorValidationException(Closure aClosureToValidate) {
+        try {
+            executionResult = aClosureToValidate()
+        } catch (ConstructionValidationFailedException e) {
+            //Ignored. Validation failure will be treated differently.
+        }
+    }
+
     ValidationResult getValidationResult() {
         return validationResult
+    }
+
+    Class getClassValidated() {
+        return classValidated
     }
 
     def getResult(){

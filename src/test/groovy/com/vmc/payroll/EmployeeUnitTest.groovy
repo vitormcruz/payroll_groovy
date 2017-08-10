@@ -4,7 +4,6 @@ import com.vmc.payroll.payment.delivery.AccountTransfer
 import com.vmc.payroll.payment.delivery.Mail
 import com.vmc.payroll.payment.type.Commission
 import com.vmc.payroll.payment.type.Monthly
-import com.vmc.validationNotification.builder.ObjectMother
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Before
 import org.junit.Test
@@ -12,7 +11,6 @@ import org.junit.Test
 class EmployeeUnitTest extends ValidationNotificationTestSetup{
 
     private Employee employeeForChange
-    private ObjectMother<Employee> employeeMother = new ObjectMother(Employee)
 
     @Before
     void setUp(){
@@ -96,9 +94,5 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
         assert builtEmployee.getName() == name
         assert builtEmployee.getAddress() == address
         assert builtEmployee.getEmail() == email
-    }
-
-    Class<Employee> getEmployeeClass() {
-        return Employee
     }
 }

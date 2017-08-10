@@ -10,16 +10,13 @@ class Paymaster implements PaymentDelivery{
     private employee
 
     static Paymaster newPaymentDelivery(employee){
-        return validate {new Paymaster(employee)}
+        return validate(Paymaster, {new Paymaster(employee)})
     }
 
-    /**
-     * Should be used for reflection magic only
-     */
-    protected Paymaster() {
+    Paymaster() {
     }
 
-    protected Paymaster(employee) {
+    Paymaster(employee) {
         checkArgument(employee != null, "Did you miss passing my employee?")
         this.employee = employee
     }

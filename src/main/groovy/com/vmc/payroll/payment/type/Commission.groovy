@@ -2,8 +2,8 @@ package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.payment.paymentAttachment.SalesReceipt
 import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
+import com.vmc.validationNotification.api.ConstructorValidator
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 import static com.vmc.validationNotification.Validate.validate
 
 class Commission extends Monthly{
@@ -11,22 +11,21 @@ class Commission extends Monthly{
     Integer commissionRate
 
     static Commission newPaymentType(employee, Integer salary, Integer commissionRate) {
-        return validate {new Commission(employee, salary, commissionRate)}
+        return validate(Commission, {new Commission(employee, salary, commissionRate)})
     }
 
-    /**
-     * Should be used for reflection magic only
-     */
-    protected Commission() {}
+    Commission() {
+    }
 
-    /**
-     * Use newPaymentType instead, otherwise be careful as you can end up with an invalid object.
-     */
-    protected Commission(employee, Integer aSalary, Integer aCommissionRate) {
-        super(employee, aSalary)
-        executeNamedValidation("Validate new Hourly Payment", {
-            setCommissionRate(aCommissionRate)
-        })
+    Commission(employee, Integer aSalary, Integer aCommissionRate) {
+        def constructorValidator = new ConstructorValidator()
+        prepareConstructor(employee, aSalary, aCommissionRate)
+        constructorValidator.validateConstruction()
+    }
+
+    void prepareConstructor(Object anEmployee, Integer aSalary, Integer aCommissionRate) {
+        super.prepareConstructor(anEmployee, aSalary)
+        setCommissionRate(aCommissionRate)
     }
 
     void setCommissionRate(Integer aCommissionRate) {

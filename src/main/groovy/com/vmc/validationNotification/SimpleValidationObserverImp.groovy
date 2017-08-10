@@ -72,7 +72,7 @@ class SimpleValidationObserverImp implements SimpleValidationObserver{
         return errors + mandatoryObligation.collect {it.value}
     }
 
-    def getCommaSeparatedErrors(){
+    String getCommaSeparatedErrors(){
         return StringUtils.join(getErrors(), ", ")
     }
 }

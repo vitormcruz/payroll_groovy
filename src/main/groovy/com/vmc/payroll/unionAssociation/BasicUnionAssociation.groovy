@@ -3,6 +3,7 @@ package com.vmc.payroll.unionAssociation
 import com.vmc.payroll.payment.paymentAttachment.api.PaymentAttachment
 import com.vmc.payroll.payment.paymentAttachment.api.UnionCharge
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
+import com.vmc.validationNotification.api.ConstructorValidator
 
 import static com.google.common.base.Preconditions.checkArgument
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
@@ -15,25 +16,23 @@ class BasicUnionAssociation implements UnionAssociation{
     private charges = []
 
     static BasicUnionAssociation newUnionAssociation(employee, Integer aRate){
-        return validate { new BasicUnionAssociation(employee, aRate)}
+        return validate(BasicUnionAssociation, { new BasicUnionAssociation(employee, aRate)})
     }
 
-    /**
-     * Should be used for reflection magic only
-     */
     BasicUnionAssociation() {
     }
 
-    /**
-     * Use newUnionAssociation instead, otherwise be careful as you can end up with an invalid object.
-     */
     BasicUnionAssociation(anEmployee, Integer aRate) {
+        def constructorValidator = new ConstructorValidator()
+        prepareConstructor(anEmployee, aRate)
+        constructorValidator.validateConstruction()
+    }
+
+    void prepareConstructor(anEmployee, Integer aRate) {
         checkArgument(anEmployee != null, "An Employee should be provided to a Default Union Association")
         this.employee = anEmployee
         this.employee.registerAsPaymentAttachmentHandler(this)
-        executeNamedValidation("Validate new ServiceCharge", {
-            setRate(aRate)
-        })
+        executeNamedValidation("Validate new Basic Union Association", { setRate(aRate) })
     }
 
     @Override

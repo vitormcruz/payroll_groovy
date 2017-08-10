@@ -1,9 +1,8 @@
 package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
-import com.vmc.payroll.payment.type.api.GenericPaymentType
+import com.vmc.validationNotification.api.ConstructorValidator
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 import static com.vmc.validationNotification.Validate.validate
 
 class Monthly extends GenericPaymentType {
@@ -11,22 +10,24 @@ class Monthly extends GenericPaymentType {
     Integer salary
 
     static Monthly newPaymentType(employee, Integer salary){
-        return validate {new Monthly(employee, salary)}
+        return validate(Monthly, {new Monthly(employee, salary)})
     }
 
     /**
      * Should be used for reflection magic only
      */
-    Monthly() {}
+    Monthly() {
+    }
 
-    /**
-     * Use newPaymentType instead, otherwise be careful as you can end up with an invalid object.
-     */
-    protected Monthly(employee, Integer aSalary) {
-        super(employee)
-        executeNamedValidation("Validate new Monhtly Payment", {
-            setSalary(aSalary)
-        })
+    Monthly(employee, Integer aSalary) {
+        def constructorValidator = new ConstructorValidator()
+        prepareConstructor(employee, aSalary)
+        constructorValidator.validateConstruction()
+    }
+
+    void prepareConstructor(Object anEmployee, Integer aSalary) {
+        super.prepareConstructor(anEmployee)
+        setSalary(aSalary)
     }
 
     void setSalary(Integer aSalary) {

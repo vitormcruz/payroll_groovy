@@ -2,6 +2,7 @@ package com.vmc.payroll.payment.delivery
 
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
 import com.vmc.validationNotification.Validate
+import com.vmc.validationNotification.api.ConstructorValidator
 
 import static com.google.common.base.Preconditions.checkArgument
 
@@ -12,18 +13,19 @@ class AccountTransfer implements PaymentDelivery{
     String account
 
     static AccountTransfer newPaymentDelivery(employee, String bank, String account){
-        return Validate.validate {new AccountTransfer(employee, bank, account)}
+        return Validate.validate(AccountTransfer, {new AccountTransfer(employee, bank, account)})
     }
 
-    /**
-     * Should be used for reflection magic only
-     */
-    AccountTransfer() {}
+    AccountTransfer() {
+    }
 
-    /**
-     * Use newPaymentDelivery instead, otherwise be careful as you can end up with an invalid object.
-     */
     AccountTransfer(anEmployee, String aBank, String anAccount) {
+        def constructorValidator = new ConstructorValidator()
+        prepareConstructor(anEmployee, aBank, anAccount)
+        constructorValidator.validateConstruction()
+    }
+
+    void prepareConstructor(anEmployee, String aBank, String anAccount) {
         checkArgument(anEmployee != null, "Did you miss passing my employee?")
         this.employee = anEmployee
         setBank(aBank)

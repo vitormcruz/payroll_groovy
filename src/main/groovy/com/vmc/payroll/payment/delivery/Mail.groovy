@@ -1,9 +1,9 @@
 package com.vmc.payroll.payment.delivery
 
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
+import com.vmc.validationNotification.api.ConstructorValidator
 
 import static com.google.common.base.Preconditions.checkArgument
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 import static com.vmc.validationNotification.Validate.validate
 
 class Mail implements PaymentDelivery{
@@ -12,23 +12,22 @@ class Mail implements PaymentDelivery{
     String address
 
     static Mail newPaymentDelivery(employee, String address){
-        return validate {new Mail(employee, address)}
+        return validate(Mail, {new Mail(employee, address)})
     }
 
-    /**
-     * Should be used for reflection magic only
-     */
-    protected Mail() {}
+    Mail() {
+    }
 
-    /**
-     * Use newPaymentDelivery instead, otherwise be careful as you can end up with an invalid object.
-     */
-    protected Mail(anEmployee, String anAddress) {
+    Mail(anEmployee, String anAddress) {
+        def constructorValidator = new ConstructorValidator()
+        prepareConstructor(anEmployee, anAddress)
+        constructorValidator.validateConstruction()
+    }
+
+    void prepareConstructor(anEmployee, String anAddress) {
         checkArgument(anEmployee != null, "Did you miss passing my employee?")
-        executeNamedValidation("Validate new Mail", {
-            this.employee = anEmployee
-            setAddress(anAddress)
-        })
+        this.employee = anEmployee
+        setAddress(anAddress)
     }
 
     @Override

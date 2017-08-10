@@ -8,6 +8,7 @@ import com.vmc.payroll.unionAssociation.BasicUnionAssociation
 import com.vmc.payroll.unionAssociation.NoUnionAssociation
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
 import com.vmc.validationNotification.Validate
+import com.vmc.validationNotification.api.ConstructorValidator
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 
@@ -24,16 +25,19 @@ class Employee implements Entity{
     private paymentAttachmentHandlers = []
 
     static newEmployee(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
-        return Validate.validate {new Employee(name, address, email, paymentTypeProvider, paymentDeliveryProvider)}
+        return Validate.validate(Employee, {new Employee(name, address, email, paymentTypeProvider, paymentDeliveryProvider)})
     }
 
-    //for reflection magic
+    //For reflection magic only
     Employee() {}
 
-    /**
-     * Use newEmployee instead, otherwise be careful as you can end up with an invalid object.
-     */
     protected Employee(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
+        def constructorValidator = new ConstructorValidator()
+        prepareNewEmployee(name, address, email, paymentTypeProvider, paymentDeliveryProvider)
+        constructorValidator.validateConstruction()
+    }
+
+    void prepareNewEmployee(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
         executeNamedValidation("Validate new Employee", {
             setName(name)
             setAddress(address)
