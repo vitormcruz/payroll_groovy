@@ -1,4 +1,4 @@
-package com.vmc.payroll
+package com.vmc.validationNotification
 
 /**
  * I am a mandatory object holder. My value holder is only changed if it's the new value is not null. A mandatory

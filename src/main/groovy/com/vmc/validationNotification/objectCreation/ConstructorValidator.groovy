@@ -1,10 +1,7 @@
-package com.vmc.validationNotification.api
+package com.vmc.validationNotification.objectCreation
 
 import com.vmc.validationNotification.ApplicationValidationNotifier
 import com.vmc.validationNotification.SimpleValidationObserverImp
-import com.vmc.validationNotification.builder.ConstructionValidationFailedException
-
-
 //TODO tests
 //TODO docs
 /**

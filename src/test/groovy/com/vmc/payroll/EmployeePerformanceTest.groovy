@@ -12,7 +12,7 @@ import com.vmc.payroll.payment.type.Hourly
 import com.vmc.payroll.payment.type.Monthly
 import com.vmc.payroll.payment.type.GenericPaymentType
 import com.vmc.payroll.testPreparation.IntegrationTestBase
-import com.vmc.validationNotification.builder.ObjectMother
+import com.vmc.validationNotification.objectCreation.ObjectMother
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -50,11 +50,11 @@ class EmployeePerformanceTest extends IntegrationTestBase {
         employeeMother = new ObjectMother<Employee>(Employee)
                                 .setPostBirthScript { newEmployee -> employeeRepository.add(newEmployee)}
                                 .addBirthScript {
-                                    setName({ faker.name().firstName()}())
-                                    setAddress({ faker.address().streetAddress()}())
-                                    setEmail({"${faker.name().nameWithMiddle()}@bla.com.br"}())
-                                    bePaid({getRandomPaymentTypeProvider()}())
-                                    receivePaymentBy({getRandomPaymentDelivery()}())
+                                    setName(faker.name().firstName())
+                                    setAddress(faker.address().streetAddress())
+                                    setEmail("${faker.name().nameWithMiddle()}@bla.com.br")
+                                    bePaid(getRandomPaymentTypeProvider())
+                                    receivePaymentBy(getRandomPaymentDelivery())
                                 }
 
     }

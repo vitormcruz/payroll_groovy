@@ -7,8 +7,9 @@ import com.vmc.payroll.payment.type.api.PaymentType
 import com.vmc.payroll.unionAssociation.BasicUnionAssociation
 import com.vmc.payroll.unionAssociation.NoUnionAssociation
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
+import com.vmc.validationNotification.Mandatory
 import com.vmc.validationNotification.Validate
-import com.vmc.validationNotification.api.ConstructorValidator
+import com.vmc.validationNotification.objectCreation.ConstructorValidator
 
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 

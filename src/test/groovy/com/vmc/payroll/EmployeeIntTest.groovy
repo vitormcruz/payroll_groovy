@@ -12,7 +12,7 @@ import com.vmc.payroll.payment.type.Commission
 import com.vmc.payroll.payment.type.Hourly
 import com.vmc.payroll.payment.type.Monthly
 import com.vmc.payroll.testPreparation.IntegrationTestBase
-import com.vmc.validationNotification.builder.ObjectMother
+import com.vmc.validationNotification.objectCreation.ObjectMother
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test

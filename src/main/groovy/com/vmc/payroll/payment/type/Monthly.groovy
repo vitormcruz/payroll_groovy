@@ -1,7 +1,7 @@
 package com.vmc.payroll.payment.type
 
 import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
-import com.vmc.validationNotification.api.ConstructorValidator
+import com.vmc.validationNotification.objectCreation.ConstructorValidator
 
 import static com.vmc.validationNotification.Validate.validate
 

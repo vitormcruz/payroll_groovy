@@ -1,7 +1,7 @@
 package com.vmc.payroll.payment.paymentAttachment
 
 import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
-import com.vmc.validationNotification.api.ConstructorValidator
+import com.vmc.validationNotification.objectCreation.ConstructorValidator
 import org.joda.time.DateTime
 
 import static com.vmc.validationNotification.Validate.validate

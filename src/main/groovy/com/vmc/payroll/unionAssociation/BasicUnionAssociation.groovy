@@ -3,7 +3,7 @@ package com.vmc.payroll.unionAssociation
 import com.vmc.payroll.payment.paymentAttachment.api.PaymentAttachment
 import com.vmc.payroll.payment.paymentAttachment.api.UnionCharge
 import com.vmc.payroll.unionAssociation.api.UnionAssociation
-import com.vmc.validationNotification.api.ConstructorValidator
+import com.vmc.validationNotification.objectCreation.ConstructorValidator
 
 import static com.google.common.base.Preconditions.checkArgument
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation

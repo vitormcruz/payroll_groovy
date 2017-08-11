@@ -1,6 +1,6 @@
-package com.vmc.validationNotification.builder.imp
+package com.vmc.validationNotification.objectCreation.imp
 
-import com.vmc.validationNotification.builder.ObjectMother
+import com.vmc.validationNotification.objectCreation.ObjectMother
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import groovy.test.GroovyAssert
 import org.junit.Test

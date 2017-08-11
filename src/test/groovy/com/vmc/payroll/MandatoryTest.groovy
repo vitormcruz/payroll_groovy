@@ -1,5 +1,6 @@
 package com.vmc.payroll
 
+import com.vmc.validationNotification.Mandatory
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import groovy.test.GroovyAssert
 import org.junit.Test

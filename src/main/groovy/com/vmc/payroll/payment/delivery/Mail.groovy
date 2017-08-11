@@ -1,7 +1,7 @@
 package com.vmc.payroll.payment.delivery
 
 import com.vmc.payroll.payment.delivery.api.PaymentDelivery
-import com.vmc.validationNotification.api.ConstructorValidator
+import com.vmc.validationNotification.objectCreation.ConstructorValidator
 
 import static com.google.common.base.Preconditions.checkArgument
 import static com.vmc.validationNotification.Validate.validate

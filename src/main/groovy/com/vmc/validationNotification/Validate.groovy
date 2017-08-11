@@ -1,7 +1,7 @@
 package com.vmc.validationNotification
 
 import com.vmc.validationNotification.api.ValidationResult
-import com.vmc.validationNotification.builder.ConstructionValidationFailedException
+import com.vmc.validationNotification.objectCreation.ConstructionValidationFailedException
 
 //TODO Add tests, review, comment
 class Validate extends SimpleValidationObserverImp {

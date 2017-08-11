@@ -1,4 +1,4 @@
-package com.vmc.validationNotification.builder
+package com.vmc.validationNotification.objectCreation
 
 import com.github.javafaker.Faker
 import com.vmc.payroll.Employee

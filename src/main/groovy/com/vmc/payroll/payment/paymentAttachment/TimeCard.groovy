@@ -2,7 +2,7 @@ package com.vmc.payroll.payment.paymentAttachment
 
 import com.vmc.payroll.payment.paymentAttachment.api.WorkDoneProof
 import com.vmc.validationNotification.Validate
-import com.vmc.validationNotification.api.ConstructorValidator
+import com.vmc.validationNotification.objectCreation.ConstructorValidator
 import org.joda.time.DateTime
 
 class TimeCard implements WorkDoneProof{
