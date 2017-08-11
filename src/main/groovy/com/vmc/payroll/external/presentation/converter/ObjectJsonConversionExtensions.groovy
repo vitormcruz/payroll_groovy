@@ -1,7 +1,7 @@
 package com.vmc.payroll.external.presentation.converter
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.vmc.payroll.Employee
+import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.external.config.ServiceLocator
 
 class ObjectJsonConversionExtensions {

@@ -1,7 +1,7 @@
 package com.vmc.payroll.external.presentation.vaadin.view.employee
 
 import com.vaadin.ui.TextField
-import com.vmc.payroll.Employee
+import com.vmc.payroll.domain.Employee
 import com.vmc.validationNotification.vaadin.BinderDecoratorForValidationNotification
 
 class EmployeeClassViewExtensions {

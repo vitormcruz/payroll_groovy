@@ -2,7 +2,7 @@ package com.vmc.payroll.external.presentation.vaadin.view.components
 
 import com.vaadin.data.HasValue
 import com.vaadin.ui.ComboBox
-import com.vmc.payroll.payment.delivery.api.PaymentDelivery
+import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
 import com.vmc.validationNotification.vaadin.BinderDecoratorForValidationNotification
 
 //TODO revision this class

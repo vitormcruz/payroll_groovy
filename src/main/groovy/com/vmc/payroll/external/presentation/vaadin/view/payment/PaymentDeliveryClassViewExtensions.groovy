@@ -3,16 +3,16 @@ package com.vmc.payroll.external.presentation.vaadin.view.payment
 import com.vaadin.ui.TextField
 import com.vmc.payroll.external.presentation.vaadin.view.components.DynamicComboBox
 import com.vmc.payroll.external.presentation.vaadin.view.employee.VaadinEmployeeDTO
-import com.vmc.payroll.payment.delivery.AccountTransfer
-import com.vmc.payroll.payment.delivery.Mail
-import com.vmc.payroll.payment.delivery.Paymaster
-import com.vmc.payroll.payment.delivery.api.PaymentDelivery
+import com.vmc.payroll.domain.payment.delivery.AccountTransfer
+import com.vmc.payroll.domain.payment.delivery.Mail
+import com.vmc.payroll.domain.payment.delivery.Paymaster
+import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
 import com.vmc.validationNotification.vaadin.BinderDecoratorForValidationNotification
 import org.reflections.Reflections
 
 class PaymentDeliveryClassViewExtensions {
 
-    private static Set<Class> paymentDeliveryClasses = new Reflections("com.vmc.payroll.payment.delivery").getSubTypesOf(PaymentDelivery)
+    private static Set<Class> paymentDeliveryClasses = new Reflections("com.vmc.payroll.domain.payment.delivery").getSubTypesOf(PaymentDelivery)
 
     static ArrayList myVaadinComponents(PaymentDelivery paymentDelivery, BinderDecoratorForValidationNotification binder){
         def paymentDeliveryComboBox = new DynamicComboBox("Select a payment delivery: ",

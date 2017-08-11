@@ -1,6 +1,6 @@
 package com.vmc.payroll.external.presentation.converter
 
-import com.vmc.payroll.payment.type.Monthly
+import com.vmc.payroll.domain.payment.type.Monthly
 
 class PaymentTypeConverterExtensions {
 

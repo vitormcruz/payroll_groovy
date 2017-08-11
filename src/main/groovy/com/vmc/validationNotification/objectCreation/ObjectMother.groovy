@@ -1,9 +1,9 @@
 package com.vmc.validationNotification.objectCreation
 
 import com.github.javafaker.Faker
-import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.delivery.Mail
-import com.vmc.payroll.payment.type.Monthly
+import com.vmc.payroll.domain.Employee
+import com.vmc.payroll.domain.payment.delivery.Mail
+import com.vmc.payroll.domain.payment.type.Monthly
 import com.vmc.validationNotification.Validate
 import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.FirstParam

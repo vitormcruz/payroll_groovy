@@ -1,7 +1,7 @@
 package com.vmc.payroll.external.presentation.converter
 
-import com.vmc.payroll.payment.type.Monthly
-import com.vmc.payroll.payment.type.api.PaymentType
+import com.vmc.payroll.domain.payment.type.Monthly
+import com.vmc.payroll.domain.payment.type.api.PaymentType
 import org.reflections.Reflections
 
 class PaymentTypeConverterClassExtensions {

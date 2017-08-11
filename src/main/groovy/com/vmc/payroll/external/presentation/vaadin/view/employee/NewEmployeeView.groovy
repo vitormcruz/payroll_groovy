@@ -6,11 +6,11 @@ import com.vaadin.ui.FormLayout
 import com.vaadin.ui.Notification
 import com.vaadin.ui.VerticalLayout
 import com.vmc.concurrency.api.ModelSnapshot
-import com.vmc.payroll.Employee
-import com.vmc.payroll.api.EmployeeRepository
-import com.vmc.payroll.payment.delivery.api.PaymentDelivery
-import com.vmc.payroll.payment.type.api.PaymentType
-import com.vmc.payroll.unionAssociation.api.UnionAssociation
+import com.vmc.payroll.domain.Employee
+import com.vmc.payroll.domain.api.EmployeeRepository
+import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
+import com.vmc.payroll.domain.payment.type.api.PaymentType
+import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
 import com.vmc.validationNotification.vaadin.BinderDecoratorForValidationNotification
 
 import static com.vaadin.ui.Notification.show

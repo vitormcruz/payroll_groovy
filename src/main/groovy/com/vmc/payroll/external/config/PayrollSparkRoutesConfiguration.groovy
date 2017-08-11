@@ -2,7 +2,7 @@ package com.vmc.payroll.external.config
 
 import com.vmc.concurrency.singleVM.SingleVMAtomicBlock
 import com.vmc.concurrency.singleVM.SingleVMModelSnapshot
-import com.vmc.payroll.Employee
+import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepository
 import com.vmc.payroll.external.presentation.webservice.spark.EmployeeWebServiceController
 import org.apache.http.HttpStatus

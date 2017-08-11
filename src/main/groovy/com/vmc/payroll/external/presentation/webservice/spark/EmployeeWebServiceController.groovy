@@ -1,8 +1,8 @@
 package com.vmc.payroll.external.presentation.webservice.spark
 
 import com.vmc.concurrency.api.ModelSnapshot
-import com.vmc.payroll.Employee
-import com.vmc.payroll.api.Repository
+import com.vmc.payroll.domain.Employee
+import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.external.presentation.converter.EmployeeJsonDTO
 import spark.Request
 import spark.Response

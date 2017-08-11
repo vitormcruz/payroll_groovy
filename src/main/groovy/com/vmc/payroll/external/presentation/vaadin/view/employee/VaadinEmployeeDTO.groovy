@@ -1,9 +1,9 @@
 package com.vmc.payroll.external.presentation.vaadin.view.employee
 
-import com.vmc.payroll.Employee
-import com.vmc.payroll.payment.delivery.api.PaymentDelivery
-import com.vmc.payroll.payment.type.api.PaymentType
-import com.vmc.payroll.unionAssociation.api.UnionAssociation
+import com.vmc.payroll.domain.Employee
+import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
+import com.vmc.payroll.domain.payment.type.api.PaymentType
+import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
 
 class VaadinEmployeeDTO {
 

@@ -1,8 +1,8 @@
 package com.vmc.payroll.external.presentation.vaadin.view.employee
 
 import com.vaadin.ui.*
-import com.vmc.payroll.Employee
-import com.vmc.payroll.api.EmployeeRepository
+import com.vmc.payroll.domain.Employee
+import com.vmc.payroll.domain.api.EmployeeRepository
 import org.apache.commons.lang.StringUtils
 
 class EmployeeListView extends VerticalLayout{

@@ -1,7 +1,7 @@
 package com.vmc.payroll.external.persistence.inMemory.repository
 
-import com.vmc.payroll.api.Entity
-import com.vmc.payroll.api.Repository
+import com.vmc.payroll.domain.api.Entity
+import com.vmc.payroll.domain.api.Repository
 
 class CommonInMemoryRepository<E extends Entity> implements Repository<E> {
 

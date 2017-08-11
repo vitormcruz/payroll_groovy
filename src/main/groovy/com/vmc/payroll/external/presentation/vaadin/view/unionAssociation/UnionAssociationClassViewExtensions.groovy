@@ -3,14 +3,14 @@ package com.vmc.payroll.external.presentation.vaadin.view.unionAssociation
 import com.vaadin.data.HasValue
 import com.vaadin.ui.RadioButtonGroup
 import com.vaadin.ui.TextField
-import com.vmc.payroll.payment.type.api.PaymentType
-import com.vmc.payroll.unionAssociation.api.UnionAssociation
+import com.vmc.payroll.domain.payment.type.api.PaymentType
+import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
 import com.vmc.validationNotification.vaadin.BinderDecoratorForValidationNotification
 import org.reflections.Reflections
 
 class UnionAssociationClassViewExtensions {
 
-    private static Set<Class> unionAssociationClasses = new Reflections("com.vmc.payroll.payment.type").getSubTypesOf(PaymentType)
+    private static Set<Class> unionAssociationClasses = new Reflections("com.vmc.payroll.domain.payment.type").getSubTypesOf(PaymentType)
 
     static ArrayList myVaadinComponents(UnionAssociation unionAssociation, BinderDecoratorForValidationNotification binder){
         def components = new ArrayList()

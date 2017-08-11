@@ -6,9 +6,9 @@ import com.vmc.concurrency.api.AtomicBlock
 import com.vmc.concurrency.api.ModelSnapshot
 import com.vmc.concurrency.singleVM.SingleVMAtomicBlock
 import com.vmc.concurrency.singleVM.SingleVMModelSnapshot
-import com.vmc.payroll.Employee
-import com.vmc.payroll.api.EmployeeRepository
-import com.vmc.payroll.api.Repository
+import com.vmc.payroll.domain.Employee
+import com.vmc.payroll.domain.api.EmployeeRepository
+import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.external.persistence.inMemory.InMemoryEmployeeRepository
 
 class ServiceLocator {

@@ -2,11 +2,11 @@ package com.vmc.payroll.external.presentation.vaadin.view.payment
 
 import com.vmc.payroll.external.presentation.vaadin.view.components.DynamicComboBox
 import com.vmc.payroll.external.presentation.vaadin.view.employee.VaadinEmployeeDTO
-import com.vmc.payroll.payment.type.Commission
-import com.vmc.payroll.payment.type.Hourly
-import com.vmc.payroll.payment.type.Monthly
-import com.vmc.payroll.payment.type.GenericPaymentType
-import com.vmc.payroll.payment.type.api.PaymentType
+import com.vmc.payroll.domain.payment.type.Commission
+import com.vmc.payroll.domain.payment.type.Hourly
+import com.vmc.payroll.domain.payment.type.Monthly
+import com.vmc.payroll.domain.payment.type.GenericPaymentType
+import com.vmc.payroll.domain.payment.type.api.PaymentType
 import com.vmc.validationNotification.vaadin.BinderDecoratorForValidationNotification
 import org.reflections.Reflections
 import org.vaadin.viritin.fields.IntegerField
@@ -16,7 +16,7 @@ class PaymentTypeClassViewExtensions {
     private static Set<Class> paymentTypeClasses
 
     static{
-        paymentTypeClasses = new Reflections("com.vmc.payroll.payment.type").getSubTypesOf(PaymentType)
+        paymentTypeClasses = new Reflections("com.vmc.payroll.domain.payment.type").getSubTypesOf(PaymentType)
         paymentTypeClasses.remove(GenericPaymentType)
     }
 
