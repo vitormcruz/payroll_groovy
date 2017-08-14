@@ -3,9 +3,9 @@ package com.vmc.validationNotification.vaadin
 import com.google.common.collect.Maps
 import com.vaadin.server.UserError
 import com.vaadin.ui.AbstractComponent
-import com.vmc.validationNotification.api.SimpleValidationObserver
+import com.vmc.validationNotification.api.ValidationObserver
 
-import static com.vmc.validationNotification.SimpleValidationObserverImp.issuerClassContextName
+import static com.vmc.validationNotification.SimpleValidationObserver.issuerClassContextName
 
 class VaadinValidationNotification {
 
@@ -14,7 +14,7 @@ class VaadinValidationNotification {
     private Class validationClass
     private String propertyName
     private AbstractComponent component
-    private Closure<SimpleValidationObserver> validationObserverProvider
+    private Closure<ValidationObserver> validationObserverProvider
 
     def VaadinValidationNotification(Class validationClass, String propertyName, AbstractComponent component, Closure<Map> validationObserverProvider) {
         this.validationClass = validationClass

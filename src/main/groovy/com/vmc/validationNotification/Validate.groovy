@@ -4,7 +4,7 @@ import com.vmc.validationNotification.api.ValidationResult
 import com.vmc.validationNotification.objectCreation.ConstructionValidationFailedException
 
 //TODO Add tests, review, comment
-class Validate extends SimpleValidationObserverImp {
+class Validate extends SimpleValidationObserver {
 
     protected ValidationResult validationResult = new ValidationSuccess()
     protected executionResult

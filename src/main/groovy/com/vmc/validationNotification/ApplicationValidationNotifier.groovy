@@ -1,6 +1,5 @@
 package com.vmc.validationNotification
 
-import com.vmc.validationNotification.api.SimpleValidationObserver
 import com.vmc.validationNotification.api.ValidationObserver
 
 class ApplicationValidationNotifier {
@@ -80,8 +79,8 @@ class ApplicationValidationNotifier {
         return observers != null
     }
 
-    static SimpleValidationObserver getSimpleObserver() {
-        def validationObserver = new SimpleValidationObserverImp()
+    static ValidationObserver getSimpleObserver() {
+        def validationObserver = new SimpleValidationObserver()
         addObserver(validationObserver)
         return validationObserver
     }

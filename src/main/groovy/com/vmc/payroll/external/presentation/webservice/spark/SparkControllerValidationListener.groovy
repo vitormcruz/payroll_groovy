@@ -1,27 +1,21 @@
 package com.vmc.payroll.external.presentation.webservice.spark
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.common.collect.SetMultimap
+import com.vmc.validationNotification.SimpleValidationObserver
 import com.vmc.validationNotification.api.ValidationObserver
 import org.apache.http.HttpStatus
 import spark.Response
 
-class SparkControllerValidationListener implements ValidationObserver{
+class SparkControllerValidationListener extends SimpleValidationObserver implements ValidationObserver{
 
-    private Map<String, Collection> errorsByValidation
-    private currentErrors
-    private mandatoryObligations = [:]
-    private Boolean successful = true
-    def private fillResponseStrategy
-    def private issueErrorStrategy
+    def private fillResponseStrategy = responseOkStrategy
+    def private issueErrorStrategy = issueFirstErrorStrategy
     def body
 
     private ObjectMapper mapper = new ObjectMapper()
 
     SparkControllerValidationListener() {
-        currentErrors = new ArrayList()
-        errorsByValidation = [null: currentErrors]
-        fillResponseStrategy = responseOkStrategy
-        issueErrorStrategy = issueFirstErrorStrategy
     }
 
     Map<String, Collection> getErrorsByValidation(){
@@ -29,50 +23,31 @@ class SparkControllerValidationListener implements ValidationObserver{
     }
 
     @Override
-    void validationStarted(String validationName) {
-        currentErrors = new ArrayList()
-        errorsByValidation.put(validationName, currentErrors)
-    }
-
-    @Override
-    void mandatoryObligationIssued(Object subject, Map context, String mandatoryValidationName, String error) {
-        mandatoryObligations.put(mandatoryValidationName, {errorIssued(subject, context, error)})
-    }
-
-    @Override
-    void mandatoryObligationComplied(Object subject, Map context, String mandatoryValidationName) {
-        mandatoryObligations.remove(mandatoryValidationName)
-    }
-
-    @Override
     void errorIssued(Object subject, Map context, String error) {
-        issueErrorStrategy(error)
+        issueErrorStrategy(subject, context, error)
     }
 
-    def private issueFirstErrorStrategy = { error ->
-        issueErrorOnly(error)
+    def private issueFirstErrorStrategy = { subject, context, error ->
+        issueErrorOnly(subject, context, error)
         fillResponseStrategy = responseFailStrategy
-        successful = false
         issueFirstErrorStrategy = issueErrorOnly
     }
 
-    def private issueErrorOnly = { error ->
-        currentErrors.add(error)
+    def private issueErrorOnly = { subject, context, error ->
+        super.issueError(subject, context, error)
     }
 
     @Override
-    void validationFinished() {
-        currentErrors = errorsByValidation.get(null)
+    def getErrors() {
+        return null
     }
 
     @Override
-    Boolean successful() {
-        return successful && mandatoryObligations.isEmpty()
+    SetMultimap getErrorsByContext() {
+        return null
     }
 
     def fillResponse(Response response){
-        mandatoryObligations.each {it.value()}
-        mandatoryObligations.clear()
         fillResponseStrategy(response)
     }
 
@@ -83,6 +58,6 @@ class SparkControllerValidationListener implements ValidationObserver{
 
     def private responseFailStrategy = {Response res ->
         res.status(HttpStatus.SC_BAD_REQUEST)
-        res.body(mapper.writeValueAsString(errorsByValidation))
+        res.body(mapper.writeValueAsString(super.errorsByContext))
     }
 }

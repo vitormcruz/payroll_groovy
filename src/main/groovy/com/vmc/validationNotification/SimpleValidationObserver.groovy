@@ -1,11 +1,14 @@
 package com.vmc.validationNotification
 
-import com.google.common.collect.*
-import com.vmc.validationNotification.api.SimpleValidationObserver
+import com.google.common.collect.HashMultimap
+import com.google.common.collect.Maps
+import com.google.common.collect.Multimaps
+import com.google.common.collect.SetMultimap
+import com.vmc.validationNotification.api.ValidationObserver
 import org.apache.commons.lang.ClassUtils
 import org.apache.commons.lang.StringUtils
 
-class SimpleValidationObserverImp implements SimpleValidationObserver{
+class SimpleValidationObserver implements ValidationObserver{
 
     protected Collection errors = []
     protected SetMultimap errorsByContext = new HashMultimap<Map.Entry<String, Object>, String>()

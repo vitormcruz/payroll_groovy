@@ -3,7 +3,7 @@ package com.vmc.validationNotification.vaadin
 import com.vaadin.data.Binder
 import com.vaadin.ui.AbstractComponent
 import com.vmc.validationNotification.ApplicationValidationNotifier
-import com.vmc.validationNotification.SimpleValidationObserverImp
+import com.vmc.validationNotification.SimpleValidationObserver
 
 class BinderDecoratorForValidationNotification {
 
@@ -22,7 +22,7 @@ class BinderDecoratorForValidationNotification {
     }
 
     def startObservingErrors(){
-        validationObserver = new SimpleValidationObserverImp()
+        validationObserver = new SimpleValidationObserver()
         ApplicationValidationNotifier.addObserver(this.validationObserver)
     }
 
