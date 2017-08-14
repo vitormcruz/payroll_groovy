@@ -21,11 +21,11 @@ class AccountTransfer implements PaymentDelivery{
 
     AccountTransfer(anEmployee, String aBank, String anAccount) {
         def constructorValidator = new ConstructorValidator()
-        prepareConstructor(anEmployee, aBank, anAccount)
+        initialize(anEmployee, aBank, anAccount)
         constructorValidator.validateConstruction()
     }
 
-    void prepareConstructor(anEmployee, String aBank, String anAccount) {
+    void initialize(anEmployee, String aBank, String anAccount) {
         checkArgument(anEmployee != null, "Did you miss passing my employee?")
         this.employee = anEmployee
         setBank(aBank)

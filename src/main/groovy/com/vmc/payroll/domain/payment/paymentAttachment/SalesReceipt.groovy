@@ -20,11 +20,11 @@ class SalesReceipt implements WorkDoneProof{
 
     SalesReceipt(DateTime date, amount) {
         def constructorValidator = new ConstructorValidator()
-        prepareConstructor(date, amount)
+        initialize(date, amount)
         constructorValidator.validateConstruction()
     }
 
-    void prepareConstructor(DateTime date, amount) {
+    void initialize(DateTime date, amount) {
         date != null ? this.@date = date : issueError("payroll.salesreceipt.date.required", [property: "date"])
         amount != null ? this.@amount = amount : issueError("payroll.salesreceipt.amount.required", [property: "amount"])
     }

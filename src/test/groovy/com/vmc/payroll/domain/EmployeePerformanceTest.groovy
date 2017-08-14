@@ -1,7 +1,6 @@
 package com.vmc.payroll.domain
 
 import com.github.javafaker.Faker
-import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.EmployeeRepository
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.domain.payment.delivery.AccountTransfer
@@ -49,7 +48,7 @@ class EmployeePerformanceTest extends IntegrationTestBase {
     @BeforeClass
     def static void setupAll(){
         employeeMother = new ObjectMother<Employee>(Employee)
-                                .setPostBirthScript { newEmployee -> employeeRepository.add(newEmployee)}
+                                .configurePostBirthScript { newEmployee -> employeeRepository.add(newEmployee)}
                                 .addBirthScript {
                                     setName(faker.name().firstName())
                                     setAddress(faker.address().streetAddress())

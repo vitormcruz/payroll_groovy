@@ -20,11 +20,11 @@ class ServiceCharge implements UnionCharge{
 
     ServiceCharge(DateTime date, amount) {
         def constructorValidator = new ConstructorValidator()
-        prepareConstructor(date, amount)
+        initialize(date, amount)
         constructorValidator.validateConstruction()
     }
 
-    void prepareConstructor(DateTime date, amount) {
+    void initialize(DateTime date, amount) {
         date != null ? this.@date = date : issueError("payroll.servicecharge.date.required", [property: "date"])
         amount != null ? this.@amount = amount : issueError("payroll.servicecharge.amount.required", [property: "amount"])
     }

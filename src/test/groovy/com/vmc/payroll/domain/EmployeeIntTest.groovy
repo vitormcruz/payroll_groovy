@@ -1,6 +1,5 @@
 package com.vmc.payroll.domain
 
-import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.EmployeeRepository
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.domain.payment.delivery.AccountTransfer
@@ -33,7 +32,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     @Before
     void setUp(){
         super.setUp()
-        employeeMother = new ObjectMother<Employee>(getEmployeeClass()).setPostBirthScript({
+        employeeMother = new ObjectMother<Employee>(getEmployeeClass()).configurePostBirthScript({
             employeeRepository.add(it)
             model.save()
         })

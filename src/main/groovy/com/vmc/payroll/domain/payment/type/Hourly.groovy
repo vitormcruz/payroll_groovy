@@ -19,12 +19,12 @@ class Hourly extends GenericPaymentType {
 
     Hourly(employee, Integer aHourRate) {
         def constructorValidator = new ConstructorValidator()
-        prepareConstructor(employee, aHourRate)
+        initialize(employee, aHourRate)
         constructorValidator.validateConstruction()
     }
 
-    void prepareConstructor(Object anEmployee, Integer aHourRate) {
-        super.prepareConstructor(anEmployee)
+    void initialize(Object anEmployee, Integer aHourRate) {
+        super.initialize(anEmployee)
         setHourRate(aHourRate)
     }
 

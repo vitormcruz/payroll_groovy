@@ -24,11 +24,11 @@ class BasicUnionAssociation implements UnionAssociation{
 
     BasicUnionAssociation(anEmployee, Integer aRate) {
         def constructorValidator = new ConstructorValidator()
-        prepareConstructor(anEmployee, aRate)
+        initialize(anEmployee, aRate)
         constructorValidator.validateConstruction()
     }
 
-    void prepareConstructor(anEmployee, Integer aRate) {
+    void initialize(anEmployee, Integer aRate) {
         checkArgument(anEmployee != null, "An Employee should be provided to a Default Union Association")
         this.employee = anEmployee
         this.employee.registerAsPaymentAttachmentHandler(this)

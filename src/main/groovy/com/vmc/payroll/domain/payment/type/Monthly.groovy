@@ -21,12 +21,12 @@ class Monthly extends GenericPaymentType {
 
     Monthly(employee, Integer aSalary) {
         def constructorValidator = new ConstructorValidator()
-        prepareConstructor(employee, aSalary)
+        initialize(employee, aSalary)
         constructorValidator.validateConstruction()
     }
 
-    void prepareConstructor(Object anEmployee, Integer aSalary) {
-        super.prepareConstructor(anEmployee)
+    void initialize(Object anEmployee, Integer aSalary) {
+        super.initialize(anEmployee)
         setSalary(aSalary)
     }
 

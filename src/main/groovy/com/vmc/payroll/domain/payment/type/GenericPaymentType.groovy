@@ -15,10 +15,10 @@ abstract class GenericPaymentType implements PaymentType{
     GenericPaymentType() {}
 
     GenericPaymentType(anEmployee){
-        prepareConstructor(anEmployee)
+        initialize(anEmployee)
     }
 
-    void prepareConstructor(anEmployee) {
+    void initialize(anEmployee) {
         checkArgument(anEmployee != null, "Employee must be provided for payment types, but I got it null")
         this.employee = anEmployee
         anEmployee.registerAsPaymentAttachmentHandler(this)

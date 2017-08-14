@@ -29,7 +29,7 @@ class ObjectMotherUnitTest extends ValidationNotificationTestSetup{
     }
 
     def getObjectMother(Class aClass, Closure insertCommand){
-        return new ObjectMother(aClass).setPostBirthScript(insertCommand)
+        return new ObjectMother(aClass).configurePostBirthScript(insertCommand)
     }
 
     static class BuildedClass {

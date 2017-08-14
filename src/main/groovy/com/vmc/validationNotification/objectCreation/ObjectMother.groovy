@@ -32,8 +32,8 @@ class ObjectMother<E> {
         this.postBirthScript = postBirthScript? postBirthScript : {}
     }
 
-    ObjectMother<E> setPostBirthScript(@ClosureParams(FirstParam.FirstGenericType)
-                                       Closure<E> aPostBirthScript) {
+    ObjectMother<E> configurePostBirthScript(@ClosureParams(FirstParam.FirstGenericType)
+                                             Closure<E> aPostBirthScript) {
 
         return new ObjectMother<E>(childClass, birthScripts, aPostBirthScript)
     }
@@ -67,7 +67,7 @@ class ObjectMother<E> {
     static void main(String[] args) {
         def faker = new Faker(new Locale("pt-BR"))
         ObjectMother<Employee> employeeMother = new ObjectMother<Employee>(Employee)
-                .setPostBirthScript { Employee emp -> print(emp.name + " ${emp.email}, ")}
+                .configurePostBirthScript { Employee emp -> print(emp.name + " ${emp.email}, ")}
                 .addBirthScript {
                     setName({faker.name().firstName()}())
                     setAddress({faker.address().streetAddress()}())
