@@ -1,9 +1,5 @@
 package com.vmc.validationNotification.objectCreation
 
-import com.github.javafaker.Faker
-import com.vmc.payroll.domain.Employee
-import com.vmc.payroll.domain.payment.delivery.Mail
-import com.vmc.payroll.domain.payment.type.Monthly
 import com.vmc.validationNotification.Validate
 import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.FirstParam
@@ -62,23 +58,5 @@ class ObjectMother<E> {
             birthScripts.each {birthScript -> newBornChild .with birthScript}
             return newBornChild
         }).onBuildSuccess(postBirthScript)
-    }
-
-    static void main(String[] args) {
-        def faker = new Faker(new Locale("pt-BR"))
-        ObjectMother<Employee> employeeMother = new ObjectMother<Employee>(Employee)
-                .configurePostBirthScript { Employee emp -> print(emp.name + " ${emp.email}, ")}
-                .addBirthScript {
-                    setName({faker.name().firstName()}())
-                    setAddress({faker.address().streetAddress()}())
-                    setEmail("teste@bla.com")
-                    bePaid({Monthly.newPaymentType(it, 2000)})
-                    receivePaymentBy({Mail.newPaymentDelivery(it, "Street 1")})
-                }
-
-        employeeMother = employeeMother.addBirthScript({setEmail({faker.name().name()}())})
-        (1..100).each {
-            employeeMother.createNewBorn().onBuildFailure {println(it)}
-        }
     }
 }
