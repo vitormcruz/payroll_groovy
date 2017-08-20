@@ -9,6 +9,7 @@ import org.reflections.Reflections
 
 import static com.google.common.base.Preconditions.checkArgument
 
+//TODO add tests
 class EmployeeJsonDTO implements JsonConverter{
 
     private static ObjectMapper mapper = ServiceLocator.getInstance().mapper()
@@ -38,8 +39,9 @@ class EmployeeJsonDTO implements JsonConverter{
 
     static employeeFromJson(String string){
         def employeeConverter = mapper.readValue(string, EmployeeJsonDTO)
-        checkArgument(employeeConverter.paymentType != null, "Json formmat is invalid: you must specify a payment type of one of the following alternatives:" +
-                                                                            StringUtils.join(paymentTypes.collect {it.getSimpleName()}, ", "))
+        checkArgument(employeeConverter.paymentType != null, "Json formmat is invalid: you must specify a payment type " +
+                                                             "of one of the following alternatives:" +
+                                                             StringUtils.join(paymentTypes.collect {it.getSimpleName()}, ", "))
         return employeeConverter.toEmployee()
 
     }

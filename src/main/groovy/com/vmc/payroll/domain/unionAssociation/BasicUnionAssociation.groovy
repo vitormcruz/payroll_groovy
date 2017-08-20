@@ -31,7 +31,7 @@ class BasicUnionAssociation implements UnionAssociation{
     void prepareConstructor(anEmployee, Integer aRate) {
         checkArgument(anEmployee != null, "An Employee should be provided to a Default Union Association")
         this.employee = anEmployee
-        this.employee.registerAsPaymentAttachmentHandler(this)
+        this.employee.registerAsPaymentAttachmentPostListener(this)
         executeNamedValidation("Validate new Basic Union Association", { setRate(aRate) })
     }
 

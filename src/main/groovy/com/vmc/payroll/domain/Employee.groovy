@@ -23,7 +23,8 @@ class Employee implements Entity{
     private PaymentType paymentType
     private PaymentDelivery paymentDelivery
     private UnionAssociation unionAssociation = NoUnionAssociation.getInstance()
-    private paymentAttachmentHandlers = []
+    private WeakHashMap paymentAttachmentListeners = new WeakHashMap()
+    private Set<PaymentAttachment> paymentAttachments = []
 
     static newEmployee(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
         return Validate.validate(Employee, {new Employee(name, address, email, paymentTypeProvider, paymentDeliveryProvider)})
@@ -85,30 +86,60 @@ class Employee implements Entity{
         return paymentDelivery
     }
 
+    /**
+     * Tell's me that I should be paid with the paymentType provided by the paymentTypeProvider closure. I will call
+     * the closure passing myself as argument so that the payment type provided can refer to myself if needed.
+     */
     void bePaid(paymentTypeProvider){
         paymentTypeProvider ? paymentType = paymentTypeProvider(this) :
                             issueError("The employee payment type is required", [property:"payment.type"])
     }
 
+    /**
+     * Tell's me that I should receive my payment by the payment delivery provided by the paymentDeliveryProvider
+     * closure. I will call the closure passing myself as argument so that the payment delivery provided can refer to
+     * myself if needed.
+     */
     void receivePaymentBy(paymentDeliveryProvider){
         paymentDeliveryProvider ? paymentDelivery = paymentDeliveryProvider(this) :
             issueError("The employee payment delivery is required", [property:"payment.delivery"])
     }
 
+    /**
+     *  Register as a payment attachment post listener notifying every attachment already posted to the new listener.
+     */
+    void registerAsPaymentAttachmentPostListener(listener) {
+        paymentAttachments.each {listener.postPaymentAttachment(it)}
+        paymentAttachmentListeners.put(listener, void)
+    }
+
+    void deRegisterAsPaymentAttachmentPostListener(handler) {
+        paymentAttachmentListeners.remove(handler)
+    }
+
+    /**
+     * Payment attachment is anything that
+     * @param paymentAttachment
+     */
     void postPaymentAttachment(PaymentAttachment paymentAttachment){
-        paymentAttachmentHandlers.each {it.postPaymentAttachment(paymentAttachment)}
+        paymentAttachments.add(paymentAttachment)
+        paymentAttachmentListeners.keySet().each {it.postPaymentAttachment(paymentAttachment)}
     }
 
-    void registerAsPaymentAttachmentHandler(handler) {
-        paymentAttachmentHandlers.add(handler)
-    }
-
+    /**
+     * Return all my payment attachments. Consider registerAsPaymentAttachmentPostListener instead of using
+     * this method.
+     */
     def getPaymentAttachments(){
-        return paymentType.getPaymentAttachments()
+        return new HashSet(paymentAttachments)
     }
 
     void beUnionMember(Integer rate) {
         unionAssociation = BasicUnionAssociation.newUnionAssociation(this, rate)
+    }
+
+    void dropUnionMembership() {
+        unionAssociation = NoUnionAssociation.getInstance()
     }
 
     UnionAssociation getUnionAssociation() {
@@ -117,9 +148,5 @@ class Employee implements Entity{
 
     Boolean isUnionMember() {
         unionAssociation.isUnionMember()
-    }
-
-    void dropUnionMembership() {
-        unionAssociation = NoUnionAssociation.getInstance()
     }
 }
