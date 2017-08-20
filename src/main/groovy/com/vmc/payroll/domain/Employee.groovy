@@ -17,14 +17,14 @@ class Employee implements Entity{
 
     private String id = UUID.randomUUID()
 
-    private Mandatory<String> name = new Mandatory<String>(null, "The employee name is required", [property:"name"])
-    private Mandatory<String> address = new Mandatory<String>(null, "The employee address is required", [property:"address"])
-    private Mandatory<String> email = new Mandatory<String>(null, "The employee email is required", [property:"email"])
-    private PaymentType paymentType
-    private PaymentDelivery paymentDelivery
-    private UnionAssociation unionAssociation = NoUnionAssociation.getInstance()
-    private WeakHashMap paymentAttachmentListeners = new WeakHashMap()
-    private Set<PaymentAttachment> paymentAttachments = []
+    protected Mandatory<String> name = new Mandatory<String>(null, "The employee name is required", [property:"name"])
+    protected Mandatory<String> address = new Mandatory<String>(null, "The employee address is required", [property:"address"])
+    protected Mandatory<String> email = new Mandatory<String>(null, "The employee email is required", [property:"email"])
+    protected PaymentType paymentType
+    protected PaymentDelivery paymentDelivery
+    protected UnionAssociation unionAssociation = NoUnionAssociation.getInstance()
+    protected WeakHashMap paymentAttachmentListeners = new WeakHashMap()
+    protected Set<PaymentAttachment> paymentAttachments = []
 
     static newEmployee(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
         return Validate.validate(Employee, {new Employee(name, address, email, paymentTypeProvider, paymentDeliveryProvider)})
@@ -35,11 +35,11 @@ class Employee implements Entity{
 
     protected Employee(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
         def constructorValidator = new ConstructorValidator()
-        prepareNewEmployee(name, address, email, paymentTypeProvider, paymentDeliveryProvider)
+        initialize(name, address, email, paymentTypeProvider, paymentDeliveryProvider)
         constructorValidator.validateConstruction()
     }
 
-    void prepareNewEmployee(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
+    void initialize(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
         executeNamedValidation("Validate new Employee", {
             setName(name)
             setAddress(address)

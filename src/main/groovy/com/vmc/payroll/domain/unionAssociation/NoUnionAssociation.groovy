@@ -9,8 +9,8 @@ import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
  */
 class NoUnionAssociation implements UnionAssociation{
 
-    private static validateInstantiation = {/* The first instantiation from my static context is valid. */}
-    private static myself = new NoUnionAssociation()
+    protected static validateInstantiation = {/* The first instantiation from my static context is valid. */}
+    protected static myself = new NoUnionAssociation()
 
     static getInstance(){
         return myself

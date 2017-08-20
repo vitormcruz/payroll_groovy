@@ -14,17 +14,18 @@ class Commission extends Monthly{
         return validate(Commission, {new Commission(employee, salary, commissionRate)})
     }
 
+    //For reflection magic only
     Commission() {
     }
 
     Commission(employee, Integer aSalary, Integer aCommissionRate) {
         def constructorValidator = new ConstructorValidator()
-        prepareConstructor(employee, aSalary, aCommissionRate)
+        initialize(employee, aSalary, aCommissionRate)
         constructorValidator.validateConstruction()
     }
 
-    void prepareConstructor(Object anEmployee, Integer aSalary, Integer aCommissionRate) {
-        super.prepareConstructor(anEmployee, aSalary)
+    void initialize(Object anEmployee, Integer aSalary, Integer aCommissionRate) {
+        super.initialize(anEmployee, aSalary)
         setCommissionRate(aCommissionRate)
     }
 

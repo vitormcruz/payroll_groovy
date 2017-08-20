@@ -8,7 +8,7 @@ import static com.google.common.base.Preconditions.checkArgument
 
 class AccountTransfer implements PaymentDelivery{
 
-    private employee
+    protected employee
     String bank
     String account
 
@@ -16,16 +16,17 @@ class AccountTransfer implements PaymentDelivery{
         return Validate.validate(AccountTransfer, {new AccountTransfer(employee, bank, account)})
     }
 
+    //For reflection magic only
     AccountTransfer() {
     }
 
     AccountTransfer(anEmployee, String aBank, String anAccount) {
         def constructorValidator = new ConstructorValidator()
-        prepareConstructor(anEmployee, aBank, anAccount)
+        initialize(anEmployee, aBank, anAccount)
         constructorValidator.validateConstruction()
     }
 
-    void prepareConstructor(anEmployee, String aBank, String anAccount) {
+    void initialize(anEmployee, String aBank, String anAccount) {
         checkArgument(anEmployee != null, "Did you miss passing my employee?")
         this.employee = anEmployee
         setBank(aBank)

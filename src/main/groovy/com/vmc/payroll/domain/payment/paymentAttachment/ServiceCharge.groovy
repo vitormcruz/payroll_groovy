@@ -8,23 +8,24 @@ import static com.vmc.validationNotification.Validate.validate
 
 class ServiceCharge implements UnionCharge{
 
-    private DateTime date
-    private amount
+    protected DateTime date
+    protected amount
 
     static ServiceCharge newServiceCharge(DateTime date, amount){
         return validate(ServiceCharge, {new ServiceCharge(date, amount)})
     }
 
+    //For reflection magic only
     ServiceCharge() {
     }
 
     ServiceCharge(DateTime date, amount) {
         def constructorValidator = new ConstructorValidator()
-        prepareConstructor(date, amount)
+        initialize(date, amount)
         constructorValidator.validateConstruction()
     }
 
-    void prepareConstructor(DateTime date, amount) {
+    void initialize(DateTime date, amount) {
         date != null ? this.@date = date : issueError("payroll.servicecharge.date.required", [property: "date"])
         amount != null ? this.@amount = amount : issueError("payroll.servicecharge.amount.required", [property: "amount"])
     }

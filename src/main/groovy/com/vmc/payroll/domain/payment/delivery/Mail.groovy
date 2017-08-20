@@ -8,23 +8,24 @@ import static com.vmc.validationNotification.Validate.validate
 
 class Mail implements PaymentDelivery{
 
-    private employee
+    protected employee
     String address
 
     static Mail newPaymentDelivery(employee, String address){
         return validate(Mail, {new Mail(employee, address)})
     }
 
+    //For reflection magic only
     Mail() {
     }
 
     Mail(anEmployee, String anAddress) {
         def constructorValidator = new ConstructorValidator()
-        prepareConstructor(anEmployee, anAddress)
+        initialize(anEmployee, anAddress)
         constructorValidator.validateConstruction()
     }
 
-    void prepareConstructor(anEmployee, String anAddress) {
+    void initialize(anEmployee, String anAddress) {
         checkArgument(anEmployee != null, "Did you miss passing my employee?")
         this.employee = anEmployee
         setAddress(anAddress)
