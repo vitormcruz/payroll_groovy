@@ -1,6 +1,5 @@
 package com.vmc.payroll.domain
 
-import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.payment.delivery.AccountTransfer
 import com.vmc.payroll.domain.payment.delivery.Mail
 import com.vmc.payroll.domain.payment.type.Commission
