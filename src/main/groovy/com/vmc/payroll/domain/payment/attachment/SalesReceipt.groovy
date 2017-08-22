@@ -1,6 +1,6 @@
-package com.vmc.payroll.domain.payment.paymentAttachment
+package com.vmc.payroll.domain.payment.attachment
 
-import com.vmc.payroll.domain.payment.paymentAttachment.api.WorkDoneProof
+import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
 import com.vmc.validationNotification.objectCreation.ConstructorValidator
 import org.joda.time.DateTime
 

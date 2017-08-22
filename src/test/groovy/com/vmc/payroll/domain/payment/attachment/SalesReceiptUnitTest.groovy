@@ -1,4 +1,4 @@
-package com.vmc.payroll.domain.payment.paymentAttachment
+package com.vmc.payroll.domain.payment.attachment
 
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.joda.time.DateTime

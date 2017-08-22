@@ -1,7 +1,7 @@
 package com.vmc.payroll.domain.unionAssociation.api
 
-import com.vmc.payroll.domain.payment.paymentAttachment.api.UnionCharge
-import com.vmc.payroll.domain.payment.paymentAttachment.api.PaymentAttachment
+import com.vmc.payroll.domain.payment.attachment.api.UnionCharge
+import com.vmc.payroll.domain.payment.attachment.api.PaymentAttachment
 
 interface UnionAssociation {
 

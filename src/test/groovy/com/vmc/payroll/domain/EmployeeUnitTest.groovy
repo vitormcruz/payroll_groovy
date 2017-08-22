@@ -2,7 +2,7 @@ package com.vmc.payroll.domain
 
 import com.vmc.payroll.domain.payment.delivery.AccountTransfer
 import com.vmc.payroll.domain.payment.delivery.Mail
-import com.vmc.payroll.domain.payment.paymentAttachment.api.PaymentAttachment
+import com.vmc.payroll.domain.payment.attachment.api.PaymentAttachment
 import com.vmc.payroll.domain.payment.type.Commission
 import com.vmc.payroll.domain.payment.type.Monthly
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup

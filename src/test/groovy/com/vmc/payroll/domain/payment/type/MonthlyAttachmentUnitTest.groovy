@@ -1,7 +1,7 @@
 package com.vmc.payroll.domain.payment.type
 
 import com.vmc.payroll.domain.Employee
-import com.vmc.payroll.domain.payment.paymentAttachment.api.WorkDoneProof
+import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import groovy.test.GroovyAssert
 import org.junit.Test

@@ -2,7 +2,7 @@ package com.vmc.payroll.domain
 
 import com.vmc.payroll.domain.api.Entity
 import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
-import com.vmc.payroll.domain.payment.paymentAttachment.api.PaymentAttachment
+import com.vmc.payroll.domain.payment.attachment.api.PaymentAttachment
 import com.vmc.payroll.domain.payment.type.api.PaymentType
 import com.vmc.payroll.domain.unionAssociation.BasicUnionAssociation
 import com.vmc.payroll.domain.unionAssociation.NoUnionAssociation

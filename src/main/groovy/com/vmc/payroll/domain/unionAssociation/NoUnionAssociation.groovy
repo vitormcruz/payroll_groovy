@@ -1,7 +1,7 @@
 package com.vmc.payroll.domain.unionAssociation
 
-import com.vmc.payroll.domain.payment.paymentAttachment.api.UnionCharge
-import com.vmc.payroll.domain.payment.paymentAttachment.api.PaymentAttachment
+import com.vmc.payroll.domain.payment.attachment.api.UnionCharge
+import com.vmc.payroll.domain.payment.attachment.api.PaymentAttachment
 import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
 /**
  * I am used when there is no union membership. I am, therefore, a singleton Null Object for UnionAssociation interface, and my instance should

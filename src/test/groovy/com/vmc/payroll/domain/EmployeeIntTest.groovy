@@ -5,9 +5,9 @@ import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.domain.payment.delivery.AccountTransfer
 import com.vmc.payroll.domain.payment.delivery.Mail
 import com.vmc.payroll.domain.payment.delivery.Paymaster
-import com.vmc.payroll.domain.payment.paymentAttachment.SalesReceipt
-import com.vmc.payroll.domain.payment.paymentAttachment.ServiceCharge
-import com.vmc.payroll.domain.payment.paymentAttachment.TimeCard
+import com.vmc.payroll.domain.payment.attachment.SalesReceipt
+import com.vmc.payroll.domain.payment.attachment.ServiceCharge
+import com.vmc.payroll.domain.payment.attachment.TimeCard
 import com.vmc.payroll.domain.payment.type.Commission
 import com.vmc.payroll.domain.payment.type.Hourly
 import com.vmc.payroll.domain.payment.type.Monthly

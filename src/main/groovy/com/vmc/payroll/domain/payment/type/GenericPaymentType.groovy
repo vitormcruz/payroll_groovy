@@ -1,7 +1,7 @@
 package com.vmc.payroll.domain.payment.type
 
-import com.vmc.payroll.domain.payment.paymentAttachment.api.WorkDoneProof
-import com.vmc.payroll.domain.payment.paymentAttachment.api.PaymentAttachment
+import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
+import com.vmc.payroll.domain.payment.attachment.api.PaymentAttachment
 import com.vmc.payroll.domain.payment.type.api.PaymentType
 
 import static com.google.common.base.Preconditions.checkArgument

@@ -1,4 +1,4 @@
-package com.vmc.payroll.domain.payment.paymentAttachment.api
+package com.vmc.payroll.domain.payment.attachment.api
 
 /**
  * I am an interface for various ways of union charges. Since I can interfere in the final pay value, I am also a

@@ -1,7 +1,7 @@
 package com.vmc.payroll.domain.payment.type
 
-import com.vmc.payroll.domain.payment.paymentAttachment.TimeCard
-import com.vmc.payroll.domain.payment.paymentAttachment.api.WorkDoneProof
+import com.vmc.payroll.domain.payment.attachment.TimeCard
+import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
 import com.vmc.validationNotification.objectCreation.ConstructorValidator
 
 import static com.vmc.validationNotification.Validate.validate

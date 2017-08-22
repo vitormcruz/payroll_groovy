@@ -1,4 +1,4 @@
-package com.vmc.payroll.domain.payment.paymentAttachment.api
+package com.vmc.payroll.domain.payment.attachment.api
 
 /**
  * I am an interface for objects that implements the various kinds of payment attachments that can be provided for
