@@ -11,14 +11,15 @@ import static com.vmc.validationNotification.Validate.validate
 
 class BasicUnionAssociation implements UnionAssociation{
 
-    private Integer rate
-    private employee
-    private charges = []
+    protected Integer rate
+    protected employee
+    protected charges = []
 
     static BasicUnionAssociation newUnionAssociation(employee, Integer aRate){
         return validate(BasicUnionAssociation, { new BasicUnionAssociation(employee, aRate)})
     }
 
+    //For reflection magic only
     BasicUnionAssociation() {
     }
 
@@ -31,7 +32,7 @@ class BasicUnionAssociation implements UnionAssociation{
     void initialize(anEmployee, Integer aRate) {
         checkArgument(anEmployee != null, "An Employee should be provided to a Default Union Association")
         this.employee = anEmployee
-        this.employee.registerAsPaymentAttachmentHandler(this)
+        this.employee.registerAsPaymentAttachmentPostListener(this)
         executeNamedValidation("Validate new Basic Union Association", { setRate(aRate) })
     }
 

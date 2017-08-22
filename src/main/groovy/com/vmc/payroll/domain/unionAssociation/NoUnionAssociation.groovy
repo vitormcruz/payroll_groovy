@@ -9,11 +9,11 @@ import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
  */
 class NoUnionAssociation implements UnionAssociation{
 
-    private static validateInstantiation = {
+    protected static validateInstantiation = {
         /* The first instantiation from my static context is valid. After that I will aways throw and UnuportedOperationException */
         validateInstantiation = {throw new UnsupportedOperationException("I am a singleton, please get my instance thought the getInstance method.")}
     }
-    private static myself = new NoUnionAssociation()
+    protected static myself = new NoUnionAssociation()
 
     static getInstance(){
         return myself

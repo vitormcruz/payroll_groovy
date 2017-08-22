@@ -14,6 +14,7 @@ class Hourly extends GenericPaymentType {
         return validate(Hourly, {new Hourly(employee, hourRate)})
     }
 
+    //For reflection magic only
     Hourly() {
     }
 

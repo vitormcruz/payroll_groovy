@@ -14,6 +14,7 @@ class Commission extends Monthly{
         return validate(Commission, {new Commission(employee, salary, commissionRate)})
     }
 
+    //For reflection magic only
     Commission() {
     }
 

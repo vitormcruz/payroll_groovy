@@ -9,9 +9,9 @@ import static com.google.common.base.Preconditions.checkArgument
 abstract class GenericPaymentType implements PaymentType{
 
     protected employee
-
     protected Set<WorkDoneProof> paymentAttachments = new HashSet<WorkDoneProof>()
 
+    //For reflection magic only
     GenericPaymentType() {}
 
     GenericPaymentType(anEmployee){
@@ -21,7 +21,7 @@ abstract class GenericPaymentType implements PaymentType{
     void initialize(anEmployee) {
         checkArgument(anEmployee != null, "Employee must be provided for payment types, but I got it null")
         this.employee = anEmployee
-        anEmployee.registerAsPaymentAttachmentHandler(this)
+        anEmployee.registerAsPaymentAttachmentPostListener(this)
     }
 
     @Override

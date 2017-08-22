@@ -8,13 +8,14 @@ import static com.vmc.validationNotification.Validate.validate
 
 class SalesReceipt implements WorkDoneProof{
 
-    private DateTime date
-    private amount
+    protected DateTime date
+    protected amount
 
     static SalesReceipt newSalesReceipt(DateTime date, amount){
         return validate(SalesReceipt, {new SalesReceipt(date, amount)})
     }
 
+    //For reflection magic only
     SalesReceipt() {
     }
 

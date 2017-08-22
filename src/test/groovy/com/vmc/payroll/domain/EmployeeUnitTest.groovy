@@ -2,11 +2,14 @@ package com.vmc.payroll.domain
 
 import com.vmc.payroll.domain.payment.delivery.AccountTransfer
 import com.vmc.payroll.domain.payment.delivery.Mail
+import com.vmc.payroll.domain.payment.paymentAttachment.api.PaymentAttachment
 import com.vmc.payroll.domain.payment.type.Commission
 import com.vmc.payroll.domain.payment.type.Monthly
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Before
 import org.junit.Test
+
+import static org.mockito.Mockito.mock
 
 class EmployeeUnitTest extends ValidationNotificationTestSetup{
 
@@ -15,16 +18,16 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
     @Before
     void setUp(){
         super.setUp()
-        employeeForChange = getEmployeeForChange()
+        employeeForChange = createDefaultEmployee()
     }
 
-    Employee getEmployeeForChange(){
+    Employee createDefaultEmployee(){
         return Employee.newEmployee("test name", "test address", "test email", {Monthly.newPaymentType(it, 1000)}, {Mail.newPaymentDelivery(it, "Street 1")})
     }
 
     @Test
     void "Create employee not providing mandatory information"(){
-        Employee employee = Employee.newEmployee(null, null, null, null, null)
+        Employee.newEmployee(null, null, null, null, null)
         verifyMandatoryErrorsMessagesForCreationWereIssued()
     }
 
@@ -60,7 +63,7 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
 
     @Test
     void "By default, employee should not be member of Union"(){
-        assert !getEmployeeForChange().isUnionMember() : "Should not be an union member by default"
+        assert !createDefaultEmployee().isUnionMember() : "Should not be an union member by default"
     }
 
     @Test
@@ -76,20 +79,71 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
         assert !employeeForChange.isUnionMember() : "Should not be an union member after de-registration"
     }
 
-    private void verifyMandatoryErrorsMessagesForCreationWereIssued() {
+    @Test
+    void "Get all payment attachments"(){
+        def expectedPaymentAttachments = [[] as PaymentAttachment, [] as PaymentAttachment]
+        expectedPaymentAttachments.each {employeeForChange.postPaymentAttachment(it)}
+        assert expectedPaymentAttachments as Set == employeeForChange.getPaymentAttachments() as Set
+    }
+
+    @Test
+    void "Register as a payment attachment listener"(){
+        def previousAddedPaymentAttachment = mock(PaymentAttachment)
+        employeeForChange.postPaymentAttachment(previousAddedPaymentAttachment)
+        def newPaymentAttachments = [mock(PaymentAttachment), mock(PaymentAttachment)]
+        def actualPaymentAttachments = []
+        employeeForChange.registerAsPaymentAttachmentPostListener([postPaymentAttachment : {actualPaymentAttachments.add(it)}] as Object)
+        newPaymentAttachments.each {employeeForChange.postPaymentAttachment(it)}
+        def expectedPaymentAttachments = [previousAddedPaymentAttachment, newPaymentAttachments].flatten()
+        assert expectedPaymentAttachments as Set == actualPaymentAttachments as Set
+    }
+
+    @Test
+    void "De-register a payment attachment listener"(){
+        def expectedPaymentAttachments = [mock(PaymentAttachment), mock(PaymentAttachment)]
+        def actualPaymentAttachments = []
+        def listenerFake = createPaymentAttachmentListenerFake(actualPaymentAttachments)
+        employeeForChange.registerAsPaymentAttachmentPostListener(listenerFake)
+        expectedPaymentAttachments.each {employeeForChange.postPaymentAttachment(it)}
+        employeeForChange.deRegisterAsPaymentAttachmentPostListener(listenerFake)
+        employeeForChange.postPaymentAttachment(mock(PaymentAttachment))
+        assert expectedPaymentAttachments as Set == actualPaymentAttachments as Set
+    }
+
+    @Test
+    void "De-register a payment attachment listener when it is garbage collected"(){
+        def expectedPaymentAttachments = [mock(PaymentAttachment), mock(PaymentAttachment)]
+        def actualPaymentAttachments = []
+        addAttachmentsWithMethodContextedListener(actualPaymentAttachments, expectedPaymentAttachments)
+        System.gc() //Force collection of the previous added listener
+        employeeForChange.postPaymentAttachment(mock(PaymentAttachment))
+        assert expectedPaymentAttachments as Set == actualPaymentAttachments as Set
+    }
+
+    void addAttachmentsWithMethodContextedListener(List actualPaymentAttachments, List<PaymentAttachment> expectedPaymentAttachments) {
+        def listenerFake = createPaymentAttachmentListenerFake(actualPaymentAttachments)
+        employeeForChange.registerAsPaymentAttachmentPostListener(listenerFake)
+        expectedPaymentAttachments.each { employeeForChange.postPaymentAttachment(it) }
+    }
+
+    Object createPaymentAttachmentListenerFake(actualPaymentAttachments) {
+        [postPaymentAttachment: { actualPaymentAttachments.add(it) }] as Object
+    }
+
+    void verifyMandatoryErrorsMessagesForCreationWereIssued() {
         verifyMandatoryErrorsMessagesForChangingWereIssued()
         assert validationObserver.getErrors().contains("The employee payment type is required")
         assert validationObserver.getErrors().contains("The employee payment delivery is required")
     }
 
-    private void verifyMandatoryErrorsMessagesForChangingWereIssued() {
+    void verifyMandatoryErrorsMessagesForChangingWereIssued() {
         assert validationObserver.getErrors().contains("The employee name is required")
         assert validationObserver.getErrors().contains("The employee address is required")
         assert validationObserver.getErrors().contains("The employee email is required")
     }
 
 
-    private void verifyEmployeeWithExpectedData(builtEmployee, String name, String address, String email) {
+    void verifyEmployeeWithExpectedData(builtEmployee, String name, String address, String email) {
         assert validationObserver.successful()
         assert builtEmployee.getName() == name
         assert builtEmployee.getAddress() == address

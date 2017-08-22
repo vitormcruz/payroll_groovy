@@ -13,6 +13,7 @@ class Paymaster implements PaymentDelivery{
         return validate(Paymaster, {new Paymaster(employee)})
     }
 
+    //For reflection magic only
     Paymaster() {
     }
 

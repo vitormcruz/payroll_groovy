@@ -8,13 +8,14 @@ import static com.vmc.validationNotification.Validate.validate
 
 class ServiceCharge implements UnionCharge{
 
-    private DateTime date
-    private amount
+    protected DateTime date
+    protected amount
 
     static ServiceCharge newServiceCharge(DateTime date, amount){
         return validate(ServiceCharge, {new ServiceCharge(date, amount)})
     }
 
+    //For reflection magic only
     ServiceCharge() {
     }
 
