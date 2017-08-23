@@ -1,10 +1,10 @@
 package com.vmc.payroll.domain.payment.attachment
 
 import com.vmc.payroll.domain.payment.attachment.api.UnionCharge
-import com.vmc.validationNotification.objectCreation.ConstructorValidator
 import org.joda.time.DateTime
 
 import static com.vmc.validationNotification.Validate.validate
+import static com.vmc.validationNotification.Validate.validateNewObject
 
 class ServiceCharge implements UnionCharge{
 
@@ -12,7 +12,7 @@ class ServiceCharge implements UnionCharge{
     protected amount
 
     static ServiceCharge newServiceCharge(DateTime date, amount){
-        return validate(ServiceCharge, {new ServiceCharge(date, amount)})
+        return validateNewObject(ServiceCharge, {new ServiceCharge(date, amount)})
     }
 
     //For reflection magic only
@@ -20,9 +20,7 @@ class ServiceCharge implements UnionCharge{
     }
 
     ServiceCharge(DateTime date, amount) {
-        def constructorValidator = new ConstructorValidator()
-        initialize(date, amount)
-        constructorValidator.validateConstruction()
+        validate {initialize(date, amount)}
     }
 
     void initialize(DateTime date, amount) {

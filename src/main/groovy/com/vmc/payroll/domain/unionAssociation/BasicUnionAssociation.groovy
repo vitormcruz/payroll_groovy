@@ -3,11 +3,11 @@ package com.vmc.payroll.domain.unionAssociation
 import com.vmc.payroll.domain.payment.attachment.api.PaymentAttachment
 import com.vmc.payroll.domain.payment.attachment.api.UnionCharge
 import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
-import com.vmc.validationNotification.objectCreation.ConstructorValidator
 
 import static com.google.common.base.Preconditions.checkArgument
 import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
 import static com.vmc.validationNotification.Validate.validate
+import static com.vmc.validationNotification.Validate.validateNewObject
 
 class BasicUnionAssociation implements UnionAssociation{
 
@@ -16,7 +16,7 @@ class BasicUnionAssociation implements UnionAssociation{
     protected charges = []
 
     static BasicUnionAssociation newUnionAssociation(employee, Integer aRate){
-        return validate(BasicUnionAssociation, { new BasicUnionAssociation(employee, aRate)})
+        return validateNewObject(BasicUnionAssociation, { new BasicUnionAssociation(employee, aRate)})
     }
 
     //For reflection magic only
@@ -24,9 +24,7 @@ class BasicUnionAssociation implements UnionAssociation{
     }
 
     BasicUnionAssociation(anEmployee, Integer aRate) {
-        def constructorValidator = new ConstructorValidator()
-        initialize(anEmployee, aRate)
-        constructorValidator.validateConstruction()
+        validate {initialize(anEmployee, aRate)}
     }
 
     void initialize(anEmployee, Integer aRate) {

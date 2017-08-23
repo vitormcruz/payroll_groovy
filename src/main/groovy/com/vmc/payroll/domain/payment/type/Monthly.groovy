@@ -1,16 +1,16 @@
 package com.vmc.payroll.domain.payment.type
 
 import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
-import com.vmc.validationNotification.objectCreation.ConstructorValidator
 
 import static com.vmc.validationNotification.Validate.validate
+import static com.vmc.validationNotification.Validate.validateNewObject
 
 class Monthly extends GenericPaymentType {
 
     Integer salary
 
     static Monthly newPaymentType(employee, Integer salary){
-        return validate(Monthly, {new Monthly(employee, salary)})
+        return validateNewObject(Monthly, {new Monthly(employee, salary)})
     }
 
     /**
@@ -20,9 +20,7 @@ class Monthly extends GenericPaymentType {
     }
 
     Monthly(employee, Integer aSalary) {
-        def constructorValidator = new ConstructorValidator()
-        initialize(employee, aSalary)
-        constructorValidator.validateConstruction()
+        validate {initialize(employee, aSalary)}
     }
 
     void initialize(Object anEmployee, Integer aSalary) {

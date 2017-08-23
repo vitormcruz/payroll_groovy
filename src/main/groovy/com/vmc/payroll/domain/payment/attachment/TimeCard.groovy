@@ -1,9 +1,10 @@
 package com.vmc.payroll.domain.payment.attachment
 
 import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
-import com.vmc.validationNotification.Validate
-import com.vmc.validationNotification.objectCreation.ConstructorValidator
 import org.joda.time.DateTime
+
+import static com.vmc.validationNotification.Validate.validate
+import static com.vmc.validationNotification.Validate.validateNewObject
 
 class TimeCard implements WorkDoneProof{
 
@@ -11,7 +12,7 @@ class TimeCard implements WorkDoneProof{
     protected Integer hours
 
     static TimeCard newTimeCard(DateTime date, Integer hours){
-        return Validate.validate(TimeCard, {new TimeCard(date, hours)})
+        return validateNewObject(TimeCard, {new TimeCard(date, hours)})
     }
 
     //For reflection magic only
@@ -19,9 +20,7 @@ class TimeCard implements WorkDoneProof{
     }
 
     TimeCard(DateTime date, Integer hours) {
-        def constructorValidator = new ConstructorValidator()
-        initialize(date, hours)
-        constructorValidator.validateConstruction()
+        validate { initialize(date, hours) }
     }
 
     void initialize(DateTime date, Integer hours) {

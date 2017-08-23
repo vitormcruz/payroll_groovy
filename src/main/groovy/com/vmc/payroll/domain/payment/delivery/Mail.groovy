@@ -1,10 +1,10 @@
 package com.vmc.payroll.domain.payment.delivery
 
 import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
-import com.vmc.validationNotification.objectCreation.ConstructorValidator
 
 import static com.google.common.base.Preconditions.checkArgument
 import static com.vmc.validationNotification.Validate.validate
+import static com.vmc.validationNotification.Validate.validateNewObject
 
 class Mail implements PaymentDelivery{
 
@@ -12,7 +12,7 @@ class Mail implements PaymentDelivery{
     String address
 
     static Mail newPaymentDelivery(employee, String address){
-        return validate(Mail, {new Mail(employee, address)})
+        return validateNewObject(Mail, {new Mail(employee, address)})
     }
 
     //For reflection magic only
@@ -20,9 +20,7 @@ class Mail implements PaymentDelivery{
     }
 
     Mail(anEmployee, String anAddress) {
-        def constructorValidator = new ConstructorValidator()
-        initialize(anEmployee, anAddress)
-        constructorValidator.validateConstruction()
+        validate {initialize(anEmployee, anAddress)}
     }
 
     void initialize(anEmployee, String anAddress) {

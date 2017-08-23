@@ -1,10 +1,10 @@
 package com.vmc.payroll.domain.payment.attachment
 
 import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
-import com.vmc.validationNotification.objectCreation.ConstructorValidator
 import org.joda.time.DateTime
 
 import static com.vmc.validationNotification.Validate.validate
+import static com.vmc.validationNotification.Validate.validateNewObject
 
 class SalesReceipt implements WorkDoneProof{
 
@@ -12,7 +12,7 @@ class SalesReceipt implements WorkDoneProof{
     protected amount
 
     static SalesReceipt newSalesReceipt(DateTime date, amount){
-        return validate(SalesReceipt, {new SalesReceipt(date, amount)})
+        return validateNewObject(SalesReceipt, {new SalesReceipt(date, amount)})
     }
 
     //For reflection magic only
@@ -20,9 +20,7 @@ class SalesReceipt implements WorkDoneProof{
     }
 
     SalesReceipt(DateTime date, amount) {
-        def constructorValidator = new ConstructorValidator()
-        initialize(date, amount)
-        constructorValidator.validateConstruction()
+        validate {initialize(date, amount)}
     }
 
     void initialize(DateTime date, amount) {

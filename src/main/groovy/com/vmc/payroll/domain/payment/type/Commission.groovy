@@ -2,16 +2,16 @@ package com.vmc.payroll.domain.payment.type
 
 import com.vmc.payroll.domain.payment.attachment.SalesReceipt
 import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
-import com.vmc.validationNotification.objectCreation.ConstructorValidator
 
 import static com.vmc.validationNotification.Validate.validate
+import static com.vmc.validationNotification.Validate.validateNewObject
 
 class Commission extends Monthly{
 
     Integer commissionRate
 
     static Commission newPaymentType(employee, Integer salary, Integer commissionRate) {
-        return validate(Commission, {new Commission(employee, salary, commissionRate)})
+        return validateNewObject(Commission, {new Commission(employee, salary, commissionRate)})
     }
 
     //For reflection magic only
@@ -19,9 +19,7 @@ class Commission extends Monthly{
     }
 
     Commission(employee, Integer aSalary, Integer aCommissionRate) {
-        def constructorValidator = new ConstructorValidator()
-        initialize(employee, aSalary, aCommissionRate)
-        constructorValidator.validateConstruction()
+        validate {initialize(employee, aSalary, aCommissionRate)}
     }
 
     void initialize(Object anEmployee, Integer aSalary, Integer aCommissionRate) {

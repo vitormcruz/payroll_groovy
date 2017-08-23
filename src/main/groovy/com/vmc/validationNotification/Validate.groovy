@@ -1,7 +1,7 @@
 package com.vmc.validationNotification
 
 import com.vmc.validationNotification.api.ValidationResult
-import com.vmc.validationNotification.objectCreation.ConstructionValidationFailedException
+import com.vmc.validationNotification.objectCreation.ValidationFailedException
 
 //TODO Add tests, review, comment
 class Validate extends SimpleValidationObserver {
@@ -10,8 +10,19 @@ class Validate extends SimpleValidationObserver {
     protected executionResult
     private Class classValidated
 
-    static <R> R validate(Class<R> classValidated, Closure<R> aClusureToValidate) {
+    static <R> R validateNewObject(Class<R> classValidated, Closure<R> aClusureToValidate) {
         return (R) new Validate(classValidated, aClusureToValidate).getResult()
+    }
+
+    static validate(Closure aClusureToValidate) {
+        return new Validate(aClusureToValidate)
+    }
+
+    Validate(Closure aClosureToValidate) {
+        ApplicationValidationNotifier.addObserver(this)
+        aClosureToValidate()
+        ApplicationValidationNotifier.removeObserver(this)
+        if(!successful()) throw new ValidationFailedException(getCommaSeparatedErrors())
     }
 
     Validate(Class classValidated, Closure aClosureToValidate) {
@@ -25,7 +36,7 @@ class Validate extends SimpleValidationObserver {
     private void executeIgnoringConstructorValidationException(Closure aClosureToValidate) {
         try {
             executionResult = aClosureToValidate()
-        } catch (ConstructionValidationFailedException e) {
+        } catch (ValidationFailedException e) {
             //Ignored. Validation failure will be treated differently.
         }
     }

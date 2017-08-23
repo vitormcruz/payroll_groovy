@@ -1,8 +1,9 @@
 package com.vmc.validationNotification.objectCreation
 
-import com.vmc.validationNotification.Validate
 import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.FirstParam
+
+import static com.vmc.validationNotification.Validate.validateNewObject
 //todo document
 //todo more tests
 /**
@@ -53,7 +54,7 @@ class ObjectMother<E> {
     }
 
     E createNewBorn(List<Closure> birthScripts){
-        return Validate.validate(childClass, {
+        return validateNewObject(childClass, {
             def newBornChild = childClass.newInstance()
             birthScripts.each {birthScript -> newBornChild .with birthScript}
             return newBornChild

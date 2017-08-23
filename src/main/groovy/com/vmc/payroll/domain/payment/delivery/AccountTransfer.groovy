@@ -1,10 +1,10 @@
 package com.vmc.payroll.domain.payment.delivery
 
 import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
-import com.vmc.validationNotification.Validate
-import com.vmc.validationNotification.objectCreation.ConstructorValidator
 
 import static com.google.common.base.Preconditions.checkArgument
+import static com.vmc.validationNotification.Validate.validate
+import static com.vmc.validationNotification.Validate.validateNewObject
 
 class AccountTransfer implements PaymentDelivery{
 
@@ -13,7 +13,7 @@ class AccountTransfer implements PaymentDelivery{
     String account
 
     static AccountTransfer newPaymentDelivery(employee, String bank, String account){
-        return Validate.validate(AccountTransfer, {new AccountTransfer(employee, bank, account)})
+        return validateNewObject(AccountTransfer, {new AccountTransfer(employee, bank, account)})
     }
 
     //For reflection magic only
@@ -21,9 +21,7 @@ class AccountTransfer implements PaymentDelivery{
     }
 
     AccountTransfer(anEmployee, String aBank, String anAccount) {
-        def constructorValidator = new ConstructorValidator()
-        initialize(anEmployee, aBank, anAccount)
-        constructorValidator.validateConstruction()
+        validate {initialize(anEmployee, aBank, anAccount)}
     }
 
     void initialize(anEmployee, String aBank, String anAccount) {

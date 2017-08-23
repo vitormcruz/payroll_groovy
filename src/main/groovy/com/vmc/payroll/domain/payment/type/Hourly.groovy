@@ -2,16 +2,16 @@ package com.vmc.payroll.domain.payment.type
 
 import com.vmc.payroll.domain.payment.attachment.TimeCard
 import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
-import com.vmc.validationNotification.objectCreation.ConstructorValidator
 
 import static com.vmc.validationNotification.Validate.validate
+import static com.vmc.validationNotification.Validate.validateNewObject
 
 class Hourly extends GenericPaymentType {
 
     Integer hourRate
 
     static Hourly newPaymentType(employee, Integer hourRate) {
-        return validate(Hourly, {new Hourly(employee, hourRate)})
+        return validateNewObject(Hourly, {new Hourly(employee, hourRate)})
     }
 
     //For reflection magic only
@@ -19,9 +19,7 @@ class Hourly extends GenericPaymentType {
     }
 
     Hourly(employee, Integer aHourRate) {
-        def constructorValidator = new ConstructorValidator()
-        initialize(employee, aHourRate)
-        constructorValidator.validateConstruction()
+        validate {initialize(employee, aHourRate)}
     }
 
     void initialize(Object anEmployee, Integer aHourRate) {

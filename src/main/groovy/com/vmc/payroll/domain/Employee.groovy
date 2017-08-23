@@ -1,17 +1,16 @@
 package com.vmc.payroll.domain
 
 import com.vmc.payroll.domain.api.Entity
-import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
 import com.vmc.payroll.domain.payment.attachment.api.PaymentAttachment
+import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
 import com.vmc.payroll.domain.payment.type.api.PaymentType
 import com.vmc.payroll.domain.unionAssociation.BasicUnionAssociation
 import com.vmc.payroll.domain.unionAssociation.NoUnionAssociation
 import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
 import com.vmc.validationNotification.Mandatory
-import com.vmc.validationNotification.Validate
-import com.vmc.validationNotification.objectCreation.ConstructorValidator
 
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
+import static com.vmc.validationNotification.Validate.validate
+import static com.vmc.validationNotification.Validate.validateNewObject
 
 class Employee implements Entity{
 
@@ -27,26 +26,22 @@ class Employee implements Entity{
     protected Set<PaymentAttachment> paymentAttachments = []
 
     static newEmployee(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
-        return Validate.validate(Employee, {new Employee(name, address, email, paymentTypeProvider, paymentDeliveryProvider)})
+        return validateNewObject(Employee, {new Employee(name, address, email, paymentTypeProvider, paymentDeliveryProvider)})
     }
 
     //For reflection magic only
     Employee() {}
 
     protected Employee(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
-        def constructorValidator = new ConstructorValidator()
-        initialize(name, address, email, paymentTypeProvider, paymentDeliveryProvider)
-        constructorValidator.validateConstruction()
+        validate {initialize(name, address, email, paymentTypeProvider, paymentDeliveryProvider)}
     }
 
     void initialize(String name, String address, String email, paymentTypeProvider, paymentDeliveryProvider) {
-        executeNamedValidation("Validate new Employee", {
-            setName(name)
-            setAddress(address)
-            setEmail(email)
-            bePaid(paymentTypeProvider)
-            receivePaymentBy(paymentDeliveryProvider)
-        })
+        setName(name)
+        setAddress(address)
+        setEmail(email)
+        bePaid(paymentTypeProvider)
+        receivePaymentBy(paymentDeliveryProvider)
     }
 
     @Override
