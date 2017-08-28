@@ -21,9 +21,9 @@ class HourlyAttachmentUnitTest extends ValidationNotificationTestSetup{
     @Test
     void "Add another payment attachment to a Hourly payment type"(){
         def hourly =  Hourly.newPaymentType([] as Employee, 1)
-        def error = shouldFail(IllegalArgumentException, { hourly.postPaymentAttachment([] as SalesReceipt) })
+        assert shouldFail(IllegalArgumentException, { hourly.postPaymentAttachment([] as SalesReceipt) }).message == "Non Time Card payment attachment was provided to a " +
+                                                                                                                     "hourly payment type."
         assert hourly.getPaymentAttachments().isEmpty()
-        assert error.message == "Non Time Card payment attachment was provided to a hourly payment type."
     }
 
 }

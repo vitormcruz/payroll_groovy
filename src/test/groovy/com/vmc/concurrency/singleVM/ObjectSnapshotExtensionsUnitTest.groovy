@@ -2,7 +2,7 @@ package com.vmc.concurrency.singleVM
 
 import org.junit.Test
 
-class ObjectSnapshotExtensionsTest {
+class ObjectSnapshotExtensionsUnitTest {
 
     @Test
     def void "Take a snapshot"(){

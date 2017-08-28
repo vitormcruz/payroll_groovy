@@ -1,22 +1,20 @@
 package com.vmc.validationNotification
 
-import com.vmc.validationNotification.Mandatory
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
-import groovy.test.GroovyAssert
 import org.junit.Test
 
-class MandatoryTest extends ValidationNotificationTestSetup{
+import static groovy.test.GroovyAssert.shouldFail
+
+class MandatoryUnitTest extends ValidationNotificationTestSetup{
 
     @Test
     void "Get mandatory value when it's null"(){
-        def error = GroovyAssert.shouldFail(IllegalStateException, {new Mandatory(null, "error message", [:]).get()})
-        assert error.message == "error message"
+        assert shouldFail(IllegalStateException, {new Mandatory(null, "error message", [:]).get()}).message == "error message"
     }
 
     @Test
     void "Verify default error message"(){
-        def error = GroovyAssert.shouldFail(IllegalStateException, {new Mandatory().get()})
-        assert error.message == "Mandatory value was not provided"
+        assert shouldFail(IllegalStateException, {new Mandatory().get()}).message == "Mandatory value was not provided"
     }
 
     @Test

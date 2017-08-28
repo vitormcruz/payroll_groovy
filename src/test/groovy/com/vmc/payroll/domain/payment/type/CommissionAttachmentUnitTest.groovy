@@ -21,8 +21,8 @@ class CommissionAttachmentUnitTest extends ValidationNotificationTestSetup{
     @Test
     void "Add another payment attachment to a Commission payment type"(){
         def commission = Commission.newPaymentType([] as Employee, 1, 1)
-        def error = shouldFail(IllegalArgumentException, { commission.postPaymentAttachment([] as TimeCard) })
+        assert shouldFail(IllegalArgumentException, { commission.postPaymentAttachment([] as TimeCard) }).message == "Non Sales Receipt payment attachment was provided to " +
+                                                                                                                     "a commission payment type."
         assert commission.getPaymentAttachments().isEmpty()
-        assert error.message == "Non Sales Receipt payment attachment was provided to a commission payment type."
     }
 }

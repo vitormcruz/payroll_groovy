@@ -2,15 +2,15 @@ package com.vmc.payroll.domain.payment.delivery
 
 import com.vmc.payroll.domain.Employee
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
-import groovy.test.GroovyAssert
 import org.junit.Test
 
-class AccountTransferTest extends ValidationNotificationTestSetup{
+import static groovy.test.GroovyAssert.shouldFail
+
+class AccountTransferUnitTest extends ValidationNotificationTestSetup{
 
     @Test
     void "Employee is mandatory"(){
-        def ex = GroovyAssert.shouldFail(IllegalArgumentException, {AccountTransfer.newPaymentDelivery(null, "bank 1", "11111")})
-        assert ex.message == "Did you miss passing my employee?"
+        assert shouldFail(IllegalArgumentException, {AccountTransfer.newPaymentDelivery(null, "bank 1", "11111")}).message == "Did you miss passing my employee?"
     }
 
     @Test

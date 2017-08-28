@@ -1,17 +1,17 @@
 package com.vmc.payroll.domain.payment.type
 
 import com.vmc.payroll.domain.Employee
-import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
 import com.vmc.payroll.domain.payment.attachment.api.UnionCharge
-import groovy.test.GroovyAssert
+import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
 import org.junit.Test
 
-class GenericPaymentTypeTest {
+import static groovy.test.GroovyAssert.shouldFail
+
+class GenericPaymentTypeUnitTest {
 
     @Test
     void "Provide null for employee"(){
-        def ex = GroovyAssert.shouldFail {new GenericPaymentTypeForTest(null)}
-        assert ex.message == "Employee must be provided for payment types, but I got it null"
+        assert shouldFail({new GenericPaymentTypeForTest(null)}).message == "Employee must be provided for payment types, but I got it null"
     }
 
     @Test

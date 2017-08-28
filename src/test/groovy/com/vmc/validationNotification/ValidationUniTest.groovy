@@ -9,7 +9,7 @@ import static com.vmc.validationNotification.Validation.validateNewObject
 import static groovy.test.GroovyAssert.shouldFail
 import static org.junit.Assert.fail
 
-class ValidationTest {
+class ValidationUniTest {
 
     @Test
     void "Validate a valid execution"(){
@@ -21,27 +21,23 @@ class ValidationTest {
 
     @Test
     void "Validate an invalid execution"(){
-        def ex = shouldFail(ValidationFailedException, {validate {issueError("error")}})
-        assert ex.message == "error"
+        shouldFail(ValidationFailedException, {validate {issueError("error")}}).message == "error"
     }
 
     @Test
     void "Validate an invalid execution with multiple errors"(){
-        def ex = shouldFail(ValidationFailedException, {validate {
+        assert shouldFail(ValidationFailedException, {validate {
             issueError("error1")
             issueError("error2")
             issueError("error3")
             issueError("error4")
-        }})
-
-        assert ex.message == "error1, error2, error3, error4"
+        }}).message == "error1, error2, error3, error4"
     }
 
     @Test
     void "Validate primitives objects"(){
-        def ex = shouldFail(IllegalArgumentException, {validateNewObject(String, {})})
-        assert ex.message == "Cannot validate primitive or arrays, also cannot validate final types since I unable to subclass them and provide an automatic generated NullObject of it " +
-                             "for you."
+        assert shouldFail(IllegalArgumentException, {validateNewObject(String, {})}).message == "Cannot validate primitive or arrays, also cannot validate final types since I " +
+                                                                                                "unable to subclass them and provide an automatic generated NullObject of it for you."
     }
 
     @Test

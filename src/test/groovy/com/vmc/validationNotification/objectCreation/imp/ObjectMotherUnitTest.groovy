@@ -2,15 +2,15 @@ package com.vmc.validationNotification.objectCreation.imp
 
 import com.vmc.validationNotification.objectCreation.ObjectMother
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
-import groovy.test.GroovyAssert
 import org.junit.Test
+
+import static groovy.test.GroovyAssert.shouldFail
 
 class ObjectMotherUnitTest extends ValidationNotificationTestSetup{
 
     @Test
     void "Class parameter must be provided"(){
-        def ex = GroovyAssert.shouldFail IllegalArgumentException, {getObjectMother(null, {})}
-        assert ex.message == "A class to build must be provided"
+        assert shouldFail(IllegalArgumentException, {getObjectMother(null, {})}).message == "A class to build must be provided"
     }
 
     @Test

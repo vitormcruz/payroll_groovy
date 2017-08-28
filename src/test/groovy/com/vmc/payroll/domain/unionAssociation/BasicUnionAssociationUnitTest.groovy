@@ -13,8 +13,7 @@ class BasicUnionAssociationUnitTest extends ValidationNotificationTestSetup{
 
     @Test
     void "Create union association without employee"(){
-        def ex = shouldFail {BasicUnionAssociation.newUnionAssociation(null, 10)}
-        ex.message == "An Employee should be provided to a Default Union Association"
+        assert shouldFail({BasicUnionAssociation.newUnionAssociation(null, 10)}).message == "An Employee should be provided to a Default Union Association"
     }
 
     @Test
