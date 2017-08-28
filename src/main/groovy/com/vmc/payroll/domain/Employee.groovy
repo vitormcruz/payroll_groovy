@@ -9,8 +9,8 @@ import com.vmc.payroll.domain.unionAssociation.NoUnionAssociation
 import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
 import com.vmc.validationNotification.Mandatory
 
-import static com.vmc.validationNotification.Validate.validate
-import static com.vmc.validationNotification.Validate.validateNewObject
+import static com.vmc.validationNotification.Validation.validate
+import static com.vmc.validationNotification.Validation.validateNewObject
 
 class Employee implements Entity{
 

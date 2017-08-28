@@ -5,9 +5,8 @@ import com.vmc.payroll.domain.payment.attachment.api.UnionCharge
 import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
 
 import static com.google.common.base.Preconditions.checkArgument
-import static com.vmc.validationNotification.ApplicationValidationNotifier.executeNamedValidation
-import static com.vmc.validationNotification.Validate.validate
-import static com.vmc.validationNotification.Validate.validateNewObject
+import static com.vmc.validationNotification.Validation.validate
+import static com.vmc.validationNotification.Validation.validateNewObject
 
 class BasicUnionAssociation implements UnionAssociation{
 
@@ -31,7 +30,7 @@ class BasicUnionAssociation implements UnionAssociation{
         checkArgument(anEmployee != null, "An Employee should be provided to a Default Union Association")
         this.employee = anEmployee
         this.employee.registerAsPaymentAttachmentPostListener(this)
-        executeNamedValidation("Validate new Basic Union Association", { setRate(aRate) })
+        setRate(aRate)
     }
 
     @Override

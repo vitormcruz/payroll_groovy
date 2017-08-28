@@ -3,8 +3,8 @@ package com.vmc.payroll.domain.payment.delivery
 import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
 
 import static com.google.common.base.Preconditions.checkArgument
-import static com.vmc.validationNotification.Validate.validate
-import static com.vmc.validationNotification.Validate.validateNewObject
+import static com.vmc.validationNotification.Validation.validate
+import static com.vmc.validationNotification.Validation.validateNewObject
 
 class AccountTransfer implements PaymentDelivery{
 

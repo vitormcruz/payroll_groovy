@@ -3,8 +3,8 @@ package com.vmc.payroll.domain.payment.attachment
 import com.vmc.payroll.domain.payment.attachment.api.UnionCharge
 import org.joda.time.DateTime
 
-import static com.vmc.validationNotification.Validate.validate
-import static com.vmc.validationNotification.Validate.validateNewObject
+import static com.vmc.validationNotification.Validation.validate
+import static com.vmc.validationNotification.Validation.validateNewObject
 
 class ServiceCharge implements UnionCharge{
 

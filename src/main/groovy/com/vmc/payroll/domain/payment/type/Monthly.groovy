@@ -2,8 +2,8 @@ package com.vmc.payroll.domain.payment.type
 
 import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
 
-import static com.vmc.validationNotification.Validate.validate
-import static com.vmc.validationNotification.Validate.validateNewObject
+import static com.vmc.validationNotification.Validation.validate
+import static com.vmc.validationNotification.Validation.validateNewObject
 
 class Monthly extends GenericPaymentType {
 

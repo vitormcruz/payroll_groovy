@@ -3,7 +3,7 @@ package com.vmc.validationNotification.objectCreation
 import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.FirstParam
 
-import static com.vmc.validationNotification.Validate.validateNewObject
+import static com.vmc.validationNotification.Validation.validateNewObject
 //todo document
 //todo more tests
 /**
