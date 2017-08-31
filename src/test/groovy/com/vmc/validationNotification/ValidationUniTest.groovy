@@ -1,7 +1,6 @@
 package com.vmc.validationNotification
 
 import com.google.common.collect.SetMultimap
-import com.vmc.validationNotification.objectCreation.ValidationFailedException
 import org.junit.Test
 
 import static com.vmc.validationNotification.Validation.validate

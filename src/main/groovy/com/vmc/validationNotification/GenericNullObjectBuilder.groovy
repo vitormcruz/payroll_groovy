@@ -60,7 +60,7 @@ class GenericNullObjectBuilder {
         return methodsToRespond
     }
 
-    static void canCreateNullObject(Class aClass) {
+    static void failIfCantCreateNullObject(Class aClass) {
         try {
             new ByteBuddy().subclass(aClass)
         } catch (IllegalArgumentException e) {

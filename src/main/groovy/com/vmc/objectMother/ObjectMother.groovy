@@ -1,4 +1,4 @@
-package com.vmc.validationNotification.objectCreation
+package com.vmc.objectMother
 
 import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.FirstParam

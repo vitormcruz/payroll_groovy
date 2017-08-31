@@ -1,6 +1,6 @@
-package com.vmc.validationNotification.objectCreation.imp
+package com.vmc.objectMother.imp
 
-import com.vmc.validationNotification.objectCreation.ObjectMother
+import com.vmc.objectMother.ObjectMother
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Test
 

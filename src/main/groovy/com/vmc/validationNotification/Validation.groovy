@@ -1,6 +1,7 @@
 package com.vmc.validationNotification
 
-import com.vmc.validationNotification.objectCreation.ValidationFailedException
+import static GenericNullObjectBuilder.failIfCantCreateNullObject
+import static GenericNullObjectBuilder.newNullObjectOf
 
 class Validation extends SimpleValidationObserver {
 
@@ -9,12 +10,12 @@ class Validation extends SimpleValidationObserver {
      * aClosure, which must return an object of the classValidated type.
      */
     static <R> R validateNewObject(Class<R> classValidated, Closure<R> aClosure) {
-        GenericNullObjectBuilder.canCreateNullObject(classValidated)
+        failIfCantCreateNullObject(classValidated)
         def observer = new SimpleValidationObserver()
         ApplicationValidationNotifier.addObserver(observer)
         def result = executeIgnoringValidationException(aClosure)
         ApplicationValidationNotifier.removeObserver(observer)
-        return observer.successful() ? result : GenericNullObjectBuilder.newNullObjectOf(classValidated, observer.errorsByContext)
+        return observer.successful() ? result : newNullObjectOf(classValidated, observer.errorsByContext)
     }
 
     static executeIgnoringValidationException(Closure aClosureToValidate) {

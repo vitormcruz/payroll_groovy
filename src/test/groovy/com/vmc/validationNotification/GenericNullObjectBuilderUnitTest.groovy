@@ -5,7 +5,7 @@ import com.google.common.collect.Maps
 import com.google.common.collect.SetMultimap
 import org.junit.Test
 
-import static com.vmc.validationNotification.GenericNullObjectBuilder.newNullObjectOf
+import static GenericNullObjectBuilder.newNullObjectOf
 import static groovy.test.GroovyAssert.shouldFail
 import static org.junit.Assert.fail
 

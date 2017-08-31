@@ -1,4 +1,4 @@
-package com.vmc.validationNotification.objectCreation
+package com.vmc.validationNotification
 
 class ValidationFailedException extends RuntimeException{
 

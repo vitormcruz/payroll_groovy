@@ -1,4 +1,6 @@
-package com.vmc.validationNotification
+package com.vmc.validationNotification.java.lang
+
+import com.vmc.validationNotification.ApplicationValidationNotifier
 
 class ObjectValidationNotificationExtensions {
 

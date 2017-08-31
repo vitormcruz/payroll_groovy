@@ -12,7 +12,7 @@ import com.vmc.payroll.domain.payment.type.Hourly
 import com.vmc.payroll.domain.payment.type.Monthly
 import com.vmc.payroll.domain.payment.type.GenericPaymentType
 import com.vmc.payroll.testPreparation.IntegrationTestBase
-import com.vmc.validationNotification.objectCreation.ObjectMother
+import com.vmc.objectMother.ObjectMother
 import org.junit.BeforeClass
 import org.junit.Test
 
