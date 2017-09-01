@@ -17,8 +17,10 @@ The domain contains the Entity layer, it had the UseCase too but I decided to re
 The external package contains everything that is external to the business rules, such as presentation, persistence etc. Each of one those externalities are represented by one 
 package, that contains, itself, another package representing a significant technology or framework used. Examples:
 
-external.persistence.inMemory -> external domain persistence representation in memmory 
+external.persistence.inMemory -> external domain persistence representation in memmory
+ 
 external.presentation.vaadin -> external domain presentation representation using Vaadin Framework
+
 external.presentation.webservice.spark -> external domain presentation representation of webservices technology using Spark Framework 
 
 All those correspond to the Interface Adapter Layer.
