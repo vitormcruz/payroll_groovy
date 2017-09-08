@@ -20,12 +20,17 @@ class PayrollJettyApplication {
     static private ServletHolder configuredVaadinServletHolder
     static private FilterHolder configuredSparkFilterHolder
 
-    static private ModelSnapshot modelSnapshot = ServiceLocator.instance.modelSnapshot()
-    static private EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository()
+    static private ModelSnapshot modelSnapshot
+    static private EmployeeRepository employeeRepository
 
     static {
+        String productionserviceLocaleName = System.getProperties().get("production_service_locale_name")
+        if(productionserviceLocaleName == null) { productionserviceLocaleName = "com.vmc.payroll.external.config.ProductionServiceLocator" }
+        ServiceLocator.load(productionserviceLocaleName as Class)
         configuredVaadinServletHolder = getConfiguredVaadinServletHolder()
         configuredSparkFilterHolder = getConfiguredSparkFilterHolder()
+        modelSnapshot = ServiceLocator.instance.modelSnapshot
+        employeeRepository = ServiceLocator.instance.employeeRepository
     }
 
     static void main(String[] args) {

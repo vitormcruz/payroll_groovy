@@ -6,7 +6,7 @@ import com.vmc.payroll.external.config.ServiceLocator
 
 class ObjectJsonConversionExtensions {
 
-    private static ObjectMapper mapper = ServiceLocator.getInstance().mapper()
+    private static ObjectMapper mapper = ServiceLocator.instance.mapper
 
     static String asJson(Object object){
         object.asJsonConverter().toJson()

@@ -21,7 +21,7 @@ import static groovy.test.GroovyAssert.shouldFail
 
 class EmployeeIntTest extends IntegrationTestBase {
 
-    private EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository()
+    private EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository
     private ObjectMother<Employee> employeeMother
     private Employee employee1
     private Employee employee2

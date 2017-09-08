@@ -8,11 +8,11 @@ import org.junit.Before
 
 abstract class IntegrationTestBase extends ValidationNotificationTestSetup{
 
-    protected DatabaseCleaner databaseCleaner = ServiceLocator.instance.databaseCleaner()
-    protected ModelSnapshot model = ServiceLocator.instance.modelSnapshot()
+    protected DatabaseCleaner databaseCleaner = ServiceLocator.instance.databaseCleaner
+    protected ModelSnapshot model = ServiceLocator.instance.modelSnapshot
 
     static{
-        ServiceLocator.load(new ServiceLocatorForTest())
+        ServiceLocator.load(ServiceLocatorForTest)
     }
 
     @Before

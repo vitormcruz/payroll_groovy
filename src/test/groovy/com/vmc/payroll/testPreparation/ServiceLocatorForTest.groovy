@@ -1,15 +1,14 @@
 package com.vmc.payroll.testPreparation
 
 import com.vmc.payroll.external.config.DatabaseCleaner
-import com.vmc.payroll.external.config.ServiceLocator
+import com.vmc.payroll.external.config.ProductionServiceLocator
 
-class ServiceLocatorForTest extends ServiceLocator{
-    private DatabaseCleaner databaseCleaner = new DatabaseCleaner(modelSnapshot(), employeeRepository())
+class ServiceLocatorForTest extends ProductionServiceLocator{
 
-    ServiceLocatorForTest() {
-    }
+    @Lazy
+    static final ProductionServiceLocator myself = {new ServiceLocatorForTest()}()
 
-    DatabaseCleaner databaseCleaner() {
-        return databaseCleaner
-    }
+    @Lazy
+    private DatabaseCleaner databaseCleaner = {new DatabaseCleaner(modelSnapshot, employeeRepository)}()
+
 }

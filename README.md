@@ -71,5 +71,5 @@ classes with complex construction. See ObjectMother class for implementation det
 ####Method Extensions
 
 When applying real OO, i.e. no Anemic Model, you get more in the situation where some method actually belongs to some object you don't have access. For example, all StringUtils 
-methods belong to the String class in the OO point of view. Without method extensions support, the StringUtils class is just a consequence of a language limitation. While 
+methods belong to the String class in the OO point of view. Without method extensions support, the StringUtils class is just a consequence of language limitation. While 
 I liked using methods extentions, it is rather messy and IDE support is somewhat crude. I am still thinking in a better way to organize the usage of Method Extensions.    

@@ -14,8 +14,8 @@ import com.vmc.payroll.external.presentation.vaadin.view.employee.EmployeeView
 @Theme("valo")
 class PayrollUI extends UI {
 
-    private EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository()
-    private ModelSnapshot modelSnapshot = ServiceLocator.instance.modelSnapshot()
+    private EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository
+    private ModelSnapshot modelSnapshot = ServiceLocator.instance.modelSnapshot
 
     protected void init(VaadinRequest request) {
         def mainContent = new VerticalLayout().with {

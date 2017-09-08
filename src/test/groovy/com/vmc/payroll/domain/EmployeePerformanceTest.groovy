@@ -18,7 +18,7 @@ import org.junit.Test
 
 class EmployeePerformanceTest extends IntegrationTestBase {
 
-    private static EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository()
+    private static EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository
     private static faker =  new Faker(new Locale("pt-BR"))
     private static random = new Random()
 

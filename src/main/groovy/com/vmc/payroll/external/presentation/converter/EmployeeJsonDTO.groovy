@@ -12,7 +12,7 @@ import static com.google.common.base.Preconditions.checkArgument
 //TODO add tests
 class EmployeeJsonDTO implements JsonConverter{
 
-    private static ObjectMapper mapper = ServiceLocator.getInstance().mapper()
+    private static ObjectMapper mapper = ServiceLocator.getInstance().mapper
     private static Set<Class> paymentTypes = new Reflections("com.vmc.payroll.domain.payment.type").getSubTypesOf(PaymentType)
 
     String id
