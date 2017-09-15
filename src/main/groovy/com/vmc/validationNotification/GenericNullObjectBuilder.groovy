@@ -8,6 +8,7 @@ import net.bytebuddy.matcher.ElementMatcher
 import static net.bytebuddy.matcher.ElementMatchers.named
 import static net.bytebuddy.matcher.ElementMatchers.not
 
+//TODO review failIfCantCreateNullObject
 class GenericNullObjectBuilder {
 
     private static final ElementMatcher CORE_LANG_METHODS_MATCHER = coreLangMethods().collect { methodName -> not(named(methodName)) }

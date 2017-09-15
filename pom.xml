@@ -24,6 +24,7 @@
         <groovy-eclipse-batch.version>2.4.3-01</groovy-eclipse-batch.version>
         <junit.version>4.12</junit.version>
         <vaadin.version>8.0.6</vaadin.version>
+        <orientdb.version>2.2.27</orientdb.version>
         <argLine>-XX:MaxDirectMemorySize=512g</argLine>
     </properties>
 
@@ -157,14 +158,13 @@
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.9.4</version>
+            <version>2.9.9</version>
         </dependency>
 
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-            <scope>compile</scope>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.6</version>
         </dependency>
 
         <dependency>
@@ -226,14 +226,26 @@
 
         <dependency>
             <groupId>com.orientechnologies</groupId>
+            <artifactId>orientdb-core</artifactId>
+            <version>${orientdb.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.orientechnologies</groupId>
+            <artifactId>orientdb-object</artifactId>
+            <version>${orientdb.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.orientechnologies</groupId>
             <artifactId>orientdb-server</artifactId>
-            <version>2.2.26</version>
+            <version>${orientdb.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.orientechnologies</groupId>
             <artifactId>orientdb-jdbc</artifactId>
-            <version>2.2.26</version>
+            <version>${orientdb.version}</version>
         </dependency>
 
         <!--
