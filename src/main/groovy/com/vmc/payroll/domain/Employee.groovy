@@ -144,4 +144,9 @@ class Employee implements Entity{
     Boolean isUnionMember() {
         unionAssociation.isUnionMember()
     }
+
+    @Override
+    def getEntityClass() {
+        return Employee
+    }
 }

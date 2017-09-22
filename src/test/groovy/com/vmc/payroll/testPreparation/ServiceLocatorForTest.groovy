@@ -1,11 +1,10 @@
 package com.vmc.payroll.testPreparation
 
-import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx
 import com.vmc.payroll.external.config.DatabaseCleaner
 import com.vmc.payroll.external.config.ProductionServiceLocator
 import com.vmc.payroll.external.config.ServiceLocator
-import com.vmc.payroll.external.persistence.orientDB.repository.DummyEntity
+import com.vmc.payroll.external.persistence.orientDB.repository.FakeEntity
 
 class ServiceLocatorForTest extends ProductionServiceLocator{
 
@@ -25,7 +24,7 @@ class ServiceLocatorForTest extends ProductionServiceLocator{
     @Override
     OObjectDatabaseTx loadDatabase() {
         def database = super.loadDatabase()
-        database.getEntityManager().registerEntityClass(DummyEntity)
+        database.getEntityManager().registerEntityClass(FakeEntity)
         return database
     }
 }
