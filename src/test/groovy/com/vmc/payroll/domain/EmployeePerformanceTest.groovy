@@ -1,24 +1,24 @@
 package com.vmc.payroll.domain
 
 import com.github.javafaker.Faker
-import com.vmc.payroll.domain.api.EmployeeRepository
-import com.vmc.payroll.external.config.ServiceLocator
+import com.vmc.objectMother.ObjectMother
+import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.delivery.AccountTransfer
 import com.vmc.payroll.domain.payment.delivery.Mail
 import com.vmc.payroll.domain.payment.delivery.Paymaster
 import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
 import com.vmc.payroll.domain.payment.type.Commission
+import com.vmc.payroll.domain.payment.type.GenericPaymentType
 import com.vmc.payroll.domain.payment.type.Hourly
 import com.vmc.payroll.domain.payment.type.Monthly
-import com.vmc.payroll.domain.payment.type.GenericPaymentType
+import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.testPreparation.IntegrationTestBase
-import com.vmc.objectMother.ObjectMother
 import org.junit.BeforeClass
 import org.junit.Test
 
 class EmployeePerformanceTest extends IntegrationTestBase {
 
-    private static EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository
+    private static Repository<Employee> employeeRepository = ServiceLocator.instance.employeeRepository
     private static faker =  new Faker(new Locale("pt-BR"))
     private static random = new Random()
 

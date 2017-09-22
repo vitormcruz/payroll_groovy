@@ -2,17 +2,17 @@ package com.vmc.payroll.external.presentation.vaadin.view.employee
 
 import com.vaadin.ui.*
 import com.vmc.payroll.domain.Employee
-import com.vmc.payroll.domain.api.EmployeeRepository
+import com.vmc.payroll.domain.api.Repository
 import org.apache.commons.lang.StringUtils
 
 class EmployeeListView extends VerticalLayout{
-    private EmployeeRepository employeeRepository
+    private Repository<Employee> employeeRepository
     private Closure prepareNewEmployee
     private searchForm
     private Grid grid
     TextField nameField
 
-    EmployeeListView(EmployeeRepository employeeRepository, Closure prepareNewEmployee) {
+    EmployeeListView(Repository<Employee> employeeRepository, Closure prepareNewEmployee) {
         this.employeeRepository = employeeRepository
         this.prepareNewEmployee = prepareNewEmployee
         searchForm = createSearchForm()

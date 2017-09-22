@@ -3,7 +3,7 @@ package com.vmc.payroll.external.config
 import com.vaadin.server.VaadinServlet
 import com.vmc.concurrency.api.ModelSnapshot
 import com.vmc.payroll.domain.Employee
-import com.vmc.payroll.domain.api.EmployeeRepository
+import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.delivery.Mail
 import com.vmc.payroll.domain.payment.type.Monthly
 import com.vmc.validationNotification.servlet.ValidationNotifierFilter
@@ -21,7 +21,7 @@ class PayrollJettyApplication {
     static private FilterHolder configuredSparkFilterHolder
 
     static private ModelSnapshot modelSnapshot
-    static private EmployeeRepository employeeRepository
+    static private Repository<Employee> employeeRepository
 
     static {
         String productionserviceLocaleName = System.getProperties().get("production_service_locale_name")

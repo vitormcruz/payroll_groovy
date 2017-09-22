@@ -1,18 +1,18 @@
 package com.vmc.payroll.domain
 
-import com.vmc.payroll.domain.api.EmployeeRepository
-import com.vmc.payroll.external.config.ServiceLocator
-import com.vmc.payroll.domain.payment.delivery.AccountTransfer
-import com.vmc.payroll.domain.payment.delivery.Mail
-import com.vmc.payroll.domain.payment.delivery.Paymaster
+import com.vmc.objectMother.ObjectMother
+import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.attachment.SalesReceipt
 import com.vmc.payroll.domain.payment.attachment.ServiceCharge
 import com.vmc.payroll.domain.payment.attachment.TimeCard
+import com.vmc.payroll.domain.payment.delivery.AccountTransfer
+import com.vmc.payroll.domain.payment.delivery.Mail
+import com.vmc.payroll.domain.payment.delivery.Paymaster
 import com.vmc.payroll.domain.payment.type.Commission
 import com.vmc.payroll.domain.payment.type.Hourly
 import com.vmc.payroll.domain.payment.type.Monthly
+import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.testPreparation.IntegrationTestBase
-import com.vmc.objectMother.ObjectMother
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
@@ -21,7 +21,7 @@ import static groovy.test.GroovyAssert.shouldFail
 
 class EmployeeIntTest extends IntegrationTestBase {
 
-    private EmployeeRepository employeeRepository = ServiceLocator.instance.employeeRepository
+    private Repository<Employee> employeeRepository = ServiceLocator.instance.employeeRepository
     private ObjectMother<Employee> employeeMother
     private Employee employee1
     private Employee employee2
