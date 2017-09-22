@@ -34,52 +34,48 @@ import com.vmc.payroll.domain.payment.type.api.PaymentType
 import com.vmc.payroll.domain.unionAssociation.BasicUnionAssociation
 import com.vmc.payroll.domain.unionAssociation.NoUnionAssociation
 import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
-import com.vmc.payroll.external.persistence.inMemory.InMemoryEmployeeRepository
+import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepository
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.joda.time.DateTime
-import org.slf4j.LoggerFactory
 
 import javax.sql.DataSource
 
 class ProductionServiceLocator extends ServiceLocator{
 
-    static final logger = LoggerFactory.getLogger(ProductionServiceLocator.class);
+    private static myself = new ProductionServiceLocator()
 
-    @Lazy
-    static final ProductionServiceLocator myself = {new ProductionServiceLocator()}()
+    static ServiceLocator getInstance(){
+        return myself
+    }
 
-    @Lazy
-    protected Properties systemProperties = {System.getProperties()}()
+    @Override
+    Properties loadSystemProperties() {
+        return System.getProperties()
+    }
 
-    @Lazy
-    protected ObjectMapper mapper = {new ObjectMapper().configure(MapperFeature.AUTO_DETECT_FIELDS, false)}()
+    @Override
+    ObjectMapper loadMapper() {
+        return new ObjectMapper().configure(MapperFeature.AUTO_DETECT_FIELDS, false)
+    }
 
-    @Lazy
-    protected AtomicBlock atomicBlock = {new SingleVMAtomicBlock()}()
+    @Override
+    AtomicBlock loadAtomicBlock() {
+        return new SingleVMAtomicBlock()
+    }
 
-    @Lazy
-    protected ModelSnapshot modelSnapshot = {new SingleVMModelSnapshot(atomicBlock).with {
-                                                    add(employeeRepository)
-                                                    it
-                                                  }}()
+    @Override
+    ModelSnapshot loadModelSnapshot() {
+        return new SingleVMModelSnapshot(atomicBlock).with {add(employeeRepository); it}
+    }
 
-    @Lazy
-    protected Repository<Employee> employeeRepository = {new InMemoryEmployeeRepository()}()
+    @Override
+    Repository<Employee> loadEmployeeRepository() {
+        return new CommonInMemoryRepository<Employee>()
+    }
 
-    @Lazy
-    protected DataSource dataSource = {
-        def hikariConfig = new HikariConfig()
-        hikariConfig.setDriverClassName("com.orientechnologies.orient.jdbc.OrientJdbcDriver")
-        hikariConfig.setUsername("root")
-        hikariConfig.setPassword("root")
-        hikariConfig.setJdbcUrl("jdbc:orient:remote:localhost/memory:test")
-        return new HikariDataSource(hikariConfig)
-    }()
-
-    protected OObjectDatabaseTx database
-
-    ProductionServiceLocator() {
+    @Override
+    OObjectDatabaseTx loadDatabase() {
         def orientDbServer = OServerMain.create()
         System.setProperty("ORIENTDB_HOME", new File("").getAbsolutePath());
         orientDbServer.startup(new OServerConfiguration().with { cfg ->
@@ -95,7 +91,7 @@ class ProductionServiceLocator extends ServiceLocator{
         }
 
         new OServerAdmin("localhost").connect("root", "root").createDatabase("test", "document", "memory").close()
-        database = new OObjectDatabaseTx("memory:localhost/test").open("admin", "admin")
+        OObjectDatabaseTx database = new OObjectDatabaseTx("memory:localhost/test").open("admin", "admin")
 
         OObjectSerializerContext serializerContext = new OObjectSerializerContext();
         serializerContext.bind(new OObjectSerializer<DateTime, Long>() {
@@ -115,13 +111,18 @@ class ProductionServiceLocator extends ServiceLocator{
         [Employee, UnionAssociation, BasicUnionAssociation, NoUnionAssociation, PaymentAttachment, UnionCharge,
          WorkDoneProof, SalesReceipt, ServiceCharge, TimeCard, PaymentDelivery, AccountTransfer, Mail, Paymaster,
          PaymentType, Commission, Hourly, Monthly]
-         .each { aClass -> this.@database.getEntityManager().registerEntityClass(aClass) }
+                .each { aClass -> database.getEntityManager().registerEntityClass(aClass) }
 
-//        this.database.save(new TimeCard(DateTime.now(), 100))
-//        this.database.save(new TimeCard(hours: 100))
-//        this.database.save(new TimeCard(hours: 100))
-        this.database.browseClass(TimeCard).each{
-            println(it.getHours() + " - " + it.getDate() )
-        }
+        return database
+    }
+
+    @Override
+    DataSource loadDataSource() {
+        def hikariConfig = new HikariConfig()
+        hikariConfig.setDriverClassName("com.orientechnologies.orient.jdbc.OrientJdbcDriver")
+        hikariConfig.setUsername("root")
+        hikariConfig.setPassword("root")
+        hikariConfig.setJdbcUrl("jdbc:orient:remote:localhost/memory:test")
+        return new HikariDataSource(hikariConfig)
     }
 }
