@@ -15,13 +15,14 @@ class TestRepositoryFakeEntityGenerator implements TestCollectionGenerator<FakeE
 
     @Override
     SampleElements<FakeEntity> samples() {
-        return new SampleElements<FakeEntity>(new FakeEntity("a"), new FakeEntity("b"), new FakeEntity("ca"),
-                                               new FakeEntity("d"), new FakeEntity("ea"))
+        return new SampleElements<FakeEntity>(new FakeEntity("a"), new FakeEntity("b"), new FakeEntity("c"),
+                                               new FakeEntity("d"), new FakeEntity("e"))
     }
 
     @Override
     Repository<FakeEntity> create(Object... elements) {
         def repository = repositoryProvider()
+        repository.clear()
         repository.addAll(elements)
         return repository
     }
