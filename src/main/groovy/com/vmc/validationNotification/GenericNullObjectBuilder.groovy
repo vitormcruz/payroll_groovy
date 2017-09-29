@@ -1,39 +1,24 @@
 package com.vmc.validationNotification
 
-
+import com.vmc.DynamicClassFactory
 import net.bytebuddy.ByteBuddy
 import net.bytebuddy.implementation.ExceptionMethod
-import net.bytebuddy.matcher.ElementMatcher
 
-import static net.bytebuddy.matcher.ElementMatchers.named
-import static net.bytebuddy.matcher.ElementMatchers.not
+import static com.vmc.DynamicClassFactory.ALL_BUT_CORE_LANG_METHODS_MATCHER
 
 //TODO review failIfCantCreateNullObject
 class GenericNullObjectBuilder {
 
-    private static final ElementMatcher CORE_LANG_METHODS_MATCHER = coreLangMethods().collect { methodName -> not(named(methodName)) }
-                                                                                     .inject { acc, val -> acc.and(val) }
-    private static nullObjectByClass = [:]
-
     static <N> N newNullObjectOf(Class<N> aClass, errors) {
-        return newInstanceWithErrors(getNullObjectClassOf(aClass), errors)
-    }
-
-    static Class<?> getNullObjectClassOf(Class<?> aClass) {
-        Class<?> nullObjectClass = nullObjectByClass.get(aClass)
-        if (nullObjectClass == null) {
-            nullObjectClass = createNullObjectClassFor(aClass)
-            nullObjectByClass.put(aClass, nullObjectClass)
-        }
-
-        return nullObjectClass
+        def nullObjectClass = DynamicClassFactory.getDynamicCreatedClass(aClass.getName() + "_NullObject", {createNullObjectClassFor(aClass)})
+        return newInstanceWithErrors(nullObjectClass, errors)
     }
 
     static <N> N createNullObjectClassFor(Class<N> aClass) {
         def nullObjectClass = new ByteBuddy().subclass(aClass)
                                              .name(aClass.getName() + "_NullObject")
-                                             .method(CORE_LANG_METHODS_MATCHER).intercept(ExceptionMethod.throwing(UnsupportedOperationException,
-                                                                                                                   "I am a NullObject and I cannot respond to this message."))
+                                             .method(ALL_BUT_CORE_LANG_METHODS_MATCHER).intercept(ExceptionMethod.throwing(UnsupportedOperationException,
+                                                                                                  "I am a NullObject and I cannot respond to this message."))
                                              .make()
                                              .load(Thread.currentThread().getContextClassLoader())
                                              .getLoaded()
@@ -52,13 +37,6 @@ class GenericNullObjectBuilder {
             return delegate
         }
         return newInstance
-    }
-
-    static List<String> coreLangMethods() {
-        def methodsToRespond = ["setMetaClass", "getMetaClass", "getClass", "\$getStaticMetaClass"]
-        methodsToRespond.addAll(Object.getDeclaredMethods().collect {it.name})
-        methodsToRespond.addAll(GroovyObject.declaredMethods.name)
-        return methodsToRespond
     }
 
     static void failIfCantCreateNullObject(Class aClass) {

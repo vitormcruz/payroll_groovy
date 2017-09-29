@@ -22,8 +22,8 @@ class ServiceLocatorForTest extends ProductionServiceLocator{
     }
 
     @Override
-    OObjectDatabaseTx loadDatabase() {
-        def database = super.loadDatabase()
+    OObjectDatabaseTx loadOrientDBDatabase() {
+        def database = super.loadOrientDBDatabase()
         database.getEntityManager().registerEntityClass(FakeEntity)
         return database
     }

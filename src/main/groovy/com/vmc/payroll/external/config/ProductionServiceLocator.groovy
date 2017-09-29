@@ -75,7 +75,7 @@ class ProductionServiceLocator extends ServiceLocator{
     }
 
     @Override
-    OObjectDatabaseTx loadDatabase() {
+    OObjectDatabaseTx loadOrientDBDatabase() {
         def orientDbServer = OServerMain.create()
         System.setProperty("ORIENTDB_HOME", new File("").getAbsolutePath());
         orientDbServer.startup(new OServerConfiguration().with { cfg ->

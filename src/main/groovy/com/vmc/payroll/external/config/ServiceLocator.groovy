@@ -29,7 +29,7 @@ abstract class ServiceLocator {
     volatile Repository<Employee> employeeRepository = {getInstance().loadEmployeeRepository()}()
 
     @Lazy
-    volatile OObjectDatabaseTx database = {loadDatabase()}()
+    volatile OObjectDatabaseTx orientDBDatabase = {loadOrientDBDatabase()}()
 
     @Lazy
     volatile DataSource dataSource = {getInstance().loadDataSource()}()
@@ -47,7 +47,7 @@ abstract class ServiceLocator {
     abstract AtomicBlock loadAtomicBlock()
     abstract ModelSnapshot loadModelSnapshot()
     abstract Repository<Employee> loadEmployeeRepository()
-    abstract OObjectDatabaseTx loadDatabase()
+    abstract OObjectDatabaseTx loadOrientDBDatabase()
     abstract DataSource loadDataSource()
 
 

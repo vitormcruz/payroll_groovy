@@ -14,7 +14,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ANY
 
 @RunWith(AllTests)
 class OrientDBRepositoryIntTest extends IntegrationTestBase{
-    private OrientDBRepository<FakeEntity> dummyRepository = new OrientDBRepository(FakeEntity, ServiceLocator.instance.database)
+    private OrientDBRepository<FakeEntity> orientDbRepository = new OrientDBRepository(FakeEntity, ServiceLocator.instance.orientDBDatabase)
 
     public static Test suite() {
       return new OrientDBRepositoryIntTest().allTests()
@@ -26,7 +26,7 @@ class OrientDBRepositoryIntTest extends IntegrationTestBase{
                 new TestRepositoryFakeEntityGenerator({ getNewRepositoryInstance() }))
                 .named("General Repository Test")
                 .withFeatures(ANY, SUPPORTS_ADD, SUPPORTS_REMOVE, SUBSET_VIEW, DESCENDING_VIEW, SUBSET_VIEW, RESTRICTS_ELEMENTS, NON_STANDARD_TOSTRING)
-                .withSetUp({ dummyRepository.clear() })
+                .withSetUp({ orientDbRepository.clear() })
                 .createTestSuite())
         return suite
     }
@@ -36,13 +36,13 @@ class OrientDBRepositoryIntTest extends IntegrationTestBase{
 //                  new TestRepositoryFakeEntityGenerator({ getNewRepositoryInstance() }))
 //                  .named("General Repository Test")
 //                  .withFeatures(ANY, SUPPORTS_ADD, SUPPORTS_REMOVE, SUBSET_VIEW, DESCENDING_VIEW, RESTRICTS_ELEMENTS, NON_STANDARD_TOSTRING)
-//                  .withSetUp({ dummyRepository.clear() })
+//                  .withSetUp({ orientDbRepository.clear() })
 //                  .createTestSuite()
 //          suite.addTest((suite1.tests().collect{it.tests().collect()}.flatten().collect {it.tests().collect()}).flatten().find{ it.name == "testIterator_unknownOrderRemoveUnsupported[General Repository Test [collection size: one]]"})
 //        return suite
 //    }
 
     Repository<FakeEntity> getNewRepositoryInstance() {
-        return new OrientDBRepository(FakeEntity, ServiceLocator.instance.database)
+        return new OrientDBRepository(FakeEntity, ServiceLocator.instance.orientDBDatabase)
     }
 }
