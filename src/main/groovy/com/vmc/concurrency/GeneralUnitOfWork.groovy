@@ -24,68 +24,86 @@ import static com.vmc.DynamicClassFactory.ALL_BUT_CORE_LANG_METHODS_MATCHER
 class GeneralUnitOfWork {
 
     public static final String TRACKING_PROXY_CLASS_SUFIX = "_TrackingProxy"
-    public static final String PROXY_SUBJECT = "subject"
-    public static final String REAL_OBJECT_TAG = "realObject"
-    public static final String MD5_TAG = "MD5"
 
-    protected ReferenceQueue referenceQueue = new ReferenceQueue()
-    protected NotificationListener handler = { Notification notification, Object handback ->
-        Thread.start {
-            synchronized (this.@phantonHandlerLock) {
-                notifyGcPerformed(from((CompositeData) notification.getUserData()))
-            }
-        }
-    } as NotificationListener
+    protected static final phantonHandlerLock = new Object()
+    protected static ReferenceQueue referenceQueue = new ReferenceQueue()
+    protected static Map<PhantomReference, TrackedObject> trackedObjectsMap = Collections.synchronizedMap(new HashMap<PhantomReference, TrackedObject>())
 
     protected Map<PhantomReference, Map<String, Object>> userModel = Collections.synchronizedMap(new HashMap())
-    protected NotificationFilterSupport notificationFilter = new NotificationFilterSupport()
-    protected final phantonHandlerLock = new Object()
 
-    GeneralUnitOfWork() {
+    static {
+        NotificationFilterSupport notificationFilter = new NotificationFilterSupport()
         notificationFilter.enableType(GARBAGE_COLLECTION_NOTIFICATION)
-    }
-
-    def <E> E addToUserModel(E entity) {
-        if(!(entity instanceof Serializable)) return entity
-
+        def handler = { Notification notification, Object handback -> notifyGcPerformed(notification) } as NotificationListener
         ManagementFactory.getGarbageCollectorMXBeans().each { NotificationEmitter emiter -> emiter.addNotificationListener(handler, notificationFilter , null)}
-        def trackingProxyClass = DynamicClassFactory.getDynamicCreatedClass("dynamic." + entity.getClass().getName() + TRACKING_PROXY_CLASS_SUFIX, { createTrackingProxyClassFor(entity.getClass()) })
-        def trackingProxy = trackingProxyClass.newInstance()
-        trackingProxy."${PROXY_SUBJECT}" = entity
-        this.@userModel.put(new PhantomReference(trackingProxy, referenceQueue), [(REAL_OBJECT_TAG): entity, (MD5_TAG): getEntityMD5(entity)])
-        return trackingProxy
     }
 
-    String getEntityMD5(entity) {
-        return MessageDigest.getInstance(MD5_TAG).digest(SerializationUtils.serialize(entity)).encodeHex().toString()
+    static Thread notifyGcPerformed(notification) {
+        Thread.start {
+            synchronized (phantonHandlerLock) {
+                handleGcNotification(from((CompositeData) notification.getUserData()))
+            }
+        }
     }
 
-    static <C> Class<? extends C> createTrackingProxyClassFor(Class<C> aClass) {
-        def nullObjectClass = new ByteBuddy().subclass(aClass)
-                                             .name("dynamic." + aClass.getName() + TRACKING_PROXY_CLASS_SUFIX)
-                                             .defineField(PROXY_SUBJECT, aClass, Visibility.PUBLIC)
-                                             .method(ALL_BUT_CORE_LANG_METHODS_MATCHER).intercept(MethodDelegation.toField(PROXY_SUBJECT))
-                                             .make()
-                                             .load(Thread.currentThread().getContextClassLoader())
-                                             .getLoaded()
-
-        return nullObjectClass
-    }
-
-    void notifyGcPerformed(GarbageCollectionNotificationInfo info) {
+    static void handleGcNotification(GarbageCollectionNotificationInfo info) {
         synchronized (phantonHandlerLock) {
             def phantonReference = referenceQueue.poll()
             while (phantonReference != null) {
-                this.@userModel.remove(phantonReference)
+                trackedObjectsMap.get(phantonReference).stopTracking()
+                trackedObjectsMap.remove(phantonReference)
                 phantonReference = referenceQueue.poll()
             }
         }
     }
 
+    def <E> E addToUserModel(E entity) {
+        if(!(entity instanceof Serializable)) return entity
+        def trackingProxyClass = DynamicClassFactory.getDynamicCreatedClass(getCorrespondingTrackClassName(entity), { createTrackingProxyClassFor(entity.getClass()) })
+        def trackingProxy = trackingProxyClass.newInstance()
+        trackingProxy.proxySubject = entity
+        userModel.put(entity, getEntityMD5(entity))
+        trackedObjectsMap.put(new PhantomReference(trackingProxy, referenceQueue), new TrackedObject(entity, userModel))
+        return trackingProxy
+    }
+
+    String getCorrespondingTrackClassName(entity) {
+        "dynamic." + entity.getClass().getName() + TRACKING_PROXY_CLASS_SUFIX
+    }
+
+    public <C> Class<? extends C> createTrackingProxyClassFor(Class<C> aClass) {
+        def nullObjectClass = new ByteBuddy().subclass(aClass)
+                .name("dynamic." + aClass.getName() + TRACKING_PROXY_CLASS_SUFIX)
+                .defineField("proxySubject", aClass, Visibility.PUBLIC)
+                .method(ALL_BUT_CORE_LANG_METHODS_MATCHER).intercept(MethodDelegation.toField("proxySubject"))
+                .make()
+                .load(Thread.currentThread().getContextClassLoader())
+                .getLoaded()
+
+        return nullObjectClass
+    }
+
+    String getEntityMD5(entity) {
+        return MessageDigest.getInstance("MD5").digest(SerializationUtils.serialize(entity)).encodeHex().toString()
+    }
+
     Set getUserModel() {
-        return new HashSet(this.@userModel.values().collect({it.entrySet()}).flatten().collect{entry ->
-            if(entry.key == REAL_OBJECT_TAG) return entry.value
-        })
+        return new HashSet(this.@userModel.keySet())
+    }
+
+    static class TrackedObject{
+        protected trackedObject
+        protected Map<Object, String> trackMap
+
+        TrackedObject(trackedObject, Map<Object, String> trackMap) {
+            this.trackMap = trackMap
+            this.trackedObject = trackedObject
+        }
+
+        void stopTracking(){
+            trackMap.remove(trackedObject)
+        }
+
     }
 
 
