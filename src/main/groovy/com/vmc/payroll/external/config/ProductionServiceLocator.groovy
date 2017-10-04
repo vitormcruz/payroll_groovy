@@ -40,6 +40,7 @@ import com.zaxxer.hikari.HikariDataSource
 import org.joda.time.DateTime
 
 import javax.sql.DataSource
+import java.util.concurrent.Executor
 
 class ProductionServiceLocator extends ServiceLocator{
 
@@ -124,5 +125,10 @@ class ProductionServiceLocator extends ServiceLocator{
         hikariConfig.setPassword("root")
         hikariConfig.setJdbcUrl("jdbc:orient:remote:localhost/memory:test")
         return new HikariDataSource(hikariConfig)
+    }
+
+    @Override
+    Executor loadExecutor() {
+        return {Thread.start(it)} as Executor
     }
 }

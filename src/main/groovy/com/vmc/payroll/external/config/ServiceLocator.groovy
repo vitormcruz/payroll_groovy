@@ -8,6 +8,7 @@ import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 
 import javax.sql.DataSource
+import java.util.concurrent.Executor
 
 abstract class ServiceLocator {
 
@@ -34,6 +35,9 @@ abstract class ServiceLocator {
     @Lazy
     volatile DataSource dataSource = {getInstance().loadDataSource()}()
 
+    @Lazy
+    volatile Executor executor = {getInstance().loadExecutor()}()
+
     static ServiceLocator getInstance(){
         return currentServiceLocatorClass.getInstance()
     }
@@ -49,6 +53,7 @@ abstract class ServiceLocator {
     abstract Repository<Employee> loadEmployeeRepository()
     abstract OObjectDatabaseTx loadOrientDBDatabase()
     abstract DataSource loadDataSource()
+    abstract Executor loadExecutor()
 
 
 }

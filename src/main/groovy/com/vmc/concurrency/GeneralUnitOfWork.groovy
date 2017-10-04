@@ -2,6 +2,7 @@ package com.vmc.concurrency
 
 import com.sun.management.GarbageCollectionNotificationInfo
 import com.vmc.DynamicClassFactory
+import com.vmc.payroll.external.config.ServiceLocator
 import net.bytebuddy.ByteBuddy
 import net.bytebuddy.description.modifier.Visibility
 import net.bytebuddy.implementation.MethodDelegation
@@ -38,12 +39,12 @@ class GeneralUnitOfWork {
         ManagementFactory.getGarbageCollectorMXBeans().each { NotificationEmitter emiter -> emiter.addNotificationListener(handler, notificationFilter , null)}
     }
 
-    static Thread notifyGcPerformed(notification) {
-        Thread.start {
+    static void notifyGcPerformed(notification) {
+        ServiceLocator.getInstance().getExecutor().execute({
             synchronized (phantonHandlerLock) {
                 handleGcNotification(from((CompositeData) notification.getUserData()))
             }
-        }
+        })
     }
 
     static void handleGcNotification(GarbageCollectionNotificationInfo info) {

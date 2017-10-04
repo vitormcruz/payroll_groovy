@@ -1,12 +1,16 @@
 package com.vmc.concurrency
 
-import com.github.javafaker.Faker
+import com.vmc.payroll.external.config.ServiceLocator
+import com.vmc.payroll.testPreparation.ServiceLocatorForTest
 import org.junit.Test
 
 class GeneralUnitOfWorkUnitTest {
 
-    protected static faker =  new Faker(new Locale("pt-BR"))
     public static final int TIMEOUT = 2000
+
+    static {
+        ServiceLocator.load(ServiceLocatorForTest)
+    }
 
     @Test
     void "Test obtaining used object from user model"(){
@@ -36,12 +40,4 @@ class GeneralUnitOfWorkUnitTest {
 
 
     }
-
-//        def employeeMother = new ObjectMother<Employee>(Employee).addBirthScript {
-      //                                    setName(faker.name().firstName())
-      //                                    setAddress(faker.address().streetAddress())
-      //                                    setEmail("${faker.name().nameWithMiddle()}@bla.com.br")
-      //                                    bePaid(EmployeePerformanceTest.getRandomPaymentTypeProvider())
-      //                                    receivePaymentBy(EmployeePerformanceTest.getRandomPaymentDelivery())
-      //                                }
 }
