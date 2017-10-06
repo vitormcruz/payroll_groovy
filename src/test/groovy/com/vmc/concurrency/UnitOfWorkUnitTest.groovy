@@ -40,8 +40,7 @@ class UnitOfWorkUnitTest {
     void "Test saving model with unchanged object"(){
         def unitOfWork = new GeneralUnitOfWork()
         def savedObjects = new HashSet()
-        def date = new Date()
-        unitOfWork.addToUserModel(date, { savedObjects.add(it) })
+        def date = unitOfWork.addToUserModel(new Date(), { savedObjects.add(it) })
         unitOfWork.save()
         assert savedObjects.isEmpty()
     }
@@ -49,12 +48,39 @@ class UnitOfWorkUnitTest {
     @Test
     void "Test saving model with changed (dirty) object"(){
         def unitOfWork = new GeneralUnitOfWork()
-        def savedObjects = new HashSet()
-        def date = new Date()
-        unitOfWork.addToUserModel(date, { savedObjects.add(it) })
+        def savedObjects = new HashSet<Long>()
+        def date = unitOfWork.addToUserModel(new Date(), { savedObjects.add(it.getTime()) })
         date.setTime(0)
         unitOfWork.save()
-        assert savedObjects.collect {it.getTime()} as Set == [0] as Set
+        assert savedObjects == [0L] as Set
+    }
+
+    @Test
+    void "Test adding the same object multiple times to the model"(){
+        def unitOfWork = new GeneralUnitOfWork()
+        def date = new Date()
+        def dateReturned1 = unitOfWork.addToUserModel(date, { })
+        def dateReturned2 = unitOfWork.addToUserModel(date, { })
+        def dateReturned3 = unitOfWork.addToUserModel(date, { })
+        assert dateReturned1.proxySubject == dateReturned2.proxySubject && dateReturned2.proxySubject == dateReturned3.proxySubject
+        assert dateReturned1.equals(dateReturned2) && dateReturned2.equals(dateReturned3)
+    }
+
+    @Test
+    void "Test saving amodel that had the same object added multiple times to the model with different sincronization closures"(){
+        def unitOfWork = new GeneralUnitOfWork()
+        def savedObjects1 = new HashSet<Long>()
+        def savedObjects2 = new HashSet<Long>()
+        def savedObjects3 = new HashSet<Long>()
+        def date = new Date()
+        def dateReturned1 = unitOfWork.addToUserModel(date, { savedObjects1.add(it.getTime()) })
+        def dateReturned2 = unitOfWork.addToUserModel(date, { savedObjects2.add(it.getTime()) })
+        def dateReturned3 = unitOfWork.addToUserModel(date, { savedObjects3.add(it.getTime()) })
+        dateReturned3.setTime(0)
+        unitOfWork.save()
+        assert savedObjects1 == [0L] as Set
+        assert savedObjects2 == [0L] as Set
+        assert savedObjects3 == [0L] as Set
     }
 
     public void addDateToModelAndChange(GeneralUnitOfWork unitOfWork, objectToAdd, changeClosure, syncronizeObjectClosure) {

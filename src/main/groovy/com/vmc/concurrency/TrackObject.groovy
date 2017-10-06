@@ -9,7 +9,7 @@ import org.apache.commons.lang3.SerializationUtils
 import java.security.MessageDigest
 
 import static com.google.common.base.Preconditions.checkArgument
-import static com.vmc.DynamicClassFactory.ALL_BUT_CORE_LANG_METHODS_MATCHER
+import static com.vmc.DynamicClassFactory.ALL_BUT_META_LANG_METHODS_MATCHER
 
 class TrackObject<T> {
 
@@ -52,7 +52,7 @@ class TrackObject<T> {
         def nullObjectClass = new ByteBuddy().subclass(aClass)
                                              .name("dynamic." + aClass.getName() + TRACKING_PROXY_CLASS_SUFIX)
                                              .defineField("proxySubject", aClass, Visibility.PUBLIC)
-                                             .method(ALL_BUT_CORE_LANG_METHODS_MATCHER).intercept(MethodDelegation.toField("proxySubject"))
+                                             .method(ALL_BUT_META_LANG_METHODS_MATCHER).intercept(MethodDelegation.toField("proxySubject"))
                                              .make()
                                              .load(Thread.currentThread().getContextClassLoader())
                                              .getLoaded()

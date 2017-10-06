@@ -10,12 +10,20 @@ class DynamicClassFactory {
     public static final ElementMatcher ALL_BUT_CORE_LANG_METHODS_MATCHER = coreLangMethods().collect { methodName -> not(named(methodName)) }
                                                                                             .inject { acc, val -> acc.and(val) }
 
+    public static final ElementMatcher ALL_BUT_META_LANG_METHODS_MATCHER = metaLangMethods().collect { methodName -> not(named(methodName)) }
+                                                                                            .inject { acc, val -> acc.and(val) }
+
     private static nullObjectByName = [:]
 
     static List<String> coreLangMethods() {
-        def methodsToRespond = ["setMetaClass", "getMetaClass", "getClass", "\$getStaticMetaClass"]
+        def methodsToRespond = metaLangMethods()
         methodsToRespond.addAll(Object.getDeclaredMethods().collect {it.name})
         methodsToRespond.addAll(GroovyObject.declaredMethods.name)
+        return methodsToRespond
+    }
+
+    static List<String> metaLangMethods() {
+        def methodsToRespond = ["setMetaClass", "getMetaClass", "getClass", "\$getStaticMetaClass"]
         return methodsToRespond
     }
 
