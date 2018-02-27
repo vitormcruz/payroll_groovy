@@ -12,7 +12,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder
  * 3- Subclasses of entities may be equals to it's parents. See @com.vmc.payroll.domain.api.Entity#getEntityClass()
  * </pre>
  */
-trait Entity {
+trait Entity implements Serializable{
+
+    private static final long serialVersionUID = 305280214148662425101534625260152693175L;
 
     def abstract getId()
 

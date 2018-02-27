@@ -3,14 +3,15 @@ package com.vmc.payroll.external.persistence.inMemory.repository
 import com.vmc.payroll.domain.api.Entity
 import com.vmc.payroll.domain.api.Repository
 
-class CommonInMemoryRepository<E extends Entity> implements Repository<E> {
+@Deprecated // Use CommonInMemoryRepositoryVersion2 instead
+class CommonInMemoryRepositoryVersion1<E extends Entity> implements Repository<E> {
 
     @Delegate
     protected Collection<E> entities
     protected Map entitiesById
     protected pending = []
 
-    CommonInMemoryRepository() {
+    CommonInMemoryRepositoryVersion1() {
         entitiesById = new HashMap()
         entities = entitiesById.values()
     }

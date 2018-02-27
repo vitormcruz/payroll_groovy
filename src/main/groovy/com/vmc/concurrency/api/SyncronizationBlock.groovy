@@ -1,6 +1,6 @@
 package com.vmc.concurrency.api
 
-interface AtomicBlock {
+interface SyncronizationBlock {
 
     void execute(Closure c)
 

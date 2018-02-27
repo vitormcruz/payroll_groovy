@@ -6,7 +6,6 @@ import com.orientechnologies.orient.object.db.OObjectDatabaseTx
 import com.vmc.payroll.domain.api.Entity
 import com.vmc.payroll.domain.api.Repository
 import org.apache.commons.lang.StringUtils
-
 //TODO Optimize super implementation
 class OrientDBRepository<E extends Entity> extends AbstractCollection<E> implements Repository<E>{
 

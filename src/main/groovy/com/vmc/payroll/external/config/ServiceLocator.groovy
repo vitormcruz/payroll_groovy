@@ -2,8 +2,8 @@ package com.vmc.payroll.external.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx
-import com.vmc.concurrency.api.AtomicBlock
-import com.vmc.concurrency.api.ModelSnapshot
+import com.vmc.concurrency.api.SyncronizationBlock
+import com.vmc.concurrency.api.UserModelSnapshot
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 
@@ -21,10 +21,10 @@ abstract class ServiceLocator {
     volatile ObjectMapper mapper = {getInstance().loadMapper()}()
 
     @Lazy
-    volatile AtomicBlock atomicBlock = {getInstance().loadAtomicBlock()}()
+    volatile SyncronizationBlock atomicBlock = {getInstance().loadAtomicBlock()}()
 
     @Lazy
-    volatile ModelSnapshot modelSnapshot = {getInstance().loadModelSnapshot()}()
+    volatile UserModelSnapshot modelSnapshot = {getInstance().loadModelSnapshot()}()
 
     @Lazy
     volatile Repository<Employee> employeeRepository = {getInstance().loadEmployeeRepository()}()
@@ -48,8 +48,8 @@ abstract class ServiceLocator {
 
     abstract Properties loadSystemProperties()
     abstract ObjectMapper loadMapper()
-    abstract AtomicBlock loadAtomicBlock()
-    abstract ModelSnapshot loadModelSnapshot()
+    abstract SyncronizationBlock loadAtomicBlock()
+    abstract UserModelSnapshot loadModelSnapshot()
     abstract Repository<Employee> loadEmployeeRepository()
     abstract OObjectDatabaseTx loadOrientDBDatabase()
     abstract DataSource loadDataSource()

@@ -32,8 +32,8 @@ class TrackObject<T> {
         initialize(unusedNotification, trackedObject, constructorCheck)
     }
 
-    public void initialize(Closure unusedNotification, Serializable trackedObject, UUID constructorCheck) {
-        checkArgument(validConstructorCheck == constructorCheck, "I must be created using one of my factory methods. You should not use my constructor.")
+    void initialize(Closure unusedNotification, Serializable trackedObject, UUID constructorCheck) {
+        checkArgument(validConstructorCheck == constructorCheck, "I must be created using one of my factory methods. You should not use my constructor directly.")
         this.unusedUnchangedNotification = unusedNotification
         this.trackedObject = trackedObject
         trackedObjectMD5 = getObjectMD5(trackedObject)

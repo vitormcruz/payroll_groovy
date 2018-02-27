@@ -11,10 +11,10 @@ import com.orientechnologies.orient.server.OServerMain
 import com.orientechnologies.orient.server.config.OServerConfiguration
 import com.orientechnologies.orient.server.config.OServerNetworkConfiguration
 import com.orientechnologies.orient.server.config.OServerUserConfiguration
-import com.vmc.concurrency.api.AtomicBlock
-import com.vmc.concurrency.api.ModelSnapshot
-import com.vmc.concurrency.singleVM.SingleVMAtomicBlock
-import com.vmc.concurrency.singleVM.SingleVMModelSnapshot
+import com.vmc.concurrency.api.SyncronizationBlock
+import com.vmc.concurrency.api.UserModelSnapshot
+import com.vmc.concurrency.defautImpl.SingleVMSyncronizationBlock
+import com.vmc.concurrency.defautImpl.SingleVMInMemoryUserModelSnapshot
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.attachment.SalesReceipt
@@ -34,7 +34,7 @@ import com.vmc.payroll.domain.payment.type.api.PaymentType
 import com.vmc.payroll.domain.unionAssociation.BasicUnionAssociation
 import com.vmc.payroll.domain.unionAssociation.NoUnionAssociation
 import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
-import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepository
+import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepositoryVersion1
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.joda.time.DateTime
@@ -61,18 +61,18 @@ class ProductionServiceLocator extends ServiceLocator{
     }
 
     @Override
-    AtomicBlock loadAtomicBlock() {
-        return new SingleVMAtomicBlock()
+    SyncronizationBlock loadAtomicBlock() {
+        return new SingleVMSyncronizationBlock()
     }
 
     @Override
-    ModelSnapshot loadModelSnapshot() {
-        return new SingleVMModelSnapshot(atomicBlock).with {add(employeeRepository); it}
+    UserModelSnapshot loadModelSnapshot() {
+        return new SingleVMInMemoryUserModelSnapshot(atomicBlock).with {registerUnitOfWorkerListener(employeeRepository); it}
     }
 
     @Override
     Repository<Employee> loadEmployeeRepository() {
-        return new CommonInMemoryRepository<Employee>()
+        return new CommonInMemoryRepositoryVersion1<Employee>()
     }
 
     @Override

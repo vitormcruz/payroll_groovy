@@ -1,4 +1,4 @@
-package com.vmc.concurrency.singleVM
+package com.vmc.concurrency.defautImpl
 
 import org.junit.Test
 
