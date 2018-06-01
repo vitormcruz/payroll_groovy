@@ -17,7 +17,7 @@ class UnitOfWorkUserSnapshotUnitTest {
     @Test
     void "Test obtaining referenced object from user model"(){
         def unitOfWork = new GeneralUserModelSnapshotStub()
-        def date = unitOfWork.addToUserSnapshot(new Date(), {})
+        def date = unitOfWork.add(new Date(), {})
         System.gc()
         assertWaitingSuccess({unitOfWork.getUserObjectsSnapshot().contains(date)})
     }
@@ -25,7 +25,7 @@ class UnitOfWorkUserSnapshotUnitTest {
     @Test
     void "Test obtaining unreferenced and unchanged object from user model"(){
         def unitOfWork = new GeneralUserModelSnapshotStub()
-        unitOfWork.addToUserSnapshot(new Date(), {})
+        unitOfWork.add(new Date(), {})
         System.gc()
         assertWaitingSuccess({assert unitOfWork.getUserObjectsSnapshot().isEmpty()})
     }
@@ -42,7 +42,7 @@ class UnitOfWorkUserSnapshotUnitTest {
     void "Test saving model with unchanged object"(){
         def unitOfWork = new GeneralUserModelSnapshotStub()
         def savedObjects = new HashSet()
-        def date = unitOfWork.addToUserSnapshot(new Date(), { savedObjects.add(it) })
+        def date = unitOfWork.add(new Date(), { savedObjects.add(it) })
         unitOfWork.save()
         assert savedObjects.isEmpty()
     }
@@ -51,7 +51,7 @@ class UnitOfWorkUserSnapshotUnitTest {
     void "Test saving model with changed (dirty) object"(){
         def unitOfWork = new GeneralUserModelSnapshotStub()
         def savedObjects = new HashSet<Long>()
-        def date = unitOfWork.addToUserSnapshot(new Date(), { savedObjects.add(it.getTime()) })
+        def date = unitOfWork.add(new Date(), { savedObjects.add(it.getTime()) })
         date.setTime(0)
         unitOfWork.save()
         assert savedObjects == [0L] as Set
@@ -61,10 +61,10 @@ class UnitOfWorkUserSnapshotUnitTest {
     void "Test adding the same object multiple times to the model"(){
         def unitOfWork = new GeneralUserModelSnapshotStub()
         def date = new Date()
-        def dateReturned1 = unitOfWork.addToUserSnapshot(date, { })
-        def dateReturned2 = unitOfWork.addToUserSnapshot(date, { })
-        def dateReturned3 = unitOfWork.addToUserSnapshot(date, { })
-        assert dateReturned1.proxySubject == dateReturned2.proxySubject && dateReturned2.proxySubject == dateReturned3.proxySubject
+        def dateReturned1 = unitOfWork.add(date, { })
+        def dateReturned2 = unitOfWork.add(date, { })
+        def dateReturned3 = unitOfWork.add(date, { })
+        assert dateReturned1.subject == dateReturned2.subject && dateReturned2.subject == dateReturned3.subject
         assert dateReturned1.equals(dateReturned2) && dateReturned2.equals(dateReturned3)
     }
 
@@ -75,9 +75,9 @@ class UnitOfWorkUserSnapshotUnitTest {
         def savedObjects2 = new HashSet<Long>()
         def savedObjects3 = new HashSet<Long>()
         def date = new Date()
-        def dateReturned1 = unitOfWork.addToUserSnapshot(date, { savedObjects1.add(it.getTime()) })
-        def dateReturned2 = unitOfWork.addToUserSnapshot(date, { savedObjects2.add(it.getTime()) })
-        def dateReturned3 = unitOfWork.addToUserSnapshot(date, { savedObjects3.add(it.getTime()) })
+        def dateReturned1 = unitOfWork.add(date, { savedObjects1.add(it.getTime()) })
+        def dateReturned2 = unitOfWork.add(date, { savedObjects2.add(it.getTime()) })
+        def dateReturned3 = unitOfWork.add(date, { savedObjects3.add(it.getTime()) })
         dateReturned3.setTime(0)
         unitOfWork.save()
         assert savedObjects1 == [0L] as Set
@@ -141,7 +141,7 @@ class UnitOfWorkUserSnapshotUnitTest {
     }
 
     void addDateToModelAndChange(GeneralUserModelSnapshotStub unitOfWork, objectToAdd, changeClosure, syncronizeObjectClosure) {
-        def date = unitOfWork.addToUserSnapshot(objectToAdd, syncronizeObjectClosure)
+        def date = unitOfWork.add(objectToAdd, syncronizeObjectClosure)
         changeClosure(date)
     }
 

@@ -3,7 +3,7 @@ package com.vmc.payroll.external.persistence.inMemory.repository
 import com.vmc.payroll.domain.api.Entity
 import com.vmc.payroll.domain.api.Repository
 
-class CommonInMemoryRepositoryVersion2<E extends Entity> implements Repository<E> {
+class CommonInMemoryRepositoryVersion2<E extends Entity> extends AbstractCollection<E> implements Repository<E> {
 
     @Delegate
     protected Collection<E> entities
@@ -24,10 +24,6 @@ class CommonInMemoryRepositoryVersion2<E extends Entity> implements Repository<E
         return true
     }
 
-    boolean addAll(Collection<? extends E> c) {
-        return false
-    }
-
     @Override
     void update(E employee) {
         entitiesById.remove(employee.getId())
@@ -39,6 +35,7 @@ class CommonInMemoryRepositoryVersion2<E extends Entity> implements Repository<E
     }
 
     void clear() {
+        super.clear()
         entitiesById.clear()
     }
 }

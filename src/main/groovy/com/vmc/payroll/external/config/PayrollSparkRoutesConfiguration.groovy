@@ -1,7 +1,7 @@
 package com.vmc.payroll.external.config
 
-import com.vmc.concurrency.defautImpl.SingleVMSyncronizationBlock
-import com.vmc.concurrency.defautImpl.SingleVMInMemoryUserModelSnapshot
+import com.vmc.concurrency.SingleVMSyncronizationBlock
+import com.vmc.concurrency.SingleVMInMemoryUserModelSnapshot
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepositoryVersion1
 import com.vmc.payroll.external.presentation.webservice.spark.EmployeeWebServiceController
@@ -40,7 +40,6 @@ class PayrollSparkRoutesConfiguration implements SparkApplication {
                 employeeWebServiceController.newEmployee(req, res)
                 return res.body()
             })
-
 
         })
     }

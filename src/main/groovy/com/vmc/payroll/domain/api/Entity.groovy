@@ -2,7 +2,6 @@ package com.vmc.payroll.domain.api
 
 import org.apache.commons.lang.builder.EqualsBuilder
 import org.apache.commons.lang.builder.HashCodeBuilder
-
 /**
  * Defines commons traits for entities:
  *
@@ -12,7 +11,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder
  * 3- Subclasses of entities may be equals to it's parents. See @com.vmc.payroll.domain.api.Entity#getEntityClass()
  * </pre>
  */
-trait Entity implements Serializable{
+trait Entity {
 
     private static final long serialVersionUID = 305280214148662425101534625260152693175L;
 

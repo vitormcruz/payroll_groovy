@@ -13,8 +13,8 @@ import com.orientechnologies.orient.server.config.OServerNetworkConfiguration
 import com.orientechnologies.orient.server.config.OServerUserConfiguration
 import com.vmc.concurrency.api.SyncronizationBlock
 import com.vmc.concurrency.api.UserModelSnapshot
-import com.vmc.concurrency.defautImpl.SingleVMSyncronizationBlock
-import com.vmc.concurrency.defautImpl.SingleVMInMemoryUserModelSnapshot
+import com.vmc.concurrency.SingleVMSyncronizationBlock
+import com.vmc.concurrency.SingleVMInMemoryUserModelSnapshot
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.attachment.SalesReceipt

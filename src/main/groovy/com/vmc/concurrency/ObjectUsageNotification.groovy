@@ -16,7 +16,7 @@ class ObjectUsageNotification {
 
     protected static final phantonHandlerLock = new Object()
     protected static ReferenceQueue referenceQueue = new ReferenceQueue()
-    protected static Map<PhantomReference, TrackObject> trackedObjectsMap = Collections.synchronizedMap(new HashMap<PhantomReference, ObjectUsageNotification>())
+    protected static Map<PhantomReference, Object> trackedObjectsMap = Collections.synchronizedMap(new HashMap<PhantomReference, ObjectUsageNotification>())
 
     static {
         NotificationFilterSupport notificationFilter = new NotificationFilterSupport()
@@ -38,7 +38,7 @@ class ObjectUsageNotification {
         })
     }
 
-    static void registerUnusedListener(objectToTrack, notifyUnusedClosure) {
+    static void onObjectUnusedDo(objectToTrack, notifyUnusedClosure) {
         trackedObjectsMap.put(new PhantomReference(objectToTrack, referenceQueue), notifyUnusedClosure)
     }
 

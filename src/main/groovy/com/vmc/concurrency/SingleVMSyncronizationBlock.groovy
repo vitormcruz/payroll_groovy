@@ -1,4 +1,4 @@
-package com.vmc.concurrency.defautImpl
+package com.vmc.concurrency
 
 import com.vmc.concurrency.api.SyncronizationBlock
 

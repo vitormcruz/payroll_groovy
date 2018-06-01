@@ -10,7 +10,7 @@ import static com.vmc.DynamicClassFactory.ALL_BUT_CORE_LANG_METHODS_MATCHER
 class GenericNullObjectBuilder {
 
     static <N> N newNullObjectOf(Class<N> aClass, errors) {
-        def nullObjectClass = DynamicClassFactory.getDynamicCreatedClass(aClass.getName() + "_NullObject", {createNullObjectClassFor(aClass)})
+        def nullObjectClass = DynamicClassFactory.getIfAbsentCreateAndManageWith(aClass.getName() + "_NullObject", {createNullObjectClassFor(aClass)})
         return newInstanceWithErrors(nullObjectClass, errors)
     }
 

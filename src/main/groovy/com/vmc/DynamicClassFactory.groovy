@@ -13,7 +13,7 @@ class DynamicClassFactory {
     public static final ElementMatcher ALL_BUT_META_LANG_METHODS_MATCHER = metaLangMethods().collect { methodName -> not(named(methodName)) }
                                                                                             .inject { acc, val -> acc.and(val) }
 
-    private static nullObjectByName = [:]
+    private static dynamicClassByName = [:]
 
     static List<String> coreLangMethods() {
         def methodsToRespond = metaLangMethods()
@@ -27,11 +27,11 @@ class DynamicClassFactory {
         return methodsToRespond
     }
 
-    static Class getDynamicCreatedClass(String className, Closure<Class> dynamicClassCreationMethod) {
-        Class<?> dynamicCreatedClass = nullObjectByName.get(className)
+    static Class getIfAbsentCreateAndManageWith(String className, Closure<Class> createClassIfAbsent) {
+        Class<?> dynamicCreatedClass = dynamicClassByName.get(className)
         if (dynamicCreatedClass == null) {
-            dynamicCreatedClass = dynamicClassCreationMethod(className)
-            nullObjectByName.put(className, dynamicCreatedClass)
+            dynamicCreatedClass = createClassIfAbsent(className)
+            dynamicClassByName.put(className, dynamicCreatedClass)
         }
 
         return dynamicCreatedClass

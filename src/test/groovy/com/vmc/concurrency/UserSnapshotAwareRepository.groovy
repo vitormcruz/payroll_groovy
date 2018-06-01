@@ -7,16 +7,18 @@ import com.vmc.payroll.domain.api.Repository
 import org.apache.commons.collections4.IteratorUtils
 import org.apache.commons.collections4.iterators.PeekingIterator
 
-class UserSnapshotAwareRepository<E extends Entity> implements Repository<E>, UserSnapshotListener{
+class UserSnapshotAwareRepository<E extends Entity> extends AbstractCollection implements Repository<E>, UserSnapshotListener{
 
     @Delegate
     private Repository<E> repository
     private Set<E> snapshotAddedObjects = []
     private Set<E> snapshotRemovedObjects = []
+    private UserModelSnapshot modelSnapshot
 
     UserSnapshotAwareRepository(Repository<E> repository) {
         this.repository = repository
-        UserModelSnapshot.instance.registerUnitOfWorkerListener(this)
+        modelSnapshot = UserModelSnapshot.instance
+        modelSnapshot.registerUnitOfWorkerListener(this)
     }
 
     @Override
@@ -26,7 +28,7 @@ class UserSnapshotAwareRepository<E extends Entity> implements Repository<E>, Us
 
     @Override
     Iterator<E> iterator() {
-        return new IteratorBoladao(IteratorUtils.chainedIterator(snapshotAddedObjects.iterator(), repository.iterator()), snapshotRemovedObjects)
+        return new UserSnapshotAwareIterator(IteratorUtils.chainedIterator(snapshotAddedObjects.iterator(), repository.iterator()), snapshotRemovedObjects)
     }
 
     @Override
@@ -35,13 +37,23 @@ class UserSnapshotAwareRepository<E extends Entity> implements Repository<E>, Us
     }
 
     @Override
+    E get(id){
+        def object = repository.get(id)
+        return object == null ? null :  modelSnapshot.add(object)
+    }
+
+    @Override
     boolean remove(Object o) {
+        if(repository.contains(o)){
+            snapshotRemovedObjects.add(o)
+            return true
+        }
         return false
     }
 
     @Override
-    void clear() {
-
+    int size(){
+        return repository.size() + snapshotAddedObjects.size() - snapshotRemovedObjects.size()
     }
 
     Collection<E> savedObjects() {
@@ -52,16 +64,34 @@ class UserSnapshotAwareRepository<E extends Entity> implements Repository<E>, Us
     void saveCalled(UserModelSnapshot unitOfWork) {
         repository.addAll(snapshotAddedObjects)
         snapshotAddedObjects.clear()
-//        repository.removeAll(snapshotAddedObjects)
+        repository.removeAll(snapshotRemovedObjects)
+        snapshotRemovedObjects.clear()
     }
 
-    static class IteratorBoladao<E> implements Iterator<E>{
+    @Override
+    void rollbackCalled(UserModelSnapshot unitOfWork) {
+        snapshotRemovedObjects.clear()
+        snapshotAddedObjects.clear()
+    }
+
+    @Override
+    void saveFailed(UserModelSnapshot unitOfWork) {
+
+    }
+
+    @Override
+    void rollbackFailed(UserModelSnapshot unitOfWork) {
+        snapshotRemovedObjects.clear()
+        snapshotAddedObjects.clear()
+    }
+
+    static class UserSnapshotAwareIterator<E> implements Iterator<E>{
 
         @Delegate
         private PeekingIterator<E> iterator
         private Collection removedObjects
 
-        IteratorBoladao(Iterator<E> iterator, Collection removedObjects) {
+        UserSnapshotAwareIterator(Iterator<E> iterator, Collection removedObjects) {
             this.removedObjects = removedObjects
             this.iterator = IteratorUtils.peekingIterator(iterator)
         }

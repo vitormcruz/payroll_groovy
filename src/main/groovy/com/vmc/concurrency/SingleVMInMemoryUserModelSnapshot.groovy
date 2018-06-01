@@ -1,6 +1,5 @@
-package com.vmc.concurrency.defautImpl
+package com.vmc.concurrency
 
-import com.vmc.concurrency.GeneralUserModelSnapshot
 import com.vmc.concurrency.api.SyncronizationBlock
 import com.vmc.concurrency.api.UserSnapshotListener
 
