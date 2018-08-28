@@ -1,38 +1,73 @@
 package com.vmc.concurrency
 
-import org.apache.commons.lang3.SerializationUtils
-
-import java.security.MessageDigest
+import com.vmc.DynamicClassFactory
+import net.bytebuddy.ByteBuddy
+import net.bytebuddy.description.modifier.Visibility
 /**
- * I track the subject proxy usage across the VM and notifies when the GC collected it. The idea is to substitute references to the subject for it's proxy, then when a it's proxy
- * gets collected by the VM further finalization can be done to the subject. I also store the state of the original subject so that you can tell wheter there were changes on it ot
+ * I track the subject proxy usage across the VM and notifies when the GC collected it. The idea is to substitute references to the subject for it's proxy, then when the proxy
+ * gets collected by the VM, further finalization can be done to the subject. I also store the state of the original subject so that you can tell wheter there were changes on it ot
  * not.
- *
- * @param <S> The proxy subject.
  */
-class ObjectTracker<S extends Serializable> {
+class ObjectTracker {
 
-    protected S trackedObject
-    protected byte[] trackedObjectMD5
+    public static final String TRACKING_PROXY_CLASS_SUFIX = "_TrackingProxy"
+    public static final List<String> META_LANG_METHODS = DynamicClassFactory.metaLangMethods()
+
+    protected trackedObject
+    protected trackedObjectProxy
 
     ObjectTracker() {}
 
-    ObjectTracker(S trackedObject, Closure onGCRemoval) {
+    ObjectTracker(trackedObject, Closure onGCRemoval) {
         initialize(trackedObject, onGCRemoval)
     }
 
-    void initialize(S trackedObject, Closure onGCRemoval) {
+    void initialize(trackedObject, Closure onGCRemoval) {
         this.trackedObject = trackedObject
-        trackedObjectMD5 = getObjectMD5(trackedObject)
+        trackedObjectProxy = createTrackedProxyFor(trackedObject)
         ObjectUsageNotification.onObjectUnusedDo(trackedObject, {onGCRemoval(trackedObject)})
     }
 
-    boolean subjectIsDirty() {
-        return getObjectMD5(trackedObject) != trackedObjectMD5
+    def createTrackedProxyFor(objectSnapshot) {
+        def trackingProxyClass = DynamicClassFactory.getIfAbsentCreateAndManageWith(getCorrespondingTrackClassName(objectSnapshot),
+                                                                                    { createTrackingProxyClassFor(objectSnapshot.class) })
+        def objectProxy = trackingProxyClass.newInstance()
+        objectProxy.@subject = objectSnapshot
+        return objectProxy
     }
 
-    byte[] getObjectMD5(entity) {
-        return MessageDigest.getInstance("MD5").digest(SerializationUtils.serialize(entity))
+    String getCorrespondingTrackClassName(entity) {
+        "dynamic." + entity.getClass().getName() + TRACKING_PROXY_CLASS_SUFIX
     }
 
+    static <S> Class<? extends S> createTrackingProxyClassFor(Class<S> aClass) {
+        def trackingProxyClass = new ByteBuddy().subclass(aClass).implement(GroovyInterceptable)
+                .name("dynamic." + aClass.getName() + TRACKING_PROXY_CLASS_SUFIX)
+                .defineField("subject", aClass, Visibility.PUBLIC)
+                .make()
+                .load(Thread.currentThread().getContextClassLoader())
+                .getLoaded()
+
+        trackingProxyClass.metaClass.invokeMethod = {String methodName, Object args ->
+            if(META_LANG_METHODS.contains(methodName)){
+                return delegate.metaClass.getMetaMethod(methodName, args).invoke(delegate, args)
+            }
+
+            return delegate.@subject.invokeMethod(methodName, args)
+        }
+
+        trackingProxyClass.metaClass.getProperty = { String propertyName ->
+            return delegate.@subject.getProperty(propertyName)
+        }
+
+        trackingProxyClass.metaClass.setProperty = { String propertyName, Object args ->
+            return delegate.@subject.setProperty(propertyName, args)
+        }
+
+        return trackingProxyClass
+    }
+
+    def getTrackingProxy(){
+        return trackedObjectProxy
+    }
 }

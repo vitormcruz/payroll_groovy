@@ -3,7 +3,7 @@ package com.vmc.concurrency.api
 /**
  *
  */
-abstract class UserModelSnapshot<R extends Serializable> {
+abstract class UserModelSnapshot {
 
     private static currentUserModelSnapshot
 
@@ -15,7 +15,7 @@ abstract class UserModelSnapshot<R extends Serializable> {
         currentUserModelSnapshot = userModelSnapshot
     }
 
-    abstract R add(R object)
+    abstract def add(anObject)
 
     /**
      * Save all the changes made in objects of the snapshot

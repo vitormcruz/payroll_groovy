@@ -13,7 +13,7 @@ class DynamicClassFactory {
     public static final ElementMatcher ALL_BUT_META_LANG_METHODS_MATCHER = metaLangMethods().collect { methodName -> not(named(methodName)) }
                                                                                             .inject { acc, val -> acc.and(val) }
 
-    private static dynamicClassByName = [:]
+    private static final Map<String, Class> dynamicClassByName = [:]
 
     static List<String> coreLangMethods() {
         def methodsToRespond = metaLangMethods()

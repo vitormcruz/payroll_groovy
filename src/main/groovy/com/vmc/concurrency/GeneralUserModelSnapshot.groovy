@@ -1,20 +1,11 @@
 package com.vmc.concurrency
 
-import com.google.common.base.Preconditions
-import com.vmc.DynamicClassFactory
 import com.vmc.concurrency.api.SyncronizationBlock
 import com.vmc.concurrency.api.UserModelSnapshot
 import com.vmc.concurrency.api.UserSnapshotListener
-import net.bytebuddy.ByteBuddy
-import net.bytebuddy.description.modifier.Visibility
-import net.bytebuddy.implementation.MethodDelegation
 
-import static com.vmc.DynamicClassFactory.ALL_BUT_META_LANG_METHODS_MATCHER
-
-class GeneralUserModelSnapshot<R extends Serializable> extends UserModelSnapshot<R>{
+class GeneralUserModelSnapshot extends UserModelSnapshot{
     
-    public static final String TRACKING_PROXY_CLASS_SUFIX = "_TrackingProxy"
-
     protected WeakHashMap<UserSnapshotListener, Void> observers = new WeakHashMap<UserSnapshotListener, Void>()
     protected Set<ObjectTracker> userObjectsSnapshot = Collections.synchronizedSet(new HashSet<ObjectTracker>())
     protected SyncronizationBlock syncronizationBlock
@@ -28,43 +19,18 @@ class GeneralUserModelSnapshot<R extends Serializable> extends UserModelSnapshot
     }
 
     @Override
-    R add(R object) {
-        Preconditions.checkArgument(object instanceof Serializable, "I can only manage serializable objects")
-        def objectSnapshot = object.takeSnapshot()
-        Object trackingObjectProxy = createTrackingProxyFor(objectSnapshot)
-        def objectTracker = new ObjectTracker(trackingObjectProxy, this.&removeUnusedObjectIfNotDirty)
+    def add(object) {
+        def trackedObjectMemento = object.getMemento()
+        def objectTracker = new ObjectTracker(trackedObjectMemento, this.&removeUnusedObjectIfNotDirty)
         userObjectsSnapshot.add(objectTracker)
-        if(trackingObjectProxy instanceof UserSnapshotListener) registerUnitOfWorkerListener(trackingObjectProxy)
-        return trackingObjectProxy
+        if(trackedObjectMemento instanceof UserSnapshotListener) registerUnitOfWorkerListener(trackedObjectMemento)
+        return objectTracker.getTrackingProxy()
     }
 
-    Object createTrackingProxyFor(objectSnapshot) {
-        def trackingProxyClass = DynamicClassFactory.getIfAbsentCreateAndManageWith(getCorrespondingTrackClassName(objectSnapshot),
-                                                                                    { createTrackingProxyClassFor(objectSnapshot) })
-        def objectProxy = trackingProxyClass.newInstance()
-        objectProxy.subject = objectSnapshot
-        return objectProxy
-    }
-
-    String getCorrespondingTrackClassName(entity) {
-        "dynamic." + entity.getClass().getName() + TRACKING_PROXY_CLASS_SUFIX
-    }
-
-    def <S> Class<? extends S> createTrackingProxyClassFor(Class<S> aClass) {
-        def nullObjectClass = new ByteBuddy().subclass(aClass)
-                .name("dynamic." + aClass.getName() + TRACKING_PROXY_CLASS_SUFIX)
-                .defineField("subject", aClass, Visibility.PUBLIC)
-                .method(ALL_BUT_META_LANG_METHODS_MATCHER).intercept(MethodDelegation.toField("subject"))
-                .make()
-                .load(Thread.currentThread().getContextClassLoader())
-                .getLoaded()
-        return nullObjectClass
-    }
-
-    void removeUnusedObjectIfNotDirty(ObjectTracker unusedObjectTracker){
-        if(!unusedObjectTracker.subjectIsDirty()){
+    void removeUnusedObjectIfNotDirty(unusedObjectTracker){
+        if(!unusedObjectTracker.isDirty()){
             this.@userObjectsSnapshot.remove(unusedObjectTracker)
-            unregisterUnitOfWorkerListener(unusedObjectTracker.subject)
+            unregisterUnitOfWorkerListener(unusedObjectTracker)
         }
     }
 

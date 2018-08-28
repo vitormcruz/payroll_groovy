@@ -128,20 +128,4 @@ class UserModelSnapshotFeatureTest {
         userModelSnapshot.save()
         return objectRepository
     }
-
-
-    static class DummyEntity implements Entity{
-
-        private String id
-        String field1
-
-        DummyEntity(String id) {
-            this.id = id
-        }
-
-        @Override
-        def getId() {
-            return id
-        }
-    }
 }
