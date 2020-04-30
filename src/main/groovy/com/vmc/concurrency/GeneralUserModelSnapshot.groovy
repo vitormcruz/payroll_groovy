@@ -55,6 +55,7 @@ class GeneralUserModelSnapshot extends UserModelSnapshot{
     void rollback() {
         syncronizationBlock.execute {
             this.@observers.keySet().each {it.rollbackCalled(this)}
+            this.@userObjectsSnapshot.each {it.rollback()}
         }
     }
 

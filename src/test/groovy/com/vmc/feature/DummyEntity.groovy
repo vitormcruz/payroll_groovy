@@ -1,9 +1,9 @@
 package com.vmc.feature
 
-import com.vmc.payroll.domain.api.Entity
+import com.vmc.payroll.domain.api.EntityCommonTrait
 
 
-class DummyEntity implements Entity{
+class DummyEntity implements EntityCommonTrait{
 
     private String id
     String field1

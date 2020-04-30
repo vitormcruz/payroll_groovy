@@ -1,9 +1,9 @@
 package com.vmc.payroll.external.persistence.orientDB.repository
 
-import com.vmc.payroll.domain.api.Entity
+import com.vmc.payroll.domain.api.EntityCommonTrait
 
 
-class FakeEntity implements Entity{
+class FakeEntity implements EntityCommonTrait{
 
     String id
 

@@ -13,7 +13,7 @@ class EntityUnitTest {
                       .verify()
     }
 
-    static class FakeEqualsTestEntity implements Entity{
+    static class FakeEqualsTestEntity implements EntityCommonTrait{
         final String id = UUID.randomUUID()
 
         @Override

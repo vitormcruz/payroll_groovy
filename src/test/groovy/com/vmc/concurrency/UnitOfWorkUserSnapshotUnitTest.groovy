@@ -2,7 +2,7 @@ package com.vmc.concurrency
 
 import com.vmc.concurrency.api.SyncronizationBlock
 import com.vmc.concurrency.api.UserSnapshotListener
-import com.vmc.payroll.domain.api.Entity
+import com.vmc.payroll.domain.api.EntityCommonTrait
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.testPreparation.ServiceLocatorForTest
 import org.junit.Test
@@ -154,7 +154,7 @@ class UnitOfWorkUserSnapshotUnitTest {
         assert instance.bla == 'aaaa'
     }
 
-    static class TesteBla implements Entity{
+    static class TesteBla implements EntityCommonTrait{
         String bla
 
         @Override

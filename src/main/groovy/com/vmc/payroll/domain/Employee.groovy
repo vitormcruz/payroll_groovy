@@ -1,6 +1,6 @@
 package com.vmc.payroll.domain
 
-import com.vmc.payroll.domain.api.Entity
+import com.vmc.payroll.domain.api.EntityCommonTrait
 import com.vmc.payroll.domain.payment.attachment.api.PaymentAttachment
 import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
 import com.vmc.payroll.domain.payment.type.api.PaymentType
@@ -12,7 +12,7 @@ import com.vmc.validationNotification.Mandatory
 import static com.vmc.validationNotification.Validation.validate
 import static com.vmc.validationNotification.Validation.validateNewObject
 
-class Employee implements Entity{
+class Employee implements EntityCommonTrait{
 
     private String id = UUID.randomUUID()
 
