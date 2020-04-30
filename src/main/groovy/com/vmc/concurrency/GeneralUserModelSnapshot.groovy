@@ -20,10 +20,10 @@ class GeneralUserModelSnapshot extends UserModelSnapshot{
 
     @Override
     def add(object) {
-        def trackedObjectMemento = object.getMemento()
-        def objectTracker = new ObjectTracker(trackedObjectMemento, this.&removeUnusedObjectIfNotDirty)
-        userObjectsSnapshot.add(objectTracker)
-        if(trackedObjectMemento instanceof UserSnapshotListener) registerUnitOfWorkerListener(trackedObjectMemento)
+        object.takeSnapshot()
+        def objectTracker = new ObjectTracker(object, this.&removeUnusedObjectIfNotDirty)
+        userObjectsSnapshot.add(objectTracker.trackedObjectProxy)
+        if(object instanceof UserSnapshotListener) registerUnitOfWorkerListener(object)
         return objectTracker.getTrackingProxy()
     }
 

@@ -84,8 +84,8 @@ class UserModelSnapshotFeatureTest {
 
     @Test
     void "Change an entiy obtained from a repository, but rollback the model snapshot"(){
-        UserSnapshotAwareRepository<Entity> objectRepository = createRepositoryWith(new DummyEntity("test"))
-        def objectToChange = objectRepository.get("test")
+        UserSnapshotAwareRepository<Entity> objectRepository = createRepositoryWith(new DummyEntity("id", "test"))
+        def objectToChange = objectRepository.get("id")
         objectToChange.field1 = "Changed"
         userModelSnapshot.rollback()
         assert objectToChange.field1 == "test"

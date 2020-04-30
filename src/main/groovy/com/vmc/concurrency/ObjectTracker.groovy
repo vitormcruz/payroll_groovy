@@ -28,11 +28,11 @@ class ObjectTracker {
         ObjectUsageNotification.onObjectUnusedDo(trackedObject, {onGCRemoval(trackedObject)})
     }
 
-    def createTrackedProxyFor(objectSnapshot) {
-        def trackingProxyClass = DynamicClassFactory.getIfAbsentCreateAndManageWith(getCorrespondingTrackClassName(objectSnapshot),
-                                                                                    { createTrackingProxyClassFor(objectSnapshot.class) })
+    def createTrackedProxyFor(object) {
+        def trackingProxyClass = DynamicClassFactory.getIfAbsentCreateAndManageWith(getCorrespondingTrackClassName(object),
+                                                                                    { createTrackingProxyClassFor(object.class) })
         def objectProxy = trackingProxyClass.newInstance()
-        objectProxy.@subject = objectSnapshot
+        objectProxy.@subject = object
         return objectProxy
     }
 
