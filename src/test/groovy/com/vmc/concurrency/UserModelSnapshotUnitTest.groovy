@@ -125,7 +125,7 @@ class UserModelSnapshotUnitTest {
         def modelSnapshotListener2 = { notification2Called = true } as UserSnapshotListener
         modelSnapshot.registerListener(modelSnapshotListener1)
         modelSnapshot.registerListener(modelSnapshotListener2)
-        modelSnapshot.unregisterUnitOfWorkerListener(modelSnapshotListener2)
+        modelSnapshot.unregisterListener(modelSnapshotListener2)
         modelSnapshot.save()
         assert notification1Called && !notification2Called
     }
@@ -135,7 +135,7 @@ class UserModelSnapshotUnitTest {
         def modelSnapshot = new GeneralUserModelSnapshotStub()
         modelSnapshot.registerListener({ } as UserSnapshotListener)
         System.gc()
-        assertWaitingSuccess({assert modelSnapshot.getlisteners().isEmpty()})
+        assertWaitingSuccess({assert modelSnapshot.getListeners().isEmpty()})
     }
 
     void addDateToModelAndChange(GeneralUserModelSnapshotStub modelSnapshot, objectToAdd, changeClosure) {

@@ -30,5 +30,5 @@ abstract class UserModelSnapshot {
     abstract void rollback()
 
     abstract void registerListener(UserSnapshotListener listener)
-    abstract void unregisterUnitOfWorkerListener(UserSnapshotListener listener)
+    abstract void unregisterListener(UserSnapshotListener listener)
 }

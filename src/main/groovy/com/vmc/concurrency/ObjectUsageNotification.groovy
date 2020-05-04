@@ -14,7 +14,7 @@ import static com.sun.management.GarbageCollectionNotificationInfo.GARBAGE_COLLE
 
 class ObjectUsageNotification {
 
-    protected static final phantonHandlerLock = new Object()
+    protected static final phantomHandlerLock = new Object()
     protected static ReferenceQueue referenceQueue = new ReferenceQueue()
     protected static Map<PhantomReference, Object> trackedObjectsMap = Collections.synchronizedMap(new HashMap<PhantomReference, ObjectUsageNotification>())
 
@@ -27,7 +27,7 @@ class ObjectUsageNotification {
 
     static void notifyGcPerformed() {
         ServiceLocator.getInstance().getExecutor().execute({
-            synchronized (phantonHandlerLock) {
+            synchronized (phantomHandlerLock) {
                 def phantonReference = referenceQueue.poll()
                 while (phantonReference != null) {
                     trackedObjectsMap.get(phantonReference)()

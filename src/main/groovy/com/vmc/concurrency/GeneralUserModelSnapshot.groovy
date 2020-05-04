@@ -5,11 +5,16 @@ import com.vmc.concurrency.api.SynchronizationBlock
 import com.vmc.concurrency.api.UserModelSnapshot
 import com.vmc.concurrency.api.UserSnapshotListener
 
+import static com.vmc.concurrency.ObjectUsageNotification.onObjectUnusedDo
+
 class GeneralUserModelSnapshot extends UserModelSnapshot{
 
     protected WeakHashMap<UserSnapshotListener, Void> observers = new WeakHashMap<UserSnapshotListener, Void>()
     protected Set<ManagedObject> managedObjects = Collections.synchronizedSet(new HashSet())
     protected SynchronizationBlock synchronizationBlock
+
+    //TODO remove instantiation from here and add to the main class
+    protected ObjectProxyFactory objectProxyFactory = new ObjectProxyFactory()
 
     GeneralUserModelSnapshot() {
         this.synchronizationBlock = new SingleVMSynchronizationBlock()
@@ -22,11 +27,10 @@ class GeneralUserModelSnapshot extends UserModelSnapshot{
     @Override
     <T> T manageObject(T object, ObjectChangeProvider objectChangeProvider) {
         object.takeSnapshot()
-        def objectTracker = new ObjectTracker()
-        def objectProxy = objectTracker.createTrackedProxyFor(object)
+        def objectProxy = objectProxyFactory.createProxyFor(object)
         def managedObject = new ManagedObject(object, objectChangeProvider)
         managedObjects.add(managedObject)
-        ObjectUsageNotification.onObjectUnusedDo(objectProxy, {removeUnusedObjectIfNotDirty(managedObject)})
+        onObjectUnusedDo(objectProxy, {removeUnusedObjectIfNotDirty(managedObject)})
         return objectProxy
     }
 
@@ -62,11 +66,11 @@ class GeneralUserModelSnapshot extends UserModelSnapshot{
     }
 
     @Override
-    void unregisterUnitOfWorkerListener(UserSnapshotListener listener) {
+    void unregisterListener(UserSnapshotListener listener) {
         observers.remove(listener)
     }
 
-    Set<UserSnapshotListener> getlisteners() {
+    Set<UserSnapshotListener> getListeners() {
         observers.keySet()
     }
 }

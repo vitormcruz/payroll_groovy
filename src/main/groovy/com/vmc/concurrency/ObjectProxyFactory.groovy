@@ -7,57 +7,47 @@ import org.codehaus.groovy.classgen.asm.MopWriter
 import java.util.regex.Matcher
 
 /**
- * I track the subject proxy usage across the VM and notifies when the GC collected it. The idea is to substitute references to the subject for it's proxy, then when the proxy
- * gets collected by the VM, further finalization can be done to the subject. I also store the state of the original subject so that you can tell wheter there were changes on it ot
- * not.
+ * I am a factory of proxies. I can create a proxy of any object and it's class will be a subclass of the real (subject)
+ * object. For example, creating a proxy for a java.util.Date object d1 will return a d1_proxy of the dynamically
+ * generated class java.util.dynamic.Date_Proxy such that:
+ *
+ * <pre>
+ *     class java.util.dynamic.Date_Proxy <b>extends</b> java.util.Date
+ * </pre>
+ *
+ * Almost all methods are proxied, even those from Object, only meta methods aren't.
  */
-class ObjectTracker {
+class ObjectProxyFactory {
 
-    public static final String TRACKING_PROXY_CLASS_SUFFIX = "_TrackingProxy"
-    public static final List<String> META_LANG_METHODS = DynamicClassFactory.metaLangMethods()
+    public static final String PROXY_CLASS_PREFIX = "dynamic."
+    public static final String PROXY_CLASS_SUFFIX = "_Proxy"
 
+    public static final List<String> META_LANG_METHODS = ["setMetaClass", "getMetaClass", "getClass", "\$getStaticMetaClass"]
     private static final GroovyClassLoader GROOVY_DYNAMIC_CLASS_LOADER = new GroovyClassLoader()
 
-    protected trackedObject
-    protected trackedObjectProxy
-
-    ObjectTracker() {
-
-    }
-
-    ObjectTracker(trackedObject, Closure onGCRemoval) {
-        initialize(trackedObject, onGCRemoval)
-    }
-
-    void initialize(trackedObject, Closure onGCRemoval) {
-        this.trackedObject = trackedObject
-        trackedObjectProxy = createTrackedProxyFor(trackedObject)
-        ObjectUsageNotification.onObjectUnusedDo(trackedObjectProxy, {onGCRemoval(trackedObject)})
-    }
-
-    def createTrackedProxyFor(object) {
-        def trackingProxyClass = DynamicClassFactory.getIfAbsentCreateAndManageWith(getCorrespondingTrackClassName(object),
-                                                                                    { createTrackingProxyClassFor(object.class) })
-        def objectProxy = trackingProxyClass.newInstance()
+    def createProxyFor(object) {
+        def proxyClass =
+                DynamicClassFactory.getIfAbsentCreateAndManageWith(getProxyClassNameFor(object.getClass()),
+                                                                  { createProxyClassFor(object.getClass()) })
+        def objectProxy = proxyClass.newInstance()
         objectProxy.@subject = object
         return objectProxy
     }
 
-    String getCorrespondingTrackClassName(entity) {
-        "dynamic." + entity.getClass().getName() + TRACKING_PROXY_CLASS_SUFFIX
+    String getProxyClassNameFor(Class<? extends Object> aClass) {
+        PROXY_CLASS_PREFIX + aClass.getName() + PROXY_CLASS_SUFFIX
     }
 
-
-    static <T> Class<? extends T> createTrackingProxyClassFor(Class<T> aClass) {
+    static <T> Class<? extends T> createProxyClassFor(Class<T> aClass) {
         def trackingProxyClass = GROOVY_DYNAMIC_CLASS_LOADER.parseClass(/
-            class ${aClass.getName().replaceAll("\\.", "_") + TRACKING_PROXY_CLASS_SUFFIX} 
+            class ${aClass.getName().replaceAll("\\.", "_") + PROXY_CLASS_SUFFIX} 
             extends ${aClass.getName()} 
             implements GroovyInterceptable {
 
                 public subject
             
                 def invokeMethod(String methodName, Object args) {
-                    if(com.vmc.concurrency.ObjectTracker.META_LANG_METHODS.contains(methodName)){
+                    if(com.vmc.concurrency.ObjectProxyFactory.META_LANG_METHODS.contains(methodName)){
                         return this.getMetaMethod(methodName, args).invoke(this, args)
                     }
             
