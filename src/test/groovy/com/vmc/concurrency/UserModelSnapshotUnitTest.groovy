@@ -80,7 +80,7 @@ class UserModelSnapshotUnitTest {
     }
 
     private Object getSubjectOf(proxy) {
-        return proxy.@"${ProxyTrait.getName().replaceAll("\\.", "_")}__subject"
+        return proxy.@subject
     }
 
     @Test

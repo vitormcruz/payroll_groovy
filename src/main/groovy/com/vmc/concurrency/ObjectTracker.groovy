@@ -4,7 +4,6 @@ import com.vmc.DynamicClassFactory
 import org.apache.commons.lang3.StringUtils
 import org.codehaus.groovy.classgen.asm.MopWriter
 
-import java.lang.reflect.Method
 import java.util.regex.Matcher
 
 /**
@@ -40,7 +39,7 @@ class ObjectTracker {
         def trackingProxyClass = DynamicClassFactory.getIfAbsentCreateAndManageWith(getCorrespondingTrackClassName(object),
                                                                                     { createTrackingProxyClassFor(object.class) })
         def objectProxy = trackingProxyClass.newInstance()
-        objectProxy.@"${ProxyTrait.getName().replaceAll("\\.", "_")}__subject" = object
+        objectProxy.@subject = object
         return objectProxy
     }
 
@@ -49,60 +48,55 @@ class ObjectTracker {
     }
 
 
-    static <S> Class<? extends S> createTrackingProxyClassFor(Class<S> aClass) {
+    static <T> Class<? extends T> createTrackingProxyClassFor(Class<T> aClass) {
         def trackingProxyClass = GROOVY_DYNAMIC_CLASS_LOADER.parseClass(/
             class ${aClass.getName().replaceAll("\\.", "_") + TRACKING_PROXY_CLASS_SUFFIX} 
             extends ${aClass.getName()} 
-            implements ${ProxyTrait.getName()} {
+            implements GroovyInterceptable {
 
-                ${ddd(aClass)}
+                public subject
+            
+                def invokeMethod(String methodName, Object args) {
+                    if(com.vmc.concurrency.ObjectTracker.META_LANG_METHODS.contains(methodName)){
+                        return this.getMetaMethod(methodName, args).invoke(this, args)
+                    }
+            
+                    return this.@subject.invokeMethod(methodName, args)
+                }
+            
+                def getProperty(String propertyName) {
+                    return this.@subject.getProperty(propertyName)
+                }
+            
+                void setProperty(String propertyName, Object newValue){
+                    this.@subject.setProperty(propertyName, newValue)
+                }
+
+                ${delegateMethodsOf(aClass)}
             }
         /)
-
-//        trackingProxyClass.metaClass.invokeMethod = {String methodName, Object args ->
-//            if(META_LANG_METHODS.contains(methodName)){
-//                return delegate.metaClass.getMetaMethod(methodName, args).invoke(delegate, args)
-//            }
-//
-//            return delegate.@subject.invokeMethod(methodName, args)
-//        }
-//
-//        trackingProxyClass.metaClass.getProperty = { String propertyName ->
-//            return delegate.@subject.getProperty(propertyName)
-//        }
-//
-//        trackingProxyClass.metaClass.setProperty = { String propertyName, Object args ->
-//            return delegate.@subject.setProperty(propertyName, args)
-//        }
-
         return trackingProxyClass
     }
 
-    private static String ddd(clazz) {
-        Method[] methods = clazz.methods - Object.methods
-        def r = [ ] as Set
-        methods = methods.collect {
-            if(META_LANG_METHODS.contains(it.name) || MopWriter.isMopMethod(it.name)){
-                return null
-            }
+    private static <T> String delegateMethodsOf(Class<T> aClass) {
+        def delegatedMethodsDeclarations =
+                (aClass.methods - Object.methods)
+                    .findAll { !specialMethodNames(it.name) }
+                    .unique {a, b -> a.name == b.name ? 0 : 1 }
+                    .collect {
+                        def methodNameToDelegate = it.name.replaceAll(Matcher.quoteReplacement("\$"),
+                                                                      Matcher.quoteReplacement("\\\$"))
+                        def returnType = it.getReturnType().getName()
+                        def parameters = it.typeParameters.length == 0 ? "" : "args"
+                        def delegation = "this.@subject.\"${methodNameToDelegate}\"()"
 
-            if (!r.contains(it.name)){
-                r.add(it.name)
-                return it
-            }
+                        "${returnType} \"${methodNameToDelegate}\"(${parameters}) { ${delegation} } \n "
+                    }
 
-            return null
-
-        }.findAll {it != null}
-
-        return StringUtils.join(methods.collect {
-            def methodNameToDelegate = it.name.replaceAll(Matcher.quoteReplacement("\$"),
-                                                          Matcher.quoteReplacement("\\\$"))
-            return "${it.getReturnType().getName()} \"${methodNameToDelegate}\"(${it.typeParameters.length == 0 ? "" : "args"}) { this.@\"com_vmc_concurrency_ProxyTrait__subject\".\"${methodNameToDelegate}\"()} \n "
-        }, '\n')
+        return StringUtils.join(delegatedMethodsDeclarations, '\n')
     }
 
-    def getTrackingProxy(){
-        return trackedObjectProxy
+    private static boolean specialMethodNames(String methodName) {
+        META_LANG_METHODS.contains(methodName) || MopWriter.isMopMethod(methodName)
     }
 }
