@@ -1,8 +1,8 @@
 package com.vmc.payroll.domain
 
 import com.github.javafaker.Faker
-import com.vmc.concurrency.GeneralUserModelSnapshot
-import com.vmc.concurrency.api.UserModelSnapshot
+import com.vmc.concurrency.GeneralUserModel
+import com.vmc.concurrency.api.UserModel
 import com.vmc.objectMother.ObjectMother
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.delivery.AccountTransfer
@@ -49,8 +49,8 @@ class EmployeePerformanceTest extends IntegrationTestBase {
 
     @BeforeClass
     def static void setupAll(){
-        def userModelSnapshot = new GeneralUserModelSnapshot()
-        UserModelSnapshot.load(userModelSnapshot)
+        def userModelSnapshot = new GeneralUserModel()
+        UserModel.load(userModelSnapshot)
         employeeRepository = ServiceLocator.instance.employeeRepository
         employeeMother = new ObjectMother<Employee>(Employee)
                                 .configurePostBirthScript { newEmployee -> employeeRepository.add(newEmployee)}

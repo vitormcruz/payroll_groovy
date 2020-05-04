@@ -5,7 +5,7 @@ import com.vaadin.ui.Button
 import com.vaadin.ui.FormLayout
 import com.vaadin.ui.Notification
 import com.vaadin.ui.VerticalLayout
-import com.vmc.concurrency.api.UserModelSnapshot
+import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
@@ -19,9 +19,9 @@ class NewEmployeeView extends VerticalLayout{
     private Repository<Employee> employeeRepository
     private Closure cancelNewEmployee
     private BinderDecoratorForValidationNotification binder
-    private UserModelSnapshot modelSnapshot
+    private UserModel modelSnapshot
 
-    NewEmployeeView(Repository<Employee> employeeRepository, UserModelSnapshot modelSnapshot, Closure cancelNewEmployee) {
+    NewEmployeeView(Repository<Employee> employeeRepository, UserModel modelSnapshot, Closure cancelNewEmployee) {
         this.employeeRepository = employeeRepository
         this.modelSnapshot = modelSnapshot
         this.cancelNewEmployee = cancelNewEmployee

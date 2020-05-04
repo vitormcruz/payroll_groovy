@@ -1,7 +1,7 @@
 package com.vmc.payroll.domain
 
-import com.vmc.concurrency.GeneralUserModelSnapshot
-import com.vmc.concurrency.api.UserModelSnapshot
+import com.vmc.concurrency.GeneralUserModel
+import com.vmc.concurrency.api.UserModel
 import com.vmc.objectMother.ObjectMother
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.attachment.SalesReceipt
@@ -34,8 +34,8 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @BeforeClass
     static void setUpAll(){
-        def userModelSnapshot = new GeneralUserModelSnapshot()
-        UserModelSnapshot.load(userModelSnapshot)
+        def userModelSnapshot = new GeneralUserModel()
+        UserModel.load(userModelSnapshot)
     }
 
     @Before

@@ -2,12 +2,9 @@ package com.vmc.payroll.external.config
 
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.vmc.concurrency.GeneralUserModelSnapshot
-
-import com.vmc.concurrency.SingleVMSynchronizationBlock
+import com.vmc.concurrency.GeneralUserModel
 import com.vmc.concurrency.UserSnapshotAwareRepository
-import com.vmc.concurrency.api.SynchronizationBlock
-import com.vmc.concurrency.api.UserModelSnapshot
+import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepositoryVersion2
@@ -33,13 +30,8 @@ class ProductionServiceLocator extends ServiceLocator{
     }
 
     @Override
-    SynchronizationBlock loadAtomicBlock() {
-        return new SingleVMSynchronizationBlock()
-    }
-
-    @Override
-    UserModelSnapshot loadModelSnapshot() {
-        return new GeneralUserModelSnapshot().with {registerListener(employeeRepository); it}
+    UserModel loadModelSnapshot() {
+        return new GeneralUserModel().with {registerListener(employeeRepository); it}
     }
 
     @Override

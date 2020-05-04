@@ -1,6 +1,6 @@
 package com.vmc.payroll.external.presentation.webservice.spark
 
-import com.vmc.concurrency.api.UserModelSnapshot
+import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.external.presentation.converter.EmployeeJsonDTO
@@ -10,9 +10,9 @@ import spark.Response
 class EmployeeWebServiceController implements BasicControllerOperationsTrait{
 
     private Repository<Employee> employeeRepository
-    private UserModelSnapshot model
+    private UserModel model
 
-    EmployeeWebServiceController(Repository<Employee> anEmployeeRepository, UserModelSnapshot aModel) {
+    EmployeeWebServiceController(Repository<Employee> anEmployeeRepository, UserModel aModel) {
         this.employeeRepository = anEmployeeRepository
         this.model = aModel
     }

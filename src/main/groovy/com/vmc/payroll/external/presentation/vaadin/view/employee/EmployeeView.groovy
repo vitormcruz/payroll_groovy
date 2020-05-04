@@ -1,16 +1,16 @@
 package com.vmc.payroll.external.presentation.vaadin.view.employee
 
 import com.vaadin.ui.VerticalLayout
-import com.vmc.concurrency.api.UserModelSnapshot
+import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 
 class EmployeeView extends VerticalLayout {
 
     private Repository<Employee> employeeRepository
-    private UserModelSnapshot modelSnapshot
+    private UserModel modelSnapshot
 
-    EmployeeView(Repository<Employee> employeeRepository, UserModelSnapshot modelSnapshot) {
+    EmployeeView(Repository<Employee> employeeRepository, UserModel modelSnapshot) {
         this.employeeRepository = employeeRepository
         this.modelSnapshot = modelSnapshot
         setSizeFull()

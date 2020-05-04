@@ -3,8 +3,8 @@ package com.vmc.concurrency.api
 
 interface UserSnapshotListener {
 
-    void saveCalled(UserModelSnapshot unitOfWork)
-    void rollbackCalled(UserModelSnapshot unitOfWork)
-    void saveFailed(UserModelSnapshot unitOfWork)
-    void rollbackFailed(UserModelSnapshot unitOfWork)
+    void saveCalled(UserModel unitOfWork)
+    void rollbackCalled(UserModel unitOfWork)
+    void saveFailed(UserModel unitOfWork)
+    void rollbackFailed(UserModel unitOfWork)
 }

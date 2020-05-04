@@ -1,8 +1,8 @@
 package com.vmc.feature
 
-import com.vmc.concurrency.GeneralUserModelSnapshot
+import com.vmc.concurrency.GeneralUserModel
 import com.vmc.concurrency.UserSnapshotAwareRepository
-import com.vmc.concurrency.api.UserModelSnapshot
+import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.api.Entity
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepositoryVersion2
 import org.junit.BeforeClass
@@ -10,15 +10,15 @@ import org.junit.Test
 
 import java.security.MessageDigest
 
-class UserModelSnapshotFeatureTest {
+class UserModelFeatureTest {
 
-    static private UserModelSnapshot userModelSnapshot
+    static private UserModel userModelSnapshot
     static private MessageDigest md5Digester
 
     @BeforeClass
     static void setUpAll() throws Exception {
-        userModelSnapshot = new GeneralUserModelSnapshot()
-        UserModelSnapshot.load(userModelSnapshot)
+        userModelSnapshot = new GeneralUserModel()
+        UserModel.load(userModelSnapshot)
         md5Digester = MessageDigest.getInstance("MD5")
     }
 

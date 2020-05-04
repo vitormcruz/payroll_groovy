@@ -1,8 +1,7 @@
 package com.vmc.payroll.external.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.vmc.concurrency.api.SynchronizationBlock
-import com.vmc.concurrency.api.UserModelSnapshot
+import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 
@@ -19,10 +18,7 @@ abstract class ServiceLocator {
     volatile ObjectMapper mapper = {getInstance().loadMapper()}()
 
     @Lazy
-    volatile SynchronizationBlock atomicBlock = {getInstance().loadAtomicBlock()}()
-
-    @Lazy
-    volatile UserModelSnapshot modelSnapshot = {getInstance().loadModelSnapshot()}()
+    volatile UserModel modelSnapshot = {getInstance().loadModelSnapshot()}()
 
     @Lazy
     volatile Repository<Employee> employeeRepository = {getInstance().loadEmployeeRepository()}()
@@ -40,8 +36,7 @@ abstract class ServiceLocator {
 
     abstract Properties loadSystemProperties()
     abstract ObjectMapper loadMapper()
-    abstract SynchronizationBlock loadAtomicBlock()
-    abstract UserModelSnapshot loadModelSnapshot()
+    abstract UserModel loadModelSnapshot()
     abstract Repository<Employee> loadEmployeeRepository()
 
     abstract Executor loadExecutor()

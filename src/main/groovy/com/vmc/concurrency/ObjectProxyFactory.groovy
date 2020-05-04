@@ -6,6 +6,8 @@ import org.codehaus.groovy.classgen.asm.MopWriter
 
 import java.util.regex.Matcher
 
+//TODO add tests
+
 /**
  * I am a factory of proxies. I can create a proxy of any object and it's class will be a subclass of the real (subject)
  * object. For example, creating a proxy for a java.util.Date object d1 will return a d1_proxy of the dynamically

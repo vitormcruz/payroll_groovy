@@ -1,7 +1,7 @@
 package com.vmc.payroll.external.config
 
 import com.vaadin.server.VaadinServlet
-import com.vmc.concurrency.api.UserModelSnapshot
+import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.delivery.Mail
@@ -20,7 +20,7 @@ class PayrollJettyApplication {
     static private ServletHolder configuredVaadinServletHolder
     static private FilterHolder configuredSparkFilterHolder
 
-    static private UserModelSnapshot modelSnapshot
+    static private UserModel modelSnapshot
     static private Repository<Employee> employeeRepository
 
     static {

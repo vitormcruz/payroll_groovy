@@ -5,11 +5,11 @@ package com.vmc.concurrency.api
 /**
  *
  */
-abstract class UserModelSnapshot {
+abstract class UserModel {
 
     private static currentUserModelSnapshot
 
-    static UserModelSnapshot getInstance(){
+    static UserModel getInstance(){
         return currentUserModelSnapshot
     }
 

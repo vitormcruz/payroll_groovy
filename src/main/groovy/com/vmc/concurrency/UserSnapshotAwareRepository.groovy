@@ -1,7 +1,7 @@
 package com.vmc.concurrency
 
 import com.vmc.concurrency.api.ObjectChangeProvider
-import com.vmc.concurrency.api.UserModelSnapshot
+import com.vmc.concurrency.api.UserModel
 import com.vmc.concurrency.api.UserSnapshotListener
 import com.vmc.payroll.domain.api.Entity
 import com.vmc.payroll.domain.api.Repository
@@ -13,12 +13,12 @@ class UserSnapshotAwareRepository<E extends Entity> extends AbstractCollection i
     private Repository<E> repository
     private Set<E> snapshotAddedObjects = []
     private Set<E> snapshotRemovedObjects = []
-    private UserModelSnapshot modelSnapshot
+    private UserModel modelSnapshot
     private ObjectChangeProvider objectChangeProvider;
 
     UserSnapshotAwareRepository(Repository<E> repository) {
         this.repository = repository
-        modelSnapshot = UserModelSnapshot.instance
+        modelSnapshot = UserModel.instance
         modelSnapshot.registerListener(this)
         objectChangeProvider = new InMemmoryObjectChangeProvider();
     }
@@ -63,7 +63,7 @@ class UserSnapshotAwareRepository<E extends Entity> extends AbstractCollection i
     }
 
     @Override
-    void saveCalled(UserModelSnapshot unitOfWork) {
+    void saveCalled(UserModel unitOfWork) {
         repository.addAll(snapshotAddedObjects)
         snapshotAddedObjects.clear()
         repository.removeAll(snapshotRemovedObjects)
@@ -71,18 +71,18 @@ class UserSnapshotAwareRepository<E extends Entity> extends AbstractCollection i
     }
 
     @Override
-    void rollbackCalled(UserModelSnapshot unitOfWork) {
+    void rollbackCalled(UserModel unitOfWork) {
         snapshotRemovedObjects.clear()
         snapshotAddedObjects.clear()
     }
 
     @Override
-    void saveFailed(UserModelSnapshot unitOfWork) {
+    void saveFailed(UserModel unitOfWork) {
 
     }
 
     @Override
-    void rollbackFailed(UserModelSnapshot unitOfWork) {
+    void rollbackFailed(UserModel unitOfWork) {
         snapshotRemovedObjects.clear()
         snapshotAddedObjects.clear()
     }

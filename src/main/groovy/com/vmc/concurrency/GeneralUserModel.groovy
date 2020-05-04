@@ -1,28 +1,18 @@
 package com.vmc.concurrency
 
 import com.vmc.concurrency.api.ObjectChangeProvider
-import com.vmc.concurrency.api.SynchronizationBlock
-import com.vmc.concurrency.api.UserModelSnapshot
+import com.vmc.concurrency.api.UserModel
 import com.vmc.concurrency.api.UserSnapshotListener
 
 import static com.vmc.concurrency.ObjectUsageNotification.onObjectUnusedDo
 
-class GeneralUserModelSnapshot extends UserModelSnapshot{
+class GeneralUserModel extends UserModel{
 
     protected WeakHashMap<UserSnapshotListener, Void> observers = new WeakHashMap<UserSnapshotListener, Void>()
     protected Set<ManagedObject> managedObjects = Collections.synchronizedSet(new HashSet())
-    protected SynchronizationBlock synchronizationBlock
 
     //TODO remove instantiation from here and add to the main class
     protected ObjectProxyFactory objectProxyFactory = new ObjectProxyFactory()
-
-    GeneralUserModelSnapshot() {
-        this.synchronizationBlock = new SingleVMSynchronizationBlock()
-    }
-
-    GeneralUserModelSnapshot(SynchronizationBlock synchronizationBlock) {
-        this.synchronizationBlock = synchronizationBlock
-    }
 
     @Override
     <T> T manageObject(T object, ObjectChangeProvider objectChangeProvider) {
@@ -46,18 +36,14 @@ class GeneralUserModelSnapshot extends UserModelSnapshot{
 
     @Override
     void save() {
-        synchronizationBlock.execute {
-            this.@managedObjects.each {it.save()}
-            this.@observers.keySet().each {it.saveCalled(this)}
-        }
+        this.@managedObjects.each {it.save()}
+        this.@observers.keySet().each {it.saveCalled(this)}
     }
 
     @Override
     void rollback() {
-        synchronizationBlock.execute {
-            this.@managedObjects.each {it.undo()}
-            this.@observers.keySet().each {it.rollbackCalled(this)}
-        }
+        this.@managedObjects.each {it.undo()}
+        this.@observers.keySet().each {it.rollbackCalled(this)}
     }
 
     @Override
