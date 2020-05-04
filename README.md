@@ -56,8 +56,6 @@ flexibility as you can use basic OO to organize code, with Groovy you get even m
 
 Liked, simpler than SpringMVC, also don't use annotations, which I generally dislike. 
 
-####Orient DB
-
 ####No DI
 
 ####Unit of work and domain syncronization with persistence

@@ -5,8 +5,4 @@ extensionClasses=com.vmc.userModel.extensions.instance.java.lang.ObjectMementoEx
                  com.vmc.payroll.external.presentation.converter.PaymentTypeConverterExtensions, \
                  com.vmc.validationNotification.java.lang.ObjectValidationNotificationExtensions
 
-staticExtensionClasses=com.vmc.payroll.external.presentation.vaadin.view.payment.PaymentDeliveryClassViewExtensions, \
-                       com.vmc.payroll.external.presentation.vaadin.view.payment.PaymentTypeClassViewExtensions, \
-                       com.vmc.payroll.external.presentation.converter.PaymentTypeConverterClassExtensions, \
-                       com.vmc.payroll.external.presentation.vaadin.view.unionAssociation.UnionAssociationClassViewExtensions, \
-                       com.vmc.payroll.external.presentation.vaadin.view.employee.EmployeeClassViewExtensions
+staticExtensionClasses=com.vmc.payroll.external.presentation.converter.PaymentTypeConverterClassExtensions
