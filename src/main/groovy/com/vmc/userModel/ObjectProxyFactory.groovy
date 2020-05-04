@@ -14,17 +14,19 @@ import java.util.regex.Matcher
  * generated class java.util.dynamic.Date_Proxy such that:
  *
  * <pre>
- *     class java.util.dynamic.Date_Proxy <b>extends</b> java.util.Date
+ *     class java_util_dynamic_Date_Proxy <b>extends</b> java.util.Date
  * </pre>
  *
  * Almost all methods are proxied, even those from Object, only meta methods aren't.
  */
 class ObjectProxyFactory {
 
-    public static final String PROXY_CLASS_PREFIX = "dynamic."
+    public static final String PROXY_CLASS_PREFIX = "dynamic_"
     public static final String PROXY_CLASS_SUFFIX = "_Proxy"
 
-    public static final List<String> META_LANG_METHODS = ["setMetaClass", "getMetaClass", "getClass", "\$getStaticMetaClass"]
+    public static final List<String> META_LANG_METHODS = ["setMetaClass", "getMetaClass", "getClass",
+                                                          "\$getStaticMetaClass"]
+
     private static final GroovyClassLoader GROOVY_DYNAMIC_CLASS_LOADER = new GroovyClassLoader()
 
     def createProxyFor(object) {
@@ -36,13 +38,9 @@ class ObjectProxyFactory {
         return objectProxy
     }
 
-    String getProxyClassNameFor(Class<? extends Object> aClass) {
-        PROXY_CLASS_PREFIX + aClass.getName() + PROXY_CLASS_SUFFIX
-    }
-
-    static <T> Class<? extends T> createProxyClassFor(Class<T> aClass) {
+    Class createProxyClassFor(Class aClass) {
         def trackingProxyClass = GROOVY_DYNAMIC_CLASS_LOADER.parseClass(/
-            class ${aClass.getName().replaceAll("\\.", "_") + PROXY_CLASS_SUFFIX} 
+            class ${getProxyClassNameFor(aClass)} 
             extends ${aClass.getName()} 
             implements GroovyInterceptable {
 
@@ -70,7 +68,11 @@ class ObjectProxyFactory {
         return trackingProxyClass
     }
 
-    private static <T> String delegateMethodsOf(Class<T> aClass) {
+    String getProxyClassNameFor(Class aClass) {
+        PROXY_CLASS_PREFIX + aClass.getName().replaceAll("\\.", "_") + PROXY_CLASS_SUFFIX
+    }
+
+    private <T> String delegateMethodsOf(Class<T> aClass) {
         def delegatedMethodsDeclarations =
                 (aClass.methods - Object.methods)
                     .findAll { !specialMethodNames(it.name) }
