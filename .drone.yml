@@ -3,6 +3,6 @@ name: default
 
 steps:
   - name: test
-    image: 3.6.3-jd-8-slim
+    image: 3.6.3-jdk-8-slim
     commands:
       - mvn test -B
