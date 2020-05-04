@@ -1,8 +1,8 @@
 package com.vmc.concurrency
 
-import com.vmc.concurrency.api.SyncronizationBlock
+import com.vmc.concurrency.api.SynchronizationBlock
 
-class SingleVMSyncronizationBlock implements SyncronizationBlock{
+class SingleVMSynchronizationBlock implements SynchronizationBlock{
 
     @Override
     synchronized void execute(Closure unitOfWork) {

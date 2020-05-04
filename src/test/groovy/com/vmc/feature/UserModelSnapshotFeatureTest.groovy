@@ -23,7 +23,7 @@ class UserModelSnapshotFeatureTest {
     }
 
     //
-    // Common scenarios. Look at this if you wanna understand the basic bahavior of repository, entities and userModelSnapshot.
+    // Common scenarios. Look at this if you wanna understand the basic behavior of repository, entities and userModelSnapshot.
     //
 
     @Test

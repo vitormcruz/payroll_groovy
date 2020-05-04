@@ -1,6 +1,8 @@
 package com.vmc.payroll.domain
 
 import com.github.javafaker.Faker
+import com.vmc.concurrency.GeneralUserModelSnapshot
+import com.vmc.concurrency.api.UserModelSnapshot
 import com.vmc.objectMother.ObjectMother
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.delivery.AccountTransfer
@@ -18,7 +20,7 @@ import org.junit.Test
 
 class EmployeePerformanceTest extends IntegrationTestBase {
 
-    private static Repository<Employee> employeeRepository = ServiceLocator.instance.employeeRepository
+    private static Repository<Employee> employeeRepository
     private static faker =  new Faker(new Locale("pt-BR"))
     private static random = new Random()
 
@@ -47,6 +49,9 @@ class EmployeePerformanceTest extends IntegrationTestBase {
 
     @BeforeClass
     def static void setupAll(){
+        def userModelSnapshot = new GeneralUserModelSnapshot()
+        UserModelSnapshot.load(userModelSnapshot)
+        employeeRepository = ServiceLocator.instance.employeeRepository
         employeeMother = new ObjectMother<Employee>(Employee)
                                 .configurePostBirthScript { newEmployee -> employeeRepository.add(newEmployee)}
                                 .addBirthScript {

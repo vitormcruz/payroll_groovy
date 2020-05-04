@@ -1,5 +1,6 @@
 package com.vmc.concurrency
 
+import com.vmc.concurrency.api.ObjectChangeProvider
 import com.vmc.concurrency.api.UserModelSnapshot
 import com.vmc.concurrency.api.UserSnapshotListener
 import com.vmc.payroll.domain.api.Entity
@@ -9,16 +10,17 @@ import org.apache.commons.collections4.iterators.PeekingIterator
 
 class UserSnapshotAwareRepository<E extends Entity> extends AbstractCollection implements Repository<E>, UserSnapshotListener{
 
-    @Delegate
     private Repository<E> repository
     private Set<E> snapshotAddedObjects = []
     private Set<E> snapshotRemovedObjects = []
     private UserModelSnapshot modelSnapshot
+    private ObjectChangeProvider objectChangeProvider;
 
     UserSnapshotAwareRepository(Repository<E> repository) {
         this.repository = repository
         modelSnapshot = UserModelSnapshot.instance
-        modelSnapshot.registerUnitOfWorkerListener(this)
+        modelSnapshot.registerListener(this)
+        objectChangeProvider = new InMemmoryObjectChangeProvider();
     }
 
     @Override
@@ -39,7 +41,7 @@ class UserSnapshotAwareRepository<E extends Entity> extends AbstractCollection i
     @Override
     E get(id){
         def object = repository.get(id)
-        return object == null ? null :  modelSnapshot.add(object)
+        return object == null ? null :  modelSnapshot.manageObject(object, objectChangeProvider)
     }
 
     @Override

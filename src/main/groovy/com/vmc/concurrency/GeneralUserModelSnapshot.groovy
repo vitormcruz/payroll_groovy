@@ -1,66 +1,63 @@
 package com.vmc.concurrency
 
-import com.vmc.concurrency.api.SyncronizationBlock
+import com.vmc.concurrency.api.ObjectChangeProvider
+import com.vmc.concurrency.api.SynchronizationBlock
 import com.vmc.concurrency.api.UserModelSnapshot
 import com.vmc.concurrency.api.UserSnapshotListener
 
 class GeneralUserModelSnapshot extends UserModelSnapshot{
-    
+
     protected WeakHashMap<UserSnapshotListener, Void> observers = new WeakHashMap<UserSnapshotListener, Void>()
-    protected Set<ObjectTracker> userObjectsSnapshot = Collections.synchronizedSet(new HashSet<ObjectTracker>())
-    protected SyncronizationBlock syncronizationBlock
+    protected Set<ManagedObject> managedObjects = Collections.synchronizedSet(new HashSet())
+    protected SynchronizationBlock synchronizationBlock
 
     GeneralUserModelSnapshot() {
-        this.syncronizationBlock = new SingleVMSyncronizationBlock()
+        this.synchronizationBlock = new SingleVMSynchronizationBlock()
     }
 
-    GeneralUserModelSnapshot(SyncronizationBlock syncronizationBlock) {
-        this.syncronizationBlock = syncronizationBlock
+    GeneralUserModelSnapshot(SynchronizationBlock synchronizationBlock) {
+        this.synchronizationBlock = synchronizationBlock
     }
 
     @Override
-    def add(object) {
+    <T> T manageObject(T object, ObjectChangeProvider objectChangeProvider) {
         object.takeSnapshot()
-        def objectTracker = new ObjectTracker(object, this.&removeUnusedObjectIfNotDirty)
-        userObjectsSnapshot.add(objectTracker.trackedObjectProxy)
-        if(object instanceof UserSnapshotListener) registerUnitOfWorkerListener(object)
-        return objectTracker.getTrackingProxy()
+        def objectTracker = new ObjectTracker()
+        def objectProxy = objectTracker.createTrackedProxyFor(object)
+        def managedObject = new ManagedObject(object, objectChangeProvider)
+        managedObjects.add(managedObject)
+        ObjectUsageNotification.onObjectUnusedDo(objectProxy, {removeUnusedObjectIfNotDirty(managedObject)})
+        return objectProxy
     }
 
-    void removeUnusedObjectIfNotDirty(unusedObjectTracker){
-        if(!unusedObjectTracker.isDirty()){
-            this.@userObjectsSnapshot.remove(unusedObjectTracker)
-            unregisterUnitOfWorkerListener(unusedObjectTracker)
+    void removeUnusedObjectIfNotDirty(ManagedObject managedObject){
+        if(!managedObject.getObject().isDirty()){
+            this.@managedObjects.remove(managedObject)
         }
     }
 
-    Set getUserObjectsSnapshot() {
-       return new HashSet(this.@userObjectsSnapshot)
+    Set getManagedObjects() {
+       return new HashSet(this.@managedObjects)
     }
 
     @Override
     void save() {
-        syncronizationBlock.execute {
-            this.@userObjectsSnapshot.each { ObjectTracker trackObject ->
-                if(trackObject.subjectIsDirty()){
-                    syncronizeObjectClosure(trackObject.subject)
-                }
-            }
-
+        synchronizationBlock.execute {
+            this.@managedObjects.each {it.save()}
             this.@observers.keySet().each {it.saveCalled(this)}
         }
     }
 
     @Override
     void rollback() {
-        syncronizationBlock.execute {
+        synchronizationBlock.execute {
+            this.@managedObjects.each {it.undo()}
             this.@observers.keySet().each {it.rollbackCalled(this)}
-            this.@userObjectsSnapshot.each {it.rollback()}
         }
     }
 
     @Override
-    void registerUnitOfWorkerListener(UserSnapshotListener listener) {
+    void registerListener(UserSnapshotListener listener) {
         observers.put(listener, void)
     }
 

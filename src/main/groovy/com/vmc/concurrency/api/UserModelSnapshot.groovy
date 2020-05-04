@@ -1,5 +1,7 @@
 package com.vmc.concurrency.api
 
+//TODO transform into an interface? Create one?
+
 /**
  *
  */
@@ -15,7 +17,7 @@ abstract class UserModelSnapshot {
         currentUserModelSnapshot = userModelSnapshot
     }
 
-    abstract def add(anObject)
+    abstract <T> T manageObject(T anObject, ObjectChangeProvider objectChangeProvider)
 
     /**
      * Save all the changes made in objects of the snapshot
@@ -23,10 +25,10 @@ abstract class UserModelSnapshot {
     abstract void save()
 
     /**
-     * Rollback all changes mado into this snapshot. Objects without any further reference will be forgotten.
+     * Rollback all changes managed by this model.
      */
     abstract void rollback()
 
-    abstract void registerUnitOfWorkerListener(UserSnapshotListener listener)
+    abstract void registerListener(UserSnapshotListener listener)
     abstract void unregisterUnitOfWorkerListener(UserSnapshotListener listener)
 }

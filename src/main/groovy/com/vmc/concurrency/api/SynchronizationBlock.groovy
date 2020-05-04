@@ -1,6 +1,6 @@
 package com.vmc.concurrency.api
 
-interface SyncronizationBlock {
+interface SynchronizationBlock {
 
     void execute(Closure c)
 

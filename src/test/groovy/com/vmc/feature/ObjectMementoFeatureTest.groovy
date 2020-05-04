@@ -146,6 +146,8 @@ class ObjectMementoFeatureTest {
         assert someObject.attributeC == 10
     }
 
+    //TODO add scenarios with commit action
+
     static class SomeObject {
         def attributeA = "test"
         def attributeB = [1, 2, 3]

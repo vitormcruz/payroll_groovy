@@ -13,7 +13,7 @@ import static java.util.Optional.ofNullable
 
 class ObjectMementoExtensions {
 
-    static private WeakHashMap<Object, Caretaker> caretakerOfObject = new WeakHashMap()
+    static private Map<Object, Caretaker> caretakerOfObject = new IdentityHashMap<>()
     static private ModelMapper modelMapper = new ModelMapper();
 
     static {
@@ -21,6 +21,8 @@ class ObjectMementoExtensions {
                                       .setFieldMatchingEnabled(true)
     }
 
+    //TODO Remove takeSnapshot and roll back from here, put on user model
+    //TODO Add commit
     static void takeSnapshot(anObject){
         if(anObject instanceof Class) throw new UnsupportedOperationException("Cannot make a memento of a class")
         caretakerOfObject.putIfAbsent(anObject, new Caretaker(anObject))

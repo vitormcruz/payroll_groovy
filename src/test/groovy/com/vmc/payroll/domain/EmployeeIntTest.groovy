@@ -1,5 +1,7 @@
 package com.vmc.payroll.domain
 
+import com.vmc.concurrency.GeneralUserModelSnapshot
+import com.vmc.concurrency.api.UserModelSnapshot
 import com.vmc.objectMother.ObjectMother
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.attachment.SalesReceipt
@@ -15,6 +17,7 @@ import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.testPreparation.IntegrationTestBase
 import org.joda.time.DateTime
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 
 import static groovy.test.GroovyAssert.shouldFail
@@ -28,6 +31,12 @@ class EmployeeIntTest extends IntegrationTestBase {
     private Employee employee3
     private Employee employee4
     private Employee employee5
+
+    @BeforeClass
+    static void setUpAll(){
+        def userModelSnapshot = new GeneralUserModelSnapshot()
+        UserModelSnapshot.load(userModelSnapshot)
+    }
 
     @Before
     void setUp(){

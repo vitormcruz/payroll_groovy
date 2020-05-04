@@ -6,17 +6,14 @@ import com.vmc.payroll.domain.api.Repository
 
 class CommonInMemoryRepositoryVersion2<E extends Entity> extends AbstractCollection<E> implements Repository<E> {
 
-    @Delegate
-    protected Collection<E> entities
-    protected Map entitiesById
+    protected Map<Object, E> entitiesById
 
     CommonInMemoryRepositoryVersion2() {
         entitiesById = new HashMap()
-        entities = entitiesById.values()
     }
 
     @Override
-    E get(Object id) {
+    E get(id) {
         return entitiesById.get(id)
     }
 
@@ -38,5 +35,15 @@ class CommonInMemoryRepositoryVersion2<E extends Entity> extends AbstractCollect
     void clear() {
         super.clear()
         entitiesById.clear()
+    }
+
+    @Override
+    int size() {
+        return entitiesById.values().size()
+    }
+
+    @Override
+    Iterator<E> iterator() {
+        return entitiesById.values().iterator()
     }
 }
