@@ -2,12 +2,12 @@ package com.vmc.payroll.external.config
 
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.vmc.concurrency.GeneralUserModel
-import com.vmc.concurrency.UserSnapshotAwareRepository
-import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepositoryVersion2
+import com.vmc.userModel.GeneralUserModel
+import com.vmc.userModel.UserModelAwareRepository
+import com.vmc.userModel.api.UserModel
 
 import java.util.concurrent.Executor
 
@@ -36,7 +36,7 @@ class ProductionServiceLocator extends ServiceLocator{
 
     @Override
     Repository<Employee> loadEmployeeRepository() {
-        return new UserSnapshotAwareRepository<Employee>(new CommonInMemoryRepositoryVersion2<Employee>())
+        return new UserModelAwareRepository<Employee>(new CommonInMemoryRepositoryVersion2<Employee>())
     }
 
     @Override

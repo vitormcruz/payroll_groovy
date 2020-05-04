@@ -1,4 +1,4 @@
-package com.vmc.feature
+package com.vmc.objectMemento.feature
 
 import org.junit.Test
 

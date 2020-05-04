@@ -1,5 +1,6 @@
-package com.vmc.concurrency.memento
+package com.vmc.objectMemento
 
+//TODO add tests
 class Caretaker {
 
     private Object anObject

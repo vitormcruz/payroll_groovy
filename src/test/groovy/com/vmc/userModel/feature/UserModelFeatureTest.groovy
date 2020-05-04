@@ -1,10 +1,12 @@
-package com.vmc.feature
+package com.vmc.userModel.feature
 
-import com.vmc.concurrency.GeneralUserModel
-import com.vmc.concurrency.UserSnapshotAwareRepository
-import com.vmc.concurrency.api.UserModel
+
 import com.vmc.payroll.domain.api.Entity
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepositoryVersion2
+import com.vmc.userModel.DummyEntity
+import com.vmc.userModel.GeneralUserModel
+import com.vmc.userModel.UserModelAwareRepository
+import com.vmc.userModel.api.UserModel
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -28,7 +30,7 @@ class UserModelFeatureTest {
 
     @Test
     void "Add a new entity into a repository and don't save the model snapshot"(){
-        def objectRepository = new UserSnapshotAwareRepository<DummyEntity>(new CommonInMemoryRepositoryVersion2<DummyEntity>());
+        def objectRepository = new UserModelAwareRepository<DummyEntity>(new CommonInMemoryRepositoryVersion2<DummyEntity>());
         objectRepository.add(new DummyEntity("test"))
         assert !objectRepository.isEmpty()
         assert ["test"] as Set == objectRepository.collect {it.getId()} as Set
@@ -37,7 +39,7 @@ class UserModelFeatureTest {
 
     @Test
     void "Add a new entity into a repository and save the model snapshot"(){
-        def objectRepository = new UserSnapshotAwareRepository<DummyEntity>(new CommonInMemoryRepositoryVersion2<DummyEntity>());
+        def objectRepository = new UserModelAwareRepository<DummyEntity>(new CommonInMemoryRepositoryVersion2<DummyEntity>());
         objectRepository.add(new DummyEntity("test"))
         userModelSnapshot.save()
         assert ["test"] as Set == objectRepository.collect {it.getId()} as Set
@@ -46,7 +48,7 @@ class UserModelFeatureTest {
 
     @Test
     void "Add a new entity into a repository but rollback the model snapshot"(){
-        def objectRepository = new UserSnapshotAwareRepository<DummyEntity>(new CommonInMemoryRepositoryVersion2<DummyEntity>());
+        def objectRepository = new UserModelAwareRepository<DummyEntity>(new CommonInMemoryRepositoryVersion2<DummyEntity>());
         objectRepository.add(new DummyEntity("test"))
         userModelSnapshot.rollback()
         assert objectRepository.isEmpty()
@@ -56,7 +58,7 @@ class UserModelFeatureTest {
     @Test
     void "Remove an entity from a repository and don't save the model snapshot"(){
         def objectToRemove = new DummyEntity("test")
-        UserSnapshotAwareRepository<Entity> objectRepository = createRepositoryWith(objectToRemove)
+        UserModelAwareRepository<Entity> objectRepository = createRepositoryWith(objectToRemove)
         objectRepository.remove(objectToRemove)
         assert objectRepository.isEmpty()
         assert ["test"] as Set == objectRepository.savedObjects().collect {it.getId()} as Set
@@ -65,7 +67,7 @@ class UserModelFeatureTest {
     @Test
     void "Remove an entity from a repository and save the model snapshot"(){
         def objectToRemove = new DummyEntity("test")
-        UserSnapshotAwareRepository<Entity> objectRepository = createRepositoryWith(objectToRemove)
+        UserModelAwareRepository<Entity> objectRepository = createRepositoryWith(objectToRemove)
         objectRepository.remove(objectToRemove)
         userModelSnapshot.save()
         assert objectRepository.isEmpty()
@@ -75,7 +77,7 @@ class UserModelFeatureTest {
     @Test
     void "Remove an entity from a repository, but rollback the model snapshot"(){
         def objectToRemove = new DummyEntity("test")
-        UserSnapshotAwareRepository<Entity> objectRepository = createRepositoryWith(objectToRemove)
+        UserModelAwareRepository<Entity> objectRepository = createRepositoryWith(objectToRemove)
         objectRepository.remove(objectToRemove)
         userModelSnapshot.rollback()
         assert ["test"] as Set == objectRepository.collect {it.getId()} as Set
@@ -84,7 +86,7 @@ class UserModelFeatureTest {
 
     @Test
     void "Change an entiy obtained from a repository, but rollback the model snapshot"(){
-        UserSnapshotAwareRepository<Entity> objectRepository = createRepositoryWith(new DummyEntity("id", "test"))
+        UserModelAwareRepository<Entity> objectRepository = createRepositoryWith(new DummyEntity("id", "test"))
         def objectToChange = objectRepository.get("id")
         objectToChange.field1 = "Changed"
         userModelSnapshot.rollback()
@@ -97,7 +99,7 @@ class UserModelFeatureTest {
 
     @Test
     void "Add a new entity into a repository that already contains it and don't save the model snapshot"(){
-        def objectRepository = new UserSnapshotAwareRepository<DummyEntity>(new CommonInMemoryRepositoryVersion2<DummyEntity>());
+        def objectRepository = new UserModelAwareRepository<DummyEntity>(new CommonInMemoryRepositoryVersion2<DummyEntity>());
         def addedObject = new DummyEntity("test")
         objectRepository.add(addedObject)
         objectRepository.add(addedObject)
@@ -107,7 +109,7 @@ class UserModelFeatureTest {
 
     @Test
     void "Add a new entity into a repository that already contains it and save the model snapshot"(){
-        def objectRepository = new UserSnapshotAwareRepository<DummyEntity>(new CommonInMemoryRepositoryVersion2<DummyEntity>());
+        def objectRepository = new UserModelAwareRepository<DummyEntity>(new CommonInMemoryRepositoryVersion2<DummyEntity>());
         def addedObject = new DummyEntity("test")
         objectRepository.add(addedObject)
         userModelSnapshot.save()
@@ -119,11 +121,11 @@ class UserModelFeatureTest {
 
     //Must have error handling in notification also
 
-    //If save is used always, the UserSnapshotAwareRepository should behave like any collection ** Add Tests to guarantee this **
+    //If save is used always, the UserModelAwareRepository should behave like any collection ** Add Tests to guarantee this **
 
 
-    UserSnapshotAwareRepository<DummyEntity> createRepositoryWith(Entity... entity) {
-        def objectRepository = new UserSnapshotAwareRepository<Entity>(new CommonInMemoryRepositoryVersion2<Entity>());
+    UserModelAwareRepository<DummyEntity> createRepositoryWith(Entity... entity) {
+        def objectRepository = new UserModelAwareRepository<Entity>(new CommonInMemoryRepositoryVersion2<Entity>());
         objectRepository.addAll(entity)
         userModelSnapshot.save()
         return objectRepository

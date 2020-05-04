@@ -1,12 +1,14 @@
-package com.vmc.concurrency
+package com.vmc.userModel
 
-import com.vmc.concurrency.api.ObjectChangeProvider
-import com.vmc.concurrency.api.UserSnapshotListener
+
+import com.vmc.objectMemento.ObjectChangeProvider
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.testPreparation.ServiceLocatorForTest
+import com.vmc.userModel.api.UserModelListener
 import org.junit.Test
 
 import static org.mockito.Mockito.mock
+
 //TODO adjust all naming to UserModel, i think it is better for it to have a similar behavior of a memento.
 class UserModelUnitTest {
 
@@ -84,7 +86,7 @@ class UserModelUnitTest {
     void "Test notification of save for one listener"(){
         def modelSnapshot = new GeneralUserModel()
         def notificationCalled = false
-        def modelSnapshotListener = { notificationCalled = true } as UserSnapshotListener
+        def modelSnapshotListener = { notificationCalled = true } as UserModelListener
         modelSnapshot.registerListener(modelSnapshotListener)
         modelSnapshot.save()
         assert notificationCalled
@@ -95,8 +97,8 @@ class UserModelUnitTest {
         def modelSnapshot = new GeneralUserModel()
         def notification1Called = false
         def notification2Called = false
-        def modelSnapshotListener1 = { notification1Called = true } as UserSnapshotListener
-        def modelSnapshotListener2 = { notification2Called = true } as UserSnapshotListener
+        def modelSnapshotListener1 = { notification1Called = true } as UserModelListener
+        def modelSnapshotListener2 = { notification2Called = true } as UserModelListener
         modelSnapshot.registerListener(modelSnapshotListener1)
         modelSnapshot.registerListener(modelSnapshotListener2)
         modelSnapshot.save()
@@ -108,8 +110,8 @@ class UserModelUnitTest {
         def modelSnapshot = new GeneralUserModel()
         def notification1Called = false
         def notification2Called = false
-        def modelSnapshotListener1 = { notification1Called = true } as UserSnapshotListener
-        def modelSnapshotListener2 = { notification2Called = true } as UserSnapshotListener
+        def modelSnapshotListener1 = { notification1Called = true } as UserModelListener
+        def modelSnapshotListener2 = { notification2Called = true } as UserModelListener
         modelSnapshot.registerListener(modelSnapshotListener1)
         modelSnapshot.registerListener(modelSnapshotListener2)
         modelSnapshot.unregisterListener(modelSnapshotListener2)
@@ -120,7 +122,7 @@ class UserModelUnitTest {
     @Test
     void "Test unused notification"(){
         def modelSnapshot = new GeneralUserModel()
-        modelSnapshot.registerListener({ } as UserSnapshotListener)
+        modelSnapshot.registerListener({ } as UserModelListener)
         System.gc()
         assertWaitingSuccess({assert modelSnapshot.getListeners().isEmpty()})
     }

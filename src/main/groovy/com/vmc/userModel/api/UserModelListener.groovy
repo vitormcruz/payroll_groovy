@@ -1,7 +1,7 @@
-package com.vmc.concurrency.api
+package com.vmc.userModel.api
 
 
-interface UserSnapshotListener {
+interface UserModelListener {
 
     void saveCalled(UserModel unitOfWork)
     void rollbackCalled(UserModel unitOfWork)

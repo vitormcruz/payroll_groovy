@@ -1,4 +1,4 @@
-package com.vmc.concurrency
+package com.vmc.userModel
 
 import com.vmc.payroll.external.config.ServiceLocator
 

@@ -1,4 +1,4 @@
-package com.vmc.feature
+package com.vmc.userModel
 
 import com.vmc.payroll.domain.api.EntityCommonTrait
 

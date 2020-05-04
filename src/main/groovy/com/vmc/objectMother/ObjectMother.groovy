@@ -6,7 +6,8 @@ import groovy.transform.stc.FirstParam
 import static com.vmc.validationNotification.Validation.validateNewObject
 
 /**
- * I am a generic object mother that can be used also as a generic build. I can only be used to classes that have a default constructor.
+ * I am a generic object mother that can be used also as a generic build. I can only be used to classes that have a
+ * default constructor.
  */
 class ObjectMother<E> {
 

@@ -1,9 +1,9 @@
-package com.vmc.concurrency.extensions.instance.java.lang
+package com.vmc.userModel.extensions.instance.java.lang
 
 import com.cedarsoftware.util.io.JsonReader
 import com.cedarsoftware.util.io.JsonWriter
-import com.vmc.concurrency.memento.Caretaker
-import com.vmc.concurrency.memento.Memento
+import com.vmc.objectMemento.Caretaker
+import com.vmc.objectMemento.Memento
 import org.modelmapper.ModelMapper
 import org.modelmapper.config.Configuration
 

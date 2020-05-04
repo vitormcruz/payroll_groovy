@@ -1,9 +1,9 @@
 package com.vmc.payroll.external.presentation.vaadin.view.employee
 
 import com.vaadin.ui.VerticalLayout
-import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
+import com.vmc.userModel.api.UserModel
 
 class EmployeeView extends VerticalLayout {
 

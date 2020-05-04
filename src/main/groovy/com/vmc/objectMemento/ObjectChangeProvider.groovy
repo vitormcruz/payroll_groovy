@@ -1,4 +1,4 @@
-package com.vmc.concurrency.api
+package com.vmc.objectMemento
 
 //TODO reorganize packages, concurrency doen't make sense
 interface ObjectChangeProvider {

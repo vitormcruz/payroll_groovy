@@ -1,11 +1,11 @@
 package com.vmc.payroll.external.config
 
 import com.vaadin.server.VaadinServlet
-import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.delivery.Mail
 import com.vmc.payroll.domain.payment.type.Monthly
+import com.vmc.userModel.api.UserModel
 import com.vmc.validationNotification.servlet.ValidationNotifierFilter
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.FilterHolder

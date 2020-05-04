@@ -5,12 +5,12 @@ import com.vaadin.ui.Button
 import com.vaadin.ui.FormLayout
 import com.vaadin.ui.Notification
 import com.vaadin.ui.VerticalLayout
-import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
 import com.vmc.payroll.domain.payment.type.api.PaymentType
 import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
+import com.vmc.userModel.api.UserModel
 import com.vmc.validationNotification.vaadin.BinderDecoratorForValidationNotification
 
 import static com.vaadin.ui.Notification.show

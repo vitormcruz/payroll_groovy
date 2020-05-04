@@ -1,14 +1,15 @@
-package com.vmc.concurrency
+package com.vmc.userModel
 
-import com.vmc.concurrency.api.ObjectChangeProvider
-import com.vmc.concurrency.api.UserModel
-import com.vmc.concurrency.api.UserSnapshotListener
+import com.vmc.objectMemento.InMemoryObjectChangeProvider
+import com.vmc.objectMemento.ObjectChangeProvider
 import com.vmc.payroll.domain.api.Entity
 import com.vmc.payroll.domain.api.Repository
+import com.vmc.userModel.api.UserModel
+import com.vmc.userModel.api.UserModelListener
 import org.apache.commons.collections4.IteratorUtils
 import org.apache.commons.collections4.iterators.PeekingIterator
 
-class UserSnapshotAwareRepository<E extends Entity> extends AbstractCollection implements Repository<E>, UserSnapshotListener{
+class UserModelAwareRepository<E extends Entity> extends AbstractCollection implements Repository<E>, UserModelListener{
 
     private Repository<E> repository
     private Set<E> snapshotAddedObjects = []
@@ -16,11 +17,11 @@ class UserSnapshotAwareRepository<E extends Entity> extends AbstractCollection i
     private UserModel modelSnapshot
     private ObjectChangeProvider objectChangeProvider;
 
-    UserSnapshotAwareRepository(Repository<E> repository) {
+    UserModelAwareRepository(Repository<E> repository) {
         this.repository = repository
         modelSnapshot = UserModel.instance
         modelSnapshot.registerListener(this)
-        objectChangeProvider = new InMemmoryObjectChangeProvider();
+        objectChangeProvider = new InMemoryObjectChangeProvider();
     }
 
     @Override

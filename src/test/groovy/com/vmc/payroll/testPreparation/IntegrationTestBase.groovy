@@ -1,8 +1,9 @@
 package com.vmc.payroll.testPreparation
 
-import com.vmc.concurrency.api.UserModel
+
 import com.vmc.payroll.external.config.DatabaseCleaner
 import com.vmc.payroll.external.config.ServiceLocator
+import com.vmc.userModel.api.UserModel
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.Before
 

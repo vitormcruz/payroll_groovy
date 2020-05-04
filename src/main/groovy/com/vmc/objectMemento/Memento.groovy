@@ -1,8 +1,9 @@
-package com.vmc.concurrency.memento
+package com.vmc.objectMemento
 
-import java.security.MessageDigest
+
 import java.time.LocalDateTime
 
+//TODO add tests
 class Memento {
 
     private Object anObject

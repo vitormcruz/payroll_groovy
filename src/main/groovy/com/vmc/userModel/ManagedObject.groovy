@@ -1,6 +1,7 @@
-package com.vmc.concurrency
+package com.vmc.userModel
 
-import com.vmc.concurrency.api.ObjectChangeProvider
+
+import com.vmc.objectMemento.ObjectChangeProvider
 
 class ManagedObject {
     private Object object

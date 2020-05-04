@@ -1,8 +1,6 @@
-package com.vmc.concurrency
+package com.vmc.objectMemento
 
-import com.vmc.concurrency.api.ObjectChangeProvider
-
-class InMemmoryObjectChangeProvider implements ObjectChangeProvider{
+class InMemoryObjectChangeProvider implements ObjectChangeProvider{
 
     @Override
     void doOnCommit(Object anObject) {

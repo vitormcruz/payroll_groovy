@@ -1,4 +1,4 @@
-package com.vmc.concurrency
+package com.vmc.userModel
 
 import com.vmc.DynamicClassFactory
 import org.apache.commons.lang3.StringUtils
@@ -49,7 +49,7 @@ class ObjectProxyFactory {
                 public subject
             
                 def invokeMethod(String methodName, Object args) {
-                    if(com.vmc.concurrency.ObjectProxyFactory.META_LANG_METHODS.contains(methodName)){
+                    if(${ObjectProxyFactory.getName()}.META_LANG_METHODS.contains(methodName)){
                         return this.getMetaMethod(methodName, args).invoke(this, args)
                     }
             

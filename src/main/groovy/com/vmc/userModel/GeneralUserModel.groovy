@@ -1,14 +1,16 @@
-package com.vmc.concurrency
+package com.vmc.userModel
 
-import com.vmc.concurrency.api.ObjectChangeProvider
-import com.vmc.concurrency.api.UserModel
-import com.vmc.concurrency.api.UserSnapshotListener
 
-import static com.vmc.concurrency.ObjectUsageNotification.onObjectUnusedDo
+import com.vmc.objectMemento.ObjectChangeProvider
+import com.vmc.userModel.api.UserModel
+import com.vmc.userModel.api.UserModelListener
+
+import static com.vmc.userModel.ObjectUsageNotification.onObjectUnusedDo
+
 
 class GeneralUserModel extends UserModel{
 
-    protected WeakHashMap<UserSnapshotListener, Void> observers = new WeakHashMap<UserSnapshotListener, Void>()
+    protected WeakHashMap<UserModelListener, Void> observers = new WeakHashMap<UserModelListener, Void>()
     protected Set<ManagedObject> managedObjects = Collections.synchronizedSet(new HashSet())
 
     //TODO remove instantiation from here and add to the main class
@@ -47,16 +49,16 @@ class GeneralUserModel extends UserModel{
     }
 
     @Override
-    void registerListener(UserSnapshotListener listener) {
+    void registerListener(UserModelListener listener) {
         observers.put(listener, void)
     }
 
     @Override
-    void unregisterListener(UserSnapshotListener listener) {
+    void unregisterListener(UserModelListener listener) {
         observers.remove(listener)
     }
 
-    Set<UserSnapshotListener> getListeners() {
+    Set<UserModelListener> getListeners() {
         observers.keySet()
     }
 }

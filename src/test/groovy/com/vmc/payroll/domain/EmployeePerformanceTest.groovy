@@ -1,8 +1,6 @@
 package com.vmc.payroll.domain
 
 import com.github.javafaker.Faker
-import com.vmc.concurrency.GeneralUserModel
-import com.vmc.concurrency.api.UserModel
 import com.vmc.objectMother.ObjectMother
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.delivery.AccountTransfer
@@ -15,6 +13,8 @@ import com.vmc.payroll.domain.payment.type.Hourly
 import com.vmc.payroll.domain.payment.type.Monthly
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.testPreparation.IntegrationTestBase
+import com.vmc.userModel.GeneralUserModel
+import com.vmc.userModel.api.UserModel
 import org.junit.BeforeClass
 import org.junit.Test
 

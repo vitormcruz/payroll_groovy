@@ -1,9 +1,9 @@
 package com.vmc.payroll.external.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
+import com.vmc.userModel.api.UserModel
 
 import java.util.concurrent.Executor
 

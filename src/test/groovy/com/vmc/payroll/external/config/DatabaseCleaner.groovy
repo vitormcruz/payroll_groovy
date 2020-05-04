@@ -1,7 +1,8 @@
 package com.vmc.payroll.external.config
 
-import com.vmc.concurrency.api.UserModel
+
 import com.vmc.payroll.domain.api.Repository
+import com.vmc.userModel.api.UserModel
 
 class DatabaseCleaner {
     private UserModel model

@@ -5,11 +5,11 @@ import com.vaadin.annotations.Title
 import com.vaadin.server.VaadinRequest
 import com.vaadin.ui.UI
 import com.vaadin.ui.VerticalLayout
-import com.vmc.concurrency.api.UserModel
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.external.presentation.vaadin.view.employee.EmployeeView
+import com.vmc.userModel.api.UserModel
 
 @Title("Payroll")
 @Theme("valo")

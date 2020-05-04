@@ -1,9 +1,10 @@
 package com.vmc.payroll.external.config
 
-import com.vmc.concurrency.GeneralUserModel
+
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepositoryVersion1
 import com.vmc.payroll.external.presentation.webservice.spark.EmployeeWebServiceController
+import com.vmc.userModel.GeneralUserModel
 import org.apache.http.HttpStatus
 import spark.servlet.SparkApplication
 

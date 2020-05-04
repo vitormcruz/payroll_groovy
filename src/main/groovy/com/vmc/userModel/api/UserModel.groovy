@@ -1,4 +1,6 @@
-package com.vmc.concurrency.api
+package com.vmc.userModel.api
+
+import com.vmc.objectMemento.ObjectChangeProvider
 
 //TODO transform into an interface? Create one?
 
@@ -9,6 +11,7 @@ abstract class UserModel {
 
     private static currentUserModelSnapshot
 
+    //TODO remove those get instances and put instatiation on main
     static UserModel getInstance(){
         return currentUserModelSnapshot
     }
@@ -29,6 +32,6 @@ abstract class UserModel {
      */
     abstract void rollback()
 
-    abstract void registerListener(UserSnapshotListener listener)
-    abstract void unregisterListener(UserSnapshotListener listener)
+    abstract void registerListener(UserModelListener listener)
+    abstract void unregisterListener(UserModelListener listener)
 }
