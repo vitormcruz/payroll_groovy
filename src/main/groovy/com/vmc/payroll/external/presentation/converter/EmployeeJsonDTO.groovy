@@ -2,9 +2,9 @@ package com.vmc.payroll.external.presentation.converter
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.vmc.payroll.domain.Employee
-import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.domain.payment.type.api.PaymentType
-import org.apache.commons.lang.StringUtils
+import com.vmc.payroll.external.config.ServiceLocator
+import org.apache.commons.lang3.StringUtils
 import org.reflections.Reflections
 
 import static com.google.common.base.Preconditions.checkArgument

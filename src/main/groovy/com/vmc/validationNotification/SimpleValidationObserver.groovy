@@ -5,8 +5,8 @@ import com.google.common.collect.Maps
 import com.google.common.collect.Multimaps
 import com.google.common.collect.SetMultimap
 import com.vmc.validationNotification.api.ValidationObserver
-import org.apache.commons.lang.ClassUtils
-import org.apache.commons.lang.StringUtils
+import org.apache.commons.lang3.ClassUtils
+import org.apache.commons.lang3.StringUtils
 
 class SimpleValidationObserver implements ValidationObserver{
 
