@@ -1,12 +1,9 @@
 package com.vmc.payroll.external.presentation.converter
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.cedarsoftware.util.io.JsonWriter
 import com.vmc.payroll.domain.Employee
-import com.vmc.payroll.external.config.ServiceLocator
 
 class ObjectJsonConversionExtensions {
-
-    private static ObjectMapper mapper = ServiceLocator.instance.mapper
 
     static String asJson(Object object){
         object.asJsonConverter().toJson()
@@ -30,7 +27,7 @@ class ObjectJsonConversionExtensions {
 
         @Override
         String toJson() {
-            return mapper.writeValueAsString(object)
+            return JsonWriter.objectToJson(object)
         }
     }
 }

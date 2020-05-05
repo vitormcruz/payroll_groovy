@@ -1,6 +1,6 @@
 package com.vmc.payroll.external.presentation.webservice.spark
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.cedarsoftware.util.io.JsonWriter
 import com.google.common.collect.SetMultimap
 import com.vmc.validationNotification.SimpleValidationObserver
 import com.vmc.validationNotification.api.ValidationObserver
@@ -12,8 +12,6 @@ class SparkControllerValidationListener extends SimpleValidationObserver impleme
     def private fillResponseStrategy = responseOkStrategy
     def private issueErrorStrategy = issueFirstErrorStrategy
     def body
-
-    private ObjectMapper mapper = new ObjectMapper()
 
     SparkControllerValidationListener() {
     }
@@ -53,11 +51,11 @@ class SparkControllerValidationListener extends SimpleValidationObserver impleme
 
     def private responseOkStrategy = {Response res ->
         res.status(HttpStatus.SC_OK)
-        res.body(mapper.writeValueAsString(body))
+        res.body(JsonWriter.objectToJson(body))
     }
 
     def private responseFailStrategy = {Response res ->
         res.status(HttpStatus.SC_BAD_REQUEST)
-        res.body(mapper.writeValueAsString(super.errorsByContext))
+        res.body(JsonWriter.objectToJson(super.errorsByContext))
     }
 }

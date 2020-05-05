@@ -1,5 +1,6 @@
 package com.vmc.payroll.domain.unionAssociation
 
+
 import com.vmc.payroll.domain.payment.attachment.api.PaymentAttachment
 import com.vmc.payroll.domain.payment.attachment.api.UnionCharge
 import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation

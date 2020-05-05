@@ -1,11 +1,10 @@
 package com.vmc.payroll.testPreparation
 
-
 import com.vmc.payroll.external.config.DatabaseCleaner
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.userModel.api.UserModel
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 
 abstract class IntegrationTestBase extends ValidationNotificationTestSetup{
 
@@ -16,7 +15,7 @@ abstract class IntegrationTestBase extends ValidationNotificationTestSetup{
         ServiceLocator.load(ServiceLocatorForTest)
     }
 
-    @Before
+    @BeforeEach
     void setUp(){
         super.setUp()
         databaseCleaner.cleanDatabase()

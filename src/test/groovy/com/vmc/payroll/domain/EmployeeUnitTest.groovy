@@ -1,21 +1,19 @@
 package com.vmc.payroll.domain
 
+import com.vmc.payroll.domain.payment.attachment.api.PaymentAttachment
 import com.vmc.payroll.domain.payment.delivery.AccountTransfer
 import com.vmc.payroll.domain.payment.delivery.Mail
-import com.vmc.payroll.domain.payment.attachment.api.PaymentAttachment
 import com.vmc.payroll.domain.payment.type.Commission
 import com.vmc.payroll.domain.payment.type.Monthly
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
-import org.junit.Before
-import org.junit.Test
-
-import static org.mockito.Mockito.mock
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class EmployeeUnitTest extends ValidationNotificationTestSetup{
 
     private Employee employeeForChange
 
-    @Before
+    @BeforeEach
     void setUp(){
         super.setUp()
         employeeForChange = createDefaultEmployee()
@@ -88,9 +86,9 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
 
     @Test
     void "Register as a payment attachment listener"(){
-        def previousAddedPaymentAttachment = mock(PaymentAttachment)
+        def previousAddedPaymentAttachment = {} as PaymentAttachment
         employeeForChange.postPaymentAttachment(previousAddedPaymentAttachment)
-        def newPaymentAttachments = [mock(PaymentAttachment), mock(PaymentAttachment)]
+        def newPaymentAttachments = [{} as PaymentAttachment, {}  as PaymentAttachment]
         def actualPaymentAttachments = []
         employeeForChange.registerAsPaymentAttachmentPostListener([postPaymentAttachment : {actualPaymentAttachments.add(it)}] as Object)
         newPaymentAttachments.each {employeeForChange.postPaymentAttachment(it)}
@@ -100,23 +98,23 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
 
     @Test
     void "De-register a payment attachment listener"(){
-        def expectedPaymentAttachments = [mock(PaymentAttachment), mock(PaymentAttachment)]
+        def expectedPaymentAttachments = [[] as PaymentAttachment, [] as PaymentAttachment]
         def actualPaymentAttachments = []
         def listenerFake = createPaymentAttachmentListenerFake(actualPaymentAttachments)
         employeeForChange.registerAsPaymentAttachmentPostListener(listenerFake)
         expectedPaymentAttachments.each {employeeForChange.postPaymentAttachment(it)}
         employeeForChange.deRegisterAsPaymentAttachmentPostListener(listenerFake)
-        employeeForChange.postPaymentAttachment(mock(PaymentAttachment))
+        employeeForChange.postPaymentAttachment([] as PaymentAttachment)
         assert expectedPaymentAttachments as Set == actualPaymentAttachments as Set
     }
 
     @Test
     void "De-register a payment attachment listener when it is garbage collected"(){
-        def expectedPaymentAttachments = [mock(PaymentAttachment), mock(PaymentAttachment)]
+        def expectedPaymentAttachments = [[] as PaymentAttachment, [] as PaymentAttachment]
         def actualPaymentAttachments = []
         addAttachmentsWithMethodContextedListener(actualPaymentAttachments, expectedPaymentAttachments)
         System.gc() //Force collection of the previous added listener
-        employeeForChange.postPaymentAttachment(mock(PaymentAttachment))
+        employeeForChange.postPaymentAttachment([] as PaymentAttachment)
         assert expectedPaymentAttachments as Set == actualPaymentAttachments as Set
     }
 

@@ -1,10 +1,11 @@
 package com.vmc.payroll.domain.payment.attachment
 
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
-import org.joda.time.DateTime
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
-import static junit.framework.TestCase.fail
+import java.time.LocalDateTime
+
+import static org.junit.jupiter.api.Assertions.fail
 
 class TimeCardUnitTest extends ValidationNotificationTestSetup {
 
@@ -18,7 +19,7 @@ class TimeCardUnitTest extends ValidationNotificationTestSetup {
 
     @Test
     void "Create a time card providing valid values to required fields"(){
-        def expectedDateTime = new DateTime()
+        def expectedDateTime = LocalDateTime.now()
         def timeCard = TimeCard.newTimeCard(expectedDateTime, 10)
         assert timeCard.date == expectedDateTime
         assert timeCard.hours == 10

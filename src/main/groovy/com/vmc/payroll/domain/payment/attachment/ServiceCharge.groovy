@@ -1,17 +1,18 @@
 package com.vmc.payroll.domain.payment.attachment
 
 import com.vmc.payroll.domain.payment.attachment.api.UnionCharge
-import org.joda.time.DateTime
+
+import java.time.LocalDateTime
 
 import static com.vmc.validationNotification.Validation.validate
 import static com.vmc.validationNotification.Validation.validateNewObject
 
 class ServiceCharge implements UnionCharge{
 
-    protected DateTime date
+    protected LocalDateTime date
     protected amount
 
-    static ServiceCharge newServiceCharge(DateTime date, amount){
+    static ServiceCharge newServiceCharge(LocalDateTime date, amount){
         return validateNewObject(ServiceCharge, {new ServiceCharge(date, amount)})
     }
 
@@ -19,16 +20,16 @@ class ServiceCharge implements UnionCharge{
     ServiceCharge() {
     }
 
-    ServiceCharge(DateTime date, amount) {
+    ServiceCharge(LocalDateTime date, amount) {
         validate {initialize(date, amount)}
     }
 
-    void initialize(DateTime date, amount) {
+    void initialize(LocalDateTime date, amount) {
         date != null ? this.@date = date : issueError("payroll.servicecharge.date.required", [property: "date"])
         amount != null ? this.@amount = amount : issueError("payroll.servicecharge.amount.required", [property: "amount"])
     }
 
-    DateTime getDate() {
+    LocalDateTime getDate() {
         return date
     }
 

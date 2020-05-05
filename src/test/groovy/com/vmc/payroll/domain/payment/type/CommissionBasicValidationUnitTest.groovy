@@ -1,7 +1,7 @@
 package com.vmc.payroll.domain.payment.type
 
 import com.vmc.payroll.domain.Employee
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class CommissionBasicValidationUnitTest extends MonthlyBasicValidationUnitTest{
 

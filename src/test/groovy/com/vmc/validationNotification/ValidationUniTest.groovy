@@ -1,12 +1,11 @@
 package com.vmc.validationNotification
 
 import com.google.common.collect.SetMultimap
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import static com.vmc.validationNotification.Validation.validate
 import static com.vmc.validationNotification.Validation.validateNewObject
 import static groovy.test.GroovyAssert.shouldFail
-import static org.junit.Assert.fail
 
 class ValidationUniTest {
 

@@ -2,7 +2,7 @@ package com.vmc.objectMother.imp
 
 import com.vmc.objectMother.ObjectMother
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import static groovy.test.GroovyAssert.shouldFail
 

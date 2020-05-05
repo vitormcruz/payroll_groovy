@@ -2,7 +2,7 @@ package com.vmc.payroll.domain.payment.type
 
 import com.vmc.payroll.domain.Employee
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class MonthlyBasicValidationUnitTest extends ValidationNotificationTestSetup{
 

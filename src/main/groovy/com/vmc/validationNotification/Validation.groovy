@@ -6,8 +6,9 @@ import static GenericNullObjectBuilder.newNullObjectOf
 class Validation extends SimpleValidationObserver {
 
     /**
-     * Validates a new object construction made by the aClosure parameter. Returns a generated NullObject subtype of classValidated if validation fail, or the object returned by
-     * aClosure, which must return an object of the classValidated type.
+     * Validates a new object construction made by the aClosure parameter. Returns a generated NullObject subtype of
+     * classValidated if validation fail, or the object returned by aClosure, which must return an object of the
+     * classValidated type.
      */
     static <R> R validateNewObject(Class<R> classValidated, Closure<R> aClosure) {
         failIfCantCreateNullObject(classValidated)

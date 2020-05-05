@@ -1,17 +1,18 @@
 package com.vmc.payroll.domain.payment.attachment
 
 import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
-import org.joda.time.DateTime
+
+import java.time.LocalDateTime
 
 import static com.vmc.validationNotification.Validation.validate
 import static com.vmc.validationNotification.Validation.validateNewObject
 
 class TimeCard implements WorkDoneProof{
 
-    protected DateTime date
+    protected LocalDateTime date
     protected Integer hours
 
-    static TimeCard newTimeCard(DateTime date, Integer hours){
+    static TimeCard newTimeCard(LocalDateTime date, Integer hours){
         return validateNewObject(TimeCard, {new TimeCard(date, hours)})
     }
 
@@ -19,16 +20,16 @@ class TimeCard implements WorkDoneProof{
     TimeCard() {
     }
 
-    TimeCard(DateTime date, Integer hours) {
+    TimeCard(LocalDateTime date, Integer hours) {
         validate { initialize(date, hours) }
     }
 
-    void initialize(DateTime date, Integer hours) {
+    void initialize(LocalDateTime date, Integer hours) {
         date != null ? this.@date = date : issueError("payroll.timecard.date.required", [property: "date"])
         hours != null ? this.@hours = hours : issueError("payroll.timecard.hours.required", [property: "hours"])
     }
 
-    DateTime getDate() {
+    LocalDateTime getDate() {
         return date
     }
 

@@ -1,6 +1,6 @@
 package com.vmc.objectMemento.feature
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import static groovy.test.GroovyAssert.shouldFail
 

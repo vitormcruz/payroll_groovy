@@ -15,8 +15,8 @@ import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.testPreparation.IntegrationTestBase
 import com.vmc.userModel.GeneralUserModel
 import com.vmc.userModel.api.UserModel
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 
 class EmployeePerformanceTest extends IntegrationTestBase {
 
@@ -47,7 +47,7 @@ class EmployeePerformanceTest extends IntegrationTestBase {
       now - start
     }
 
-    @BeforeClass
+    @BeforeAll
     def static void setupAll(){
         def userModelSnapshot = new GeneralUserModel()
         UserModel.load(userModelSnapshot)

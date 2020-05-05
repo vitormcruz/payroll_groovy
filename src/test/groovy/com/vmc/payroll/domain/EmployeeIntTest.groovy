@@ -1,6 +1,5 @@
 package com.vmc.payroll.domain
 
-
 import com.vmc.objectMother.ObjectMother
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.attachment.SalesReceipt
@@ -16,10 +15,11 @@ import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.testPreparation.IntegrationTestBase
 import com.vmc.userModel.GeneralUserModel
 import com.vmc.userModel.api.UserModel
-import org.joda.time.DateTime
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+
+import java.time.LocalDateTime
 
 import static groovy.test.GroovyAssert.shouldFail
 
@@ -33,13 +33,13 @@ class EmployeeIntTest extends IntegrationTestBase {
     private Employee employee4
     private Employee employee5
 
-    @BeforeClass
+    @BeforeAll
     static void setUpAll(){
         def userModelSnapshot = new GeneralUserModel()
         UserModel.load(userModelSnapshot)
     }
 
-    @Before
+    @BeforeEach
     void setUp(){
         super.setUp()
         employeeMother = new ObjectMother<Employee>(getEmployeeClass()).configurePostBirthScript({
@@ -145,7 +145,7 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @Test
     void "Post a time card"(){
-        def expectedDate = new DateTime()
+        def expectedDate = LocalDateTime.now()
         def expectedTimeCard = TimeCard.newTimeCard(expectedDate, 6)
         employee5.postPaymentAttachment(expectedTimeCard)
         employeeRepository.update(employee5)
@@ -158,7 +158,7 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @Test
     void "Post a sales receipt"(){
-        def expectedDate = new DateTime()
+        def expectedDate = LocalDateTime.now()
         def expectedSalesReceipt = SalesReceipt.newSalesReceipt(expectedDate, 200)
         employee2.postPaymentAttachment(expectedSalesReceipt)
         employeeRepository.update(employee2)
@@ -171,7 +171,7 @@ class EmployeeIntTest extends IntegrationTestBase {
 
     @Test
     void "Post an Union charge"(){
-        def expectedDate = new DateTime()
+        def expectedDate = LocalDateTime.now()
         def expectedServiceCharge = ServiceCharge.newServiceCharge(expectedDate, 5)
         employee5.postPaymentAttachment(expectedServiceCharge)
         employeeRepository.update(employee5)
@@ -185,7 +185,7 @@ class EmployeeIntTest extends IntegrationTestBase {
     @Test
     void "Post attachment to monthly paid employee"(){
         def e = shouldFail UnsupportedOperationException,
-                           {employee1.postPaymentAttachment(SalesReceipt.newSalesReceipt(new DateTime(), 200))}
+                           {employee1.postPaymentAttachment(SalesReceipt.newSalesReceipt(LocalDateTime.now(), 200))}
 
         assert e.getMessage() == "Monthly payment does not have payment attachments"
     }

@@ -1,13 +1,10 @@
 package com.vmc.userModel
 
-
 import com.vmc.objectMemento.ObjectChangeProvider
 import com.vmc.payroll.external.config.ServiceLocator
 import com.vmc.payroll.testPreparation.ServiceLocatorForTest
 import com.vmc.userModel.api.UserModelListener
-import org.junit.Test
-
-import static org.mockito.Mockito.mock
+import org.junit.jupiter.api.Test
 
 //TODO adjust all naming to UserModel, i think it is better for it to have a similar behavior of a memento.
 class UserModelUnitTest {
@@ -21,7 +18,7 @@ class UserModelUnitTest {
     @Test
     void "Test obtaining referenced object from user model"(){
         def modelSnapshot = new GeneralUserModel()
-        def date = modelSnapshot.manageObject(new Date(), mock(ObjectChangeProvider))
+        def date = modelSnapshot.manageObject(new Date(), [] as ObjectChangeProvider)
         System.gc()
         assertWaitingSuccess({modelSnapshot.getManagedObjects().contains(date)})
     }
@@ -29,7 +26,7 @@ class UserModelUnitTest {
     @Test
     void "Test obtaining unreferenced and unchanged object from user model"(){
         def modelSnapshot = new GeneralUserModel()
-        modelSnapshot.manageObject(new Date(), mock(ObjectChangeProvider))
+        modelSnapshot.manageObject(new Date(), [] as ObjectChangeProvider)
         System.gc()
         assertWaitingSuccess({assert modelSnapshot.getManagedObjects().isEmpty()})
     }
@@ -50,7 +47,7 @@ class UserModelUnitTest {
     void "Test saving model with unchanged object"(){
         def modelSnapshot = new GeneralUserModel()
         def savedObjects = new HashSet()
-        def date = modelSnapshot.manageObject(new Date(), mock(ObjectChangeProvider))
+        def date = modelSnapshot.manageObject(new Date(), [] as ObjectChangeProvider)
         modelSnapshot.save()
         assert savedObjects.isEmpty()
     }
@@ -70,9 +67,9 @@ class UserModelUnitTest {
     void "Test adding the same object multiple times to the model"(){
         def modelSnapshot = new GeneralUserModel()
         def date = new Date()
-        def dateReturned1 = modelSnapshot.manageObject(date, mock(ObjectChangeProvider))
-        def dateReturned2 = modelSnapshot.manageObject(date, mock(ObjectChangeProvider))
-        def dateReturned3 = modelSnapshot.manageObject(date, mock(ObjectChangeProvider))
+        def dateReturned1 = modelSnapshot.manageObject(date, [] as ObjectChangeProvider)
+        def dateReturned2 = modelSnapshot.manageObject(date, [] as ObjectChangeProvider)
+        def dateReturned3 = modelSnapshot.manageObject(date, [] as ObjectChangeProvider)
         assert getSubjectOf(dateReturned1) == getSubjectOf(dateReturned2) &&
                 getSubjectOf(dateReturned2) == getSubjectOf(dateReturned3)
         assert dateReturned1.equals(dateReturned2) && dateReturned2.equals(dateReturned3)
@@ -128,7 +125,7 @@ class UserModelUnitTest {
     }
 
     void addDateToModelAndChange(GeneralUserModel modelSnapshot, objectToAdd, changeClosure) {
-        def date = modelSnapshot.manageObject(objectToAdd, mock(ObjectChangeProvider))
+        def date = modelSnapshot.manageObject(objectToAdd, [] as ObjectChangeProvider)
         changeClosure(date)
     }
 

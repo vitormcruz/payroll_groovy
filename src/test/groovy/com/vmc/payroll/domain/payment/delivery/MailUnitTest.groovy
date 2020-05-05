@@ -2,7 +2,7 @@ package com.vmc.payroll.domain.payment.delivery
 
 import com.vmc.payroll.domain.Employee
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import static groovy.test.GroovyAssert.shouldFail
 

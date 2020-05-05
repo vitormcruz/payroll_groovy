@@ -2,7 +2,7 @@ package com.vmc.validationNotification.testPreparation
 
 import com.vmc.validationNotification.ApplicationValidationNotifier
 import com.vmc.validationNotification.SimpleValidationObserver
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 
 abstract class ValidationNotificationTestSetup {
 
@@ -12,7 +12,7 @@ abstract class ValidationNotificationTestSetup {
         return validationObserver
     }
 
-    @Before
+    @BeforeEach
     void setUp(){
         ApplicationValidationNotifier.createCurrentListOfListeners()
         validationObserver = new SimpleValidationObserver()

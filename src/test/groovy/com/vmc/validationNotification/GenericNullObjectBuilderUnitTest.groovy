@@ -3,11 +3,11 @@ package com.vmc.validationNotification
 import com.google.common.collect.HashMultimap
 import com.google.common.collect.Maps
 import com.google.common.collect.SetMultimap
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import static GenericNullObjectBuilder.newNullObjectOf
 import static groovy.test.GroovyAssert.shouldFail
-import static org.junit.Assert.fail
+import static org.junit.jupiter.api.Assertions.fail
 
 class GenericNullObjectBuilderUnitTest {
 

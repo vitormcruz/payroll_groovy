@@ -1,7 +1,6 @@
 package com.vmc.payroll.external.config
 
-import com.fasterxml.jackson.databind.MapperFeature
-import com.fasterxml.jackson.databind.ObjectMapper
+
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepositoryVersion2
@@ -22,11 +21,6 @@ class ProductionServiceLocator extends ServiceLocator{
     @Override
     Properties loadSystemProperties() {
         return System.getProperties()
-    }
-
-    @Override
-    ObjectMapper loadMapper() {
-        return new ObjectMapper().configure(MapperFeature.AUTO_DETECT_FIELDS, false)
     }
 
     @Override

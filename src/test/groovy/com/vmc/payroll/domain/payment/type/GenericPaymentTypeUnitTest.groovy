@@ -3,7 +3,7 @@ package com.vmc.payroll.domain.payment.type
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.payment.attachment.api.UnionCharge
 import com.vmc.payroll.domain.payment.attachment.api.WorkDoneProof
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import static groovy.test.GroovyAssert.shouldFail
 

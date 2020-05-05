@@ -1,14 +1,13 @@
 package com.vmc.userModel.feature
 
-
 import com.vmc.payroll.domain.api.Entity
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepositoryVersion2
 import com.vmc.userModel.DummyEntity
 import com.vmc.userModel.GeneralUserModel
 import com.vmc.userModel.UserModelAwareRepository
 import com.vmc.userModel.api.UserModel
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 
 import java.security.MessageDigest
 
@@ -17,7 +16,7 @@ class UserModelFeatureTest {
     static private UserModel userModelSnapshot
     static private MessageDigest md5Digester
 
-    @BeforeClass
+    @BeforeAll
     static void setUpAll() throws Exception {
         userModelSnapshot = new GeneralUserModel()
         UserModel.load(userModelSnapshot)

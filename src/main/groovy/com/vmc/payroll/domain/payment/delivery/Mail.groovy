@@ -1,5 +1,6 @@
 package com.vmc.payroll.domain.payment.delivery
 
+
 import com.vmc.payroll.domain.payment.delivery.api.PaymentDelivery
 
 import static com.google.common.base.Preconditions.checkArgument
