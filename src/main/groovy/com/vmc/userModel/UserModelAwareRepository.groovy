@@ -1,6 +1,6 @@
 package com.vmc.userModel
 
-import com.vmc.objectMemento.InMemoryObjectChangeProvider
+
 import com.vmc.objectMemento.ObjectChangeProvider
 import com.vmc.payroll.domain.api.Entity
 import com.vmc.payroll.domain.api.Repository
@@ -12,21 +12,17 @@ import org.apache.commons.collections4.iterators.PeekingIterator
 class UserModelAwareRepository<E extends Entity> extends AbstractCollection implements Repository<E>, UserModelListener{
 
     private Repository<E> repository
+    private UserModel userModel
+    private ObjectChangeProvider objectChangeProvider
+
     private Set<E> snapshotAddedObjects = []
     private Set<E> snapshotRemovedObjects = []
-    private UserModel modelSnapshot
-    private ObjectChangeProvider objectChangeProvider;
 
-    UserModelAwareRepository(Repository<E> repository) {
+    UserModelAwareRepository(Repository<E> repository, UserModel userModel, ObjectChangeProvider objectChangeProvider) {
         this.repository = repository
-        modelSnapshot = UserModel.instance
-        modelSnapshot.registerListener(this)
-        objectChangeProvider = new InMemoryObjectChangeProvider();
-    }
-
-    @Override
-    void update(E employee) {
-        //Shouldn't be called.
+        this.userModel = userModel
+        this.userModel.registerListener(this)
+        this.objectChangeProvider = objectChangeProvider;
     }
 
     @Override
@@ -42,7 +38,7 @@ class UserModelAwareRepository<E extends Entity> extends AbstractCollection impl
     @Override
     E get(id){
         def object = repository.get(id)
-        return object == null ? null :  modelSnapshot.manageObject(object, objectChangeProvider)
+        return object == null ? null :  userModel.manageObject(object, objectChangeProvider)
     }
 
     @Override

@@ -22,12 +22,6 @@ class CommonInMemoryRepositoryVersion2<E extends Entity> extends AbstractCollect
         return true
     }
 
-    @Override
-    void update(E employee) {
-        entitiesById.remove(employee.getId())
-        entitiesById.put(employee.getId(), employee)
-    }
-
     boolean remove(entity) {
         entitiesById.remove(entity.getId())
     }

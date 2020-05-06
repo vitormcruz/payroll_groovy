@@ -1,15 +1,14 @@
 package com.vmc.payroll.testPreparation
 
-
 import com.vmc.payroll.external.config.DatabaseCleaner
-import com.vmc.payroll.external.config.ProductionServiceLocator
-import com.vmc.payroll.external.config.ServiceLocator
+import com.vmc.payroll.external.config.DependencyLocator
+import com.vmc.payroll.external.config.PayrollDependencyLocator
 
-class ServiceLocatorForTest extends ProductionServiceLocator{
+class DependencyLocatorForTest extends PayrollDependencyLocator{
 
-    static myself = new ServiceLocatorForTest()
+    static myself = new DependencyLocatorForTest()
 
-    static ServiceLocator getInstance(){
+    static DependencyLocator getInstance(){
         return myself
     }
 

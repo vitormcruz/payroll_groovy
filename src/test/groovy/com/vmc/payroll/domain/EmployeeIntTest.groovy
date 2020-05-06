@@ -11,7 +11,7 @@ import com.vmc.payroll.domain.payment.delivery.Paymaster
 import com.vmc.payroll.domain.payment.type.Commission
 import com.vmc.payroll.domain.payment.type.Hourly
 import com.vmc.payroll.domain.payment.type.Monthly
-import com.vmc.payroll.external.config.ServiceLocator
+import com.vmc.payroll.external.config.DependencyLocator
 import com.vmc.payroll.testPreparation.IntegrationTestBase
 import com.vmc.userModel.GeneralUserModel
 import com.vmc.userModel.api.UserModel
@@ -25,7 +25,7 @@ import static groovy.test.GroovyAssert.shouldFail
 
 class EmployeeIntTest extends IntegrationTestBase {
 
-    private Repository<Employee> employeeRepository = ServiceLocator.instance.employeeRepository
+    private Repository<Employee> employeeRepository = DependencyLocator.instance.employeeRepository
     private ObjectMother<Employee> employeeMother
     private Employee employee1
     private Employee employee2
@@ -102,7 +102,6 @@ class EmployeeIntTest extends IntegrationTestBase {
         employeeToChange.address = "Change Test adress"
         employeeToChange.email = "Change Test email"
         employeeToChange.bePaid({Monthly.newPaymentType(it,5000)})
-        employeeRepository.update(employeeToChange)
         model.save()
         def changedEmployee = employeeRepository.get(employeeToChange.id)
         assertMonthlyPaidEmployeeIs(changedEmployee, "Change Test",
@@ -148,7 +147,6 @@ class EmployeeIntTest extends IntegrationTestBase {
         def expectedDate = LocalDateTime.now()
         def expectedTimeCard = TimeCard.newTimeCard(expectedDate, 6)
         employee5.postPaymentAttachment(expectedTimeCard)
-        employeeRepository.update(employee5)
         model.save()
         def employeeChanged = employeeRepository.get(employee5.id)
         assert validationObserver.successful() : "${validationObserver.getCommaSeparatedErrors()}"
@@ -161,7 +159,6 @@ class EmployeeIntTest extends IntegrationTestBase {
         def expectedDate = LocalDateTime.now()
         def expectedSalesReceipt = SalesReceipt.newSalesReceipt(expectedDate, 200)
         employee2.postPaymentAttachment(expectedSalesReceipt)
-        employeeRepository.update(employee2)
         model.save()
         def employeeChanged = employeeRepository.get(employee2.id)
         assert validationObserver.successful() : "${validationObserver.getCommaSeparatedErrors()}"
@@ -174,7 +171,6 @@ class EmployeeIntTest extends IntegrationTestBase {
         def expectedDate = LocalDateTime.now()
         def expectedServiceCharge = ServiceCharge.newServiceCharge(expectedDate, 5)
         employee5.postPaymentAttachment(expectedServiceCharge)
-        employeeRepository.update(employee5)
         model.save()
         def employeeChanged = employeeRepository.get(employee5.id)
         assert validationObserver.successful() : "${validationObserver.getCommaSeparatedErrors()}"

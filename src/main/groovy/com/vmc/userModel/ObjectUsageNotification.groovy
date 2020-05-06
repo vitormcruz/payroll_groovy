@@ -1,6 +1,5 @@
 package com.vmc.userModel
 
-import com.vmc.payroll.external.config.ServiceLocator
 
 import javax.management.Notification
 import javax.management.NotificationEmitter
@@ -26,16 +25,14 @@ class ObjectUsageNotification {
     }
 
     static void notifyGcPerformed() {
-        ServiceLocator.getInstance().getExecutor().execute({
-            synchronized (phantomHandlerLock) {
-                def phantonReference = referenceQueue.poll()
-                while (phantonReference != null) {
-                    trackedObjectsMap.get(phantonReference)()
-                    trackedObjectsMap.remove(phantonReference)
-                    phantonReference = referenceQueue.poll()
-                }
+        synchronized (phantomHandlerLock) {
+            def phantonReference = referenceQueue.poll()
+            while (phantonReference != null) {
+                trackedObjectsMap.get(phantonReference)()
+                trackedObjectsMap.remove(phantonReference)
+                phantonReference = referenceQueue.poll()
             }
-        })
+        }
     }
 
     static void onObjectUnusedDo(objectToTrack, notifyUnusedClosure) {

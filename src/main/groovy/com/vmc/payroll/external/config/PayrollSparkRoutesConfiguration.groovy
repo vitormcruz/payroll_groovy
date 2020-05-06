@@ -1,10 +1,7 @@
 package com.vmc.payroll.external.config
 
 
-import com.vmc.payroll.domain.Employee
-import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepositoryVersion1
 import com.vmc.payroll.external.presentation.webservice.spark.EmployeeWebServiceController
-import com.vmc.userModel.GeneralUserModel
 import org.apache.http.HttpStatus
 import spark.servlet.SparkApplication
 
@@ -12,20 +9,23 @@ import static spark.Spark.*
 
 class PayrollSparkRoutesConfiguration implements SparkApplication {
 
-    EmployeeWebServiceController employeeWebServiceController = new EmployeeWebServiceController(new CommonInMemoryRepositoryVersion1<Employee>(),
-                                                                                                 new GeneralUserModel())
+    EmployeeWebServiceController employeeWebServiceController
+
+    PayrollSparkRoutesConfiguration(EmployeeWebServiceController employeeWebServiceController) {
+        this.employeeWebServiceController = employeeWebServiceController
+    }
 
     @Override
     void init() {
-        path("/api/payroll", {
+        path("/api/", {
 
             before("/*", {req, res -> res.type("application/json") })
-            configureEsceptionHandling()
+            configureExceptionHandling()
             configureEmployeeRoutes()
         })
     }
 
-    private configureEsceptionHandling() {
+    private configureExceptionHandling() {
         exception(IllegalArgumentException, { exception, request, response ->
             response.type("text/plain")
             response.status(HttpStatus.SC_BAD_REQUEST)
@@ -38,6 +38,15 @@ class PayrollSparkRoutesConfiguration implements SparkApplication {
 
             post("", { req, res ->
                 employeeWebServiceController.newEmployee(req, res)
+                return res.body()
+            })
+
+        })
+
+        path("/employee", {
+
+            get("", { req, res ->
+                employeeWebServiceController.listEmployees(req, res)
                 return res.body()
             })
 

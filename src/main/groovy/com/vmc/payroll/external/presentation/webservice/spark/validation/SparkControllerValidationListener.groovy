@@ -1,4 +1,4 @@
-package com.vmc.payroll.external.presentation.webservice.spark
+package com.vmc.payroll.external.presentation.webservice.spark.validation
 
 import com.cedarsoftware.util.io.JsonWriter
 import com.google.common.collect.SetMultimap
@@ -9,11 +9,13 @@ import spark.Response
 
 class SparkControllerValidationListener extends SimpleValidationObserver implements ValidationObserver{
 
-    def private fillResponseStrategy = responseOkStrategy
-    def private issueErrorStrategy = issueFirstErrorStrategy
+    def private fillResponseStrategy
+    def private issueErrorStrategy
     def body
 
     SparkControllerValidationListener() {
+        fillResponseStrategy = responseOkStrategy
+        issueErrorStrategy = issueFirstErrorStrategy
     }
 
     Map<String, Collection> getErrorsByValidation(){
