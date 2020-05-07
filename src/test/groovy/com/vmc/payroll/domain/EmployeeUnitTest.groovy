@@ -31,7 +31,9 @@ class EmployeeUnitTest extends ValidationNotificationTestSetup{
 
     @Test
     void "Create employee providing mandatory information"(){
-        Employee builtEmployee = Employee.newEmployee("test name", "test address", "test email", {Monthly.newPaymentType(it, 1000)}, {Mail.newPaymentDelivery(it, "Street 1")})
+        Employee builtEmployee = Employee.newEmployee("test name", "test address", "test email",
+                                                      {Monthly.newPaymentType(it, 1000)},
+                                                      {Mail.newPaymentDelivery(it, "Street 1")})
         verifyEmployeeWithExpectedData(builtEmployee, "test name", "test address", "test email")
         assert builtEmployee.paymentType.class == Monthly
         assert builtEmployee.paymentType.getSalary() == 1000

@@ -8,67 +8,52 @@ import static groovy.test.GroovyAssert.shouldFail
 class MandatoryUnitTest extends ValidationNotificationTestSetup{
 
     @Test
+    void "New mandatory with null error message"(){
+        assert shouldFail(IllegalArgumentException,
+                {new Mandatory(null, null)}).message == "Error message was not provided"
+    }
+
+    @Test
+    void "Call getter with function null"(){
+        assert shouldFail(IllegalArgumentException,
+                {new Mandatory("test", null).get(null)}).message == "Getter function was not provided"
+    }
+
+    @Test
+    void "Call setter with function null"(){
+        assert shouldFail(IllegalArgumentException,
+                {new Mandatory("test", null).set(null, null)}).message == "Setter function was not provided"
+    }
+
+    @Test
     void "Get mandatory value when it's null"(){
-        assert shouldFail(IllegalStateException, {new Mandatory(null, "error message", [:]).get()}).message == "error message"
+        assert shouldFail(IllegalStateException,
+                {new Mandatory("error message", [:]).get({null})}).message == "error message"
     }
 
     @Test
-    void "Verify default error message"(){
-        assert shouldFail(IllegalStateException, {new Mandatory().get()}).message == "Mandatory value was not provided"
+    void "Get mandatory value when it's != null"(){
+        assert new Mandatory("error message", [:]).get({"some value"}) == "some value"
     }
 
     @Test
-    void "New mandatory without value"(){
-        new Mandatory()
-        assert validationObserver.errors.contains("Mandatory value was not provided")
+    void "Set mandatory value with null"(){
+        new Mandatory("error message", [:]).set(null, {})
+        assert validationObserver.errors.contains("error message")
     }
 
     @Test
-    void "New mandatory with a null value"(){
-        new Mandatory(null)
-        assert validationObserver.errors.contains("Mandatory value was not provided")
-    }
-
-    @Test
-    void "New mandatory with a null value and a different error message"(){
-        new Mandatory(null, "Different Error Message", [:])
-        assert validationObserver.errors.contains("Different Error Message")
-    }
-
-    @Test
-    void "New mandatory with value"(){
-        def mandatory = new Mandatory("test")
+    void "Set mandatory value != null"(){
+        new Mandatory("error message", [:]).set("some value", {})
         assert validationObserver.errors.isEmpty()
-        assert mandatory.get() == "test"
     }
 
     @Test
-    void "New mandatory without value, but setting valid value after"(){
-        def mandatory = new Mandatory()
-        mandatory.set("test")
-        assert validationObserver.errors.isEmpty()
-        assert mandatory.get() == "test"
+    void "Set mandatory value != null, but then setting back to null"(){
+        def mandatory = new Mandatory("error message", [:])
+        mandatory.set("some value", {})
+        mandatory.set(null, {})
+        assert validationObserver.errors.contains("error message")
     }
 
-    @Test
-    void "New mandatory without value and setting null after"(){
-        def mandatory = new Mandatory()
-        mandatory.set(null)
-        assert validationObserver.errors.contains("Mandatory value was not provided")
-    }
-
-    @Test
-    void "New mandatory with value but setting null after"(){
-        def mandatory = new Mandatory("test")
-        mandatory.set(null)
-        assert validationObserver.errors.contains("Mandatory value was not provided")
-        assert mandatory.get() == "test"
-    }
-
-    @Test
-    void "New mandatory with value and setting another value after"(){
-        def mandatory = new Mandatory("test")
-        mandatory.set("another test")
-        assert mandatory.get() == "another test"
-    }
 }

@@ -1,19 +1,23 @@
-package com.vmc.payroll.external.presentation.webservice.spark.validation
+package com.vmc.payroll.external.web.spark.servlet
 
-import com.cedarsoftware.util.io.JsonWriter
+
 import com.google.common.collect.SetMultimap
 import com.vmc.validationNotification.SimpleValidationObserver
 import com.vmc.validationNotification.api.ValidationObserver
 import org.apache.http.HttpStatus
 import spark.Response
 
-class SparkControllerValidationListener extends SimpleValidationObserver implements ValidationObserver{
+class ValidationAwareResponse extends SimpleValidationObserver implements ValidationObserver{
+
+    @Delegate
+    private Response responseSubject
 
     def private fillResponseStrategy
     def private issueErrorStrategy
     def body
 
-    SparkControllerValidationListener() {
+    ValidationAwareResponse(Response responseSubject) {
+        this.responseSubject = responseSubject
         fillResponseStrategy = responseOkStrategy
         issueErrorStrategy = issueFirstErrorStrategy
     }
@@ -47,17 +51,17 @@ class SparkControllerValidationListener extends SimpleValidationObserver impleme
         return null
     }
 
-    def fillResponse(Response response){
-        fillResponseStrategy(response)
+    def fillResponse(){
+        fillResponseStrategy(responseSubject)
     }
 
     def private responseOkStrategy = {Response res ->
         res.status(HttpStatus.SC_OK)
-        res.body(JsonWriter.objectToJson(body))
+        res.body(body.toJson())
     }
 
     def private responseFailStrategy = {Response res ->
         res.status(HttpStatus.SC_BAD_REQUEST)
-        res.body(JsonWriter.objectToJson(super.errorsByContext))
+        res.body(super.errorsByContext.toJson())
     }
 }

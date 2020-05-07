@@ -16,9 +16,13 @@ class Employee implements EntityCommonTrait{
 
     private String id = UUID.randomUUID()
 
-    protected Mandatory<String> name = new Mandatory<String>(null, "The employee name is required", [property:"name"])
-    protected Mandatory<String> address = new Mandatory<String>(null, "The employee address is required", [property:"address"])
-    protected Mandatory<String> email = new Mandatory<String>(null, "The employee email is required", [property:"email"])
+    protected String name
+    protected Mandatory nameMandatory = new Mandatory("The employee name is required", [property: "name"])
+    protected String address
+    protected Mandatory addressMandatory = new Mandatory("The employee address is required", [property: "address"])
+    protected String email
+    protected Mandatory emailMandatory = new Mandatory("The employee email is required", [property: "email"])
+
     protected PaymentType paymentType
     protected PaymentDelivery paymentDelivery
     protected UnionAssociation unionAssociation = NoUnionAssociation.getInstance()
@@ -50,27 +54,27 @@ class Employee implements EntityCommonTrait{
     }
 
     String getName() {
-        return name.get()
+        return nameMandatory.get({this.@name})
     }
 
     void setName(String aName) {
-        this.@name.set(aName)
+        nameMandatory.set(aName, { this.@name = it })
     }
 
     String getAddress() {
-        return address.get()
+        return addressMandatory.get({this.@address})
     }
 
     void setAddress(String anAddress) {
-        this.@address.set(anAddress)
+        addressMandatory.set(anAddress, { this.@address = it })
     }
 
     String getEmail() {
-        return email.get()
+        return emailMandatory.get({this.@email})
     }
 
     void setEmail(String anEmail) {
-        this.@email.set(anEmail)
+        emailMandatory.set(anEmail, { this.@email = it })
     }
 
     PaymentType getPaymentType() {
@@ -82,22 +86,22 @@ class Employee implements EntityCommonTrait{
     }
 
     /**
-     * Tell's me that I should be paid with the paymentType provided by the paymentTypeProvider closure. I will call
+     * Tell's me that I should be paid with the paymentType provided by the paymentTypeBuilder closure. I will call
      * the closure passing myself as argument so that the payment type provided can refer to myself if needed.
      */
-    void bePaid(paymentTypeProvider){
-        paymentTypeProvider ? paymentType = paymentTypeProvider(this) :
-                            issueError("The employee payment type is required", [property:"payment.type"])
+    void bePaid(paymentTypeBuilder){
+        paymentTypeBuilder ? paymentType = paymentTypeBuilder(this) :
+                issueError("The employee payment type is required", [property:"payment.type"])
     }
 
     /**
-     * Tell's me that I should receive my payment by the payment delivery provided by the paymentDeliveryProvider
+     * Tell's me that I should receive my payment by the payment delivery provided by the paymentDeliveryBuilder
      * closure. I will call the closure passing myself as argument so that the payment delivery provided can refer to
      * myself if needed.
      */
-    void receivePaymentBy(paymentDeliveryProvider){
-        paymentDeliveryProvider ? paymentDelivery = paymentDeliveryProvider(this) :
-            issueError("The employee payment delivery is required", [property:"payment.delivery"])
+    void receivePaymentBy(paymentDeliveryBuilder){
+        paymentDeliveryBuilder ? paymentDelivery = paymentDeliveryBuilder(this) :
+                issueError("The employee payment delivery is required", [property:"payment.delivery"])
     }
 
     /**

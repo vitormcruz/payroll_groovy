@@ -7,7 +7,7 @@ import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.delivery.Mail
 import com.vmc.payroll.domain.payment.type.Monthly
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepositoryVersion2
-import com.vmc.payroll.external.presentation.webservice.spark.EmployeeWebServiceController
+import com.vmc.payroll.external.web.spark.EmployeeRestController
 import com.vmc.userModel.GeneralUserModel
 import com.vmc.userModel.UserModelAwareRepository
 
@@ -19,11 +19,11 @@ class PayrollMain {
                 new UserModelAwareRepository<>(new CommonInMemoryRepositoryVersion2<Employee>(), userModel,
                                                inMemoryObjectChangeProvider)
 
-    private static EmployeeWebServiceController employeeWebServiceController =
-                        new EmployeeWebServiceController(employeeRepository)
+    private static EmployeeRestController employeeWebServiceController =
+                        new EmployeeRestController(employeeRepository)
 
     private static PayrollJettyConfiguration payrollJettyConfiguration =
-                        new PayrollJettyConfiguration(7003, userModel, employeeWebServiceController)
+                        new PayrollJettyConfiguration(7003, userModel, [employeeWebServiceController])
 
 
     static void main(String[] args) {

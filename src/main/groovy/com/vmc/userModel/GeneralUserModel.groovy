@@ -11,7 +11,7 @@ import static com.vmc.userModel.ObjectUsageNotification.onObjectUnusedDo
 class GeneralUserModel extends UserModel{
 
     protected WeakHashMap<UserModelListener, Void> observers = new WeakHashMap<UserModelListener, Void>()
-    protected Set<ManagedObject> managedObjects = Collections.synchronizedSet(new HashSet())
+    protected Set<ManagedObject> managedObjects = new HashSet()
 
     //TODO remove instantiation from here and add to the main class
     protected ObjectProxyFactory objectProxyFactory = new ObjectProxyFactory()
@@ -37,13 +37,13 @@ class GeneralUserModel extends UserModel{
     }
 
     @Override
-    void save() {
+    synchronized void save() {
         this.@managedObjects.each {it.save()}
         this.@observers.keySet().each {it.saveCalled(this)}
     }
 
     @Override
-    void rollback() {
+    synchronized void rollback() {
         this.@managedObjects.each {it.undo()}
         this.@observers.keySet().each {it.rollbackCalled(this)}
     }

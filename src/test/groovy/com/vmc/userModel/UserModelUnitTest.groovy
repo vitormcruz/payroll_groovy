@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 //TODO adjust all naming to UserModel, i think it is better for it to have a similar behavior of a memento.
 class UserModelUnitTest {
 
-    public static final int TIMEOUT = 2000
+    public static final int TIMEOUT = 3000
 
     static {
         DependencyLocator.load(DependencyLocatorForTest)
