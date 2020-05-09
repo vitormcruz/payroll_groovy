@@ -4,11 +4,11 @@ package com.vmc.payroll.external.persistence.inMemory.repository
 import com.vmc.payroll.domain.api.Entity
 import com.vmc.payroll.domain.api.Repository
 
-class CommonInMemoryRepositoryVersion2<E extends Entity> extends AbstractCollection<E> implements Repository<E> {
+class CommonInMemoryRepository<E extends Entity> extends AbstractCollection<E> implements Repository<E> {
 
     protected Map<Object, E> entitiesById
 
-    CommonInMemoryRepositoryVersion2() {
+    CommonInMemoryRepository() {
         entitiesById = new HashMap()
     }
 

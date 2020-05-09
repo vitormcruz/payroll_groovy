@@ -5,7 +5,7 @@ import com.vmc.validationNotification.ApplicationValidationNotifier
 import spark.Response
 import spark.Route
 
-trait BasicControllerOperationsTrait {
+trait BasicControllerOperationsTrait<IDTYPE> {
 
     Route r(Route route){
         return { req, res ->
@@ -23,8 +23,8 @@ trait BasicControllerOperationsTrait {
         return validationAwareResponse
     }
 
-    Object getResource(long employeeId, resourceRepository) {
-        def resource = resourceRepository.get(employeeId)
+    Object getResource(IDTYPE id, resourceRepository) {
+        def resource = resourceRepository.get(id)
         if (!resource) throw new ResourceNotFoundException()
         return resource
     }

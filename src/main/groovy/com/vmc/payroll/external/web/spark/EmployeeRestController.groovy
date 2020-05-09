@@ -15,7 +15,7 @@ import com.vmc.payroll.external.web.spark.common.SparkRestController
 import static java.util.Optional.ofNullable
 import static spark.Spark.*
 
-class EmployeeRestController implements BasicControllerOperationsTrait, SparkRestController{
+class EmployeeRestController implements BasicControllerOperationsTrait<String>, SparkRestController{
 
     private Repository<Employee> employeeRepository
     private Map paymentTypeMap = ["monthly": this.&getMonthlyProvider,
@@ -45,22 +45,33 @@ class EmployeeRestController implements BasicControllerOperationsTrait, SparkRes
                 def paymentDeliveryBuilder = ofNullable(deliveryPayMap.get(data["paymentDelivery"]))
                                                 .orElse({ null })(data)
 
-                def newEmployee = Employee.newEmployee(data["name"], data["address"], data["address"],
+                def newEmployee = Employee.newEmployee(data["name"], data["address"], data["email"],
                                                        paymentTypeBuilder, paymentDeliveryBuilder)
 
                 return newEmployee.onBuildSuccess { employeeRepository.add(newEmployee) }
             })
 
-            patch(":id", r {req, res  ->
-                Employee changedEmployee = getResource(req.params(":id").toLong(), employeeRepository)
-                changedEmployee.applySetMap(res.body())
-                res.setBody(changedEmployee)
+            patch("/:id", r {req, res  ->
+                Employee employeeToChange = getResource(req.params(":id"), employeeRepository)
+                Map<String, String> data = JsonReader.jsonToJava(req.body(), [USE_MAPS : true])
+
+                def paymentTypeBuilder = ofNullable(paymentTypeMap.get(data["paymentType"]))
+                        .orElse({ null })(data)
+                def paymentDeliveryBuilder = ofNullable(deliveryPayMap.get(data["paymentDelivery"]))
+                        .orElse({ null })(data)
+
+                data["name"]?.with { employeeToChange.setName(it) }
+                data["address"]?.with { employeeToChange.setAddress(it) }
+                data["email"]?.with { employeeToChange.setEmail(it) }
+                paymentTypeBuilder?.with { employeeToChange.bePaid(it) }
+                paymentDeliveryBuilder?.with { employeeToChange.receivePaymentBy(it) }
+                return employeeToChange
             })
 
-            delete(":id", r {req, res  ->
-                Employee employeeSubjectedRemoval = getResource(req.params(":id").toLong(), employeeRepository)
-                employeeRepository.remove(employeeSubjectedRemoval)
-                res.setBody(employeeSubjectedRemoval)
+            delete("/:id", r {req, res  ->
+                Employee employeeToRemove = getResource(req.params(":id"), employeeRepository)
+                employeeRepository.remove(employeeToRemove)
+                return employeeToRemove
             })
 
             get("", r { req, res ->
