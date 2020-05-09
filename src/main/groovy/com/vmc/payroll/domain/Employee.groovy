@@ -7,7 +7,6 @@ import com.vmc.payroll.domain.payment.type.api.PaymentType
 import com.vmc.payroll.domain.unionAssociation.BasicUnionAssociation
 import com.vmc.payroll.domain.unionAssociation.NoUnionAssociation
 import com.vmc.payroll.domain.unionAssociation.api.UnionAssociation
-import com.vmc.validationNotification.Mandatory
 
 import static com.vmc.validationNotification.Validation.validate
 import static com.vmc.validationNotification.Validation.validateNewObject
@@ -17,11 +16,8 @@ class Employee implements EntityCommonTrait{
     private String id = UUID.randomUUID()
 
     protected String name
-    protected Mandatory nameMandatory = new Mandatory("The employee name is required", [property: "name"])
     protected String address
-    protected Mandatory addressMandatory = new Mandatory("The employee address is required", [property: "address"])
     protected String email
-    protected Mandatory emailMandatory = new Mandatory("The employee email is required", [property: "email"])
 
     protected PaymentType paymentType
     protected PaymentDelivery paymentDelivery
@@ -54,27 +50,39 @@ class Employee implements EntityCommonTrait{
     }
 
     String getName() {
-        return nameMandatory.get({this.@name})
+        return this.@name
     }
 
     void setName(String aName) {
-        nameMandatory.set(aName, { this.@name = it })
+        if(aName == null) {
+            issueError("The employee name is required", [property: "name"])
+            return
+        }
+        this.@name = aName
     }
 
     String getAddress() {
-        return addressMandatory.get({this.@address})
+        this.@address
     }
 
     void setAddress(String anAddress) {
-        addressMandatory.set(anAddress, { this.@address = it })
+        if(anAddress == null) {
+            issueError("The employee address is required", [property: "address"])
+            return
+        }
+        this.@address = anAddress
     }
 
     String getEmail() {
-        return emailMandatory.get({this.@email})
+        this.@email
     }
 
     void setEmail(String anEmail) {
-        emailMandatory.set(anEmail, { this.@email = it })
+        if(anEmail == null) {
+            issueError("The employee email is required", [property: "email"])
+            return
+        }
+        this.@email = anEmail
     }
 
     PaymentType getPaymentType() {

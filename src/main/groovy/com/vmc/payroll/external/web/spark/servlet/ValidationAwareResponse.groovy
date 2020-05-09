@@ -7,10 +7,13 @@ import com.vmc.validationNotification.api.ValidationObserver
 import org.apache.http.HttpStatus
 import spark.Response
 
-class ValidationAwareResponse extends SimpleValidationObserver implements ValidationObserver{
+class ValidationAwareResponse extends Response implements ValidationObserver{
 
     @Delegate
     private Response responseSubject
+
+    @Delegate
+    private SimpleValidationObserver validationObserver = new SimpleValidationObserver()
 
     def private fillResponseStrategy
     def private issueErrorStrategy
@@ -38,7 +41,7 @@ class ValidationAwareResponse extends SimpleValidationObserver implements Valida
     }
 
     def private issueErrorOnly = { subject, context, error ->
-        super.issueError(subject, context, error)
+        validationObserver.errorIssued(subject, context, error)
     }
 
     @Override
@@ -62,6 +65,6 @@ class ValidationAwareResponse extends SimpleValidationObserver implements Valida
 
     def private responseFailStrategy = {Response res ->
         res.status(HttpStatus.SC_BAD_REQUEST)
-        res.body(super.errorsByContext.toJson())
+        res.body(validationObserver.errors.toJson())
     }
 }

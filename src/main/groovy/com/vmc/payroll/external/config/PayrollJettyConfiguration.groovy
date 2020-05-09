@@ -32,6 +32,7 @@ class PayrollJettyConfiguration {
         webAppContext.setContextPath("/")
         webAppContext.setResourceBase(".")
         webAppContext.setExtractWAR(false)
+        webAppContext.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false")
 
         webAppContext.addFilter(new FilterHolder(new ValidationNotifierFilter()), "*", EnumSet.allOf(DispatcherType))
         webAppContext.addFilter(new FilterHolder(new PayrollSparkFilter(restControllers)),

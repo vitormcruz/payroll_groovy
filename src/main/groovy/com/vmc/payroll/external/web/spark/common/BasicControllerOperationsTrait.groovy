@@ -1,6 +1,5 @@
 package com.vmc.payroll.external.web.spark.common
 
-
 import com.vmc.payroll.external.web.spark.servlet.ValidationAwareResponse
 import com.vmc.validationNotification.ApplicationValidationNotifier
 import spark.Response
@@ -8,10 +7,11 @@ import spark.Route
 
 trait BasicControllerOperationsTrait {
 
-    Route r(Closure route){
+    Route r(Route route){
         return { req, res ->
             def validationAwareResponse = validationAwareResponse(res)
-            route(req, validationAwareResponse)
+            def result = route(req, validationAwareResponse)
+            validationAwareResponse.setBody(result)
             validationAwareResponse.fillResponse()
             return res.body()
         }
