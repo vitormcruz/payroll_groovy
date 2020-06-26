@@ -6,6 +6,6 @@ appender("stdout", ConsoleAppender) {
   }
 }
 
-root(INFO, ["stdout"])
+root(debug, ["stdout"])
 
 logger("spark.**", DEBUG)

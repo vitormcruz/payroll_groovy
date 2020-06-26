@@ -22,10 +22,6 @@ class PayrollMain {
     private static EmployeeRestController employeeWebServiceController =
                         new EmployeeRestController(employeeRepository)
 
-    private static PayrollJettyConfiguration payrollJettyConfiguration =
-                        new PayrollJettyConfiguration(7003, userModel, [employeeWebServiceController])
-
-
     static void main(String[] args) {
         employeeRepository.add(Employee.newEmployee("Sofia", "Street 1", "sofia@bla.com",
                                                     { Monthly.newPaymentType(it, 2000)},
@@ -35,8 +31,6 @@ class PayrollMain {
                                                     {Monthly.newPaymentType(it, 2000)},
                                                     {Mail.newPaymentDelivery(it, "Street 1")}))
         userModel.save()
-
-        payrollJettyConfiguration.startServing()
 
     }
 }
