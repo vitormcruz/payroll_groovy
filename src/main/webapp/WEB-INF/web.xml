@@ -6,7 +6,6 @@
 
   <display-name>Payroll</display-name>
 
-
 <!--  <filter>-->
 <!--    <filter-name>SparkFilter</filter-name>-->
 <!--    <filter-class>spark.servlet.SparkFilter</filter-class>-->

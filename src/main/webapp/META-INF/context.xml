@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Context>
-    <JarScanner>
-        <JarScanFilter pluggabilityScan="flow-server-2.2.1.jar"
-                       defaultPluggabilityScan="false"
-                       defaultTldScan="false"/>
+<Context containerSciFilter=".*" override="true" >
+    <JarScanner scanClassPath="false" scanManifest="false">
+        <JarScanFilter pluggabilitySkip="*" pluggabilityScan="" />
     </JarScanner>
 </Context>
