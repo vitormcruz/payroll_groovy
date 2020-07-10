@@ -4,7 +4,15 @@
    https://vaadin.com/themes/lumo for more information.
 */
 
-/* Example: CSS class name to center align the content . */
+:root {
+  --material-primary-text-color: #009bee;
+  --material-primary-color: #009bee;
+}
+
+#navbarTop {
+  background: rgba(0, 155, 238, 0.54);
+}
+
 .centered-content {
   margin: 0 auto;
   max-width: 250px;

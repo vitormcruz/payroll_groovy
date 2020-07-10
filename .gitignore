@@ -6,6 +6,9 @@
 #Maven
 target/
 
+#node
+node_modules/
+
 #Idea
 *.iml
 .idea/
