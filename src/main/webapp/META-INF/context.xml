@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Contex>
-    <JarScanner>
-        <JarScanFilter pluggabilityScan="" tldScan="" />
+    <JarScanner scanClassPath="false">
+        <JarScanFilter pluggabilitySkip="*" tldSkip="*" />
     </JarScanner>
 </Contex>

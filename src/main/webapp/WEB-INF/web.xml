@@ -19,6 +19,10 @@
     </filter-mapping>
 
     <listener>
+        <listener-class>com.vmc.payroll.external.web.logbag.servlet.EnvVarLoaderLoggerConfiguration</listener-class>
+    </listener>
+
+    <listener>
         <listener-class>com.vmc.payroll.external.vaadin.VaadinInitializerNoClasspathScan</listener-class>
     </listener>
 
