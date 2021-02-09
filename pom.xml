@@ -59,6 +59,7 @@
         <javafaker.version>1.0.2</javafaker.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <vaadin.version>14.2.1</vaadin.version>
+        <jetty.version>9.4.36.v20210114</jetty.version>
     </properties>
 
     <build>
@@ -148,6 +149,45 @@
                     <frontendDirectory>${project.basedir}/src/main/frontend</frontendDirectory>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty.version}</version>
+                <configuration>
+                    <jettyXml>${basedir}/src/main/webapp/WEB-INF/jetty-web.xml</jettyXml>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>set-system-properties</goal>
+                        </goals>
+                        <configuration>
+                            <properties>
+                                <property>
+                                    <name>org.eclipse.jetty.util.log.class</name>
+                                    <value>org.eclipse.jetty.util.log.StdErrLog</value>
+                                </property>
+                                <property>
+                                    <name>org.eclipse.jetty.webapp.WebInfConfiguration.LEVEL</name>
+                                    <value>DEBUG</value>
+                                </property>
+                                <property>
+                                    <name>org.eclipse.jetty.annotations.AnnotationParser.LEVEL</name>
+                                    <value>DEBUG</value>
+                                </property>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -398,22 +438,42 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.servlet-api.version}</version>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jetty.version}</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>${httpcore.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
             <version>${spark-core.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jetty-server</artifactId>
+                    <groupId>org.eclipse.jetty</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>websocket-server</artifactId>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>websocket-server</artifactId>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jetty-webapp</artifactId>
+                    <groupId>org.eclipse.jetty</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>websocket-server</artifactId>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>websocket-servlet</artifactId>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--

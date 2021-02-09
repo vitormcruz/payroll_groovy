@@ -6,24 +6,14 @@
          metadata-complete="true">
 
 <display-name>Payroll</display-name>
+
+<!-- An empty absolute ordering with a `metadata-complete = true` ignores all web fragments and removes many servlet
+classpath scanning, but not all because the specification don't allow. Further ignoring can only be done by server
+specific configuration. -->
 <absolute-ordering/>
 
-    <filter>
-        <filter-name>validationNotification</filter-name>
-        <filter-class>com.vmc.validationNotification.servlet.ValidationNotifierFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>validationNotification</filter-name>
-        <url-pattern>*</url-pattern>
-    </filter-mapping>
-
     <listener>
-        <listener-class>com.vmc.payroll.external.web.logbag.servlet.EnvVarLoaderLoggerConfiguration</listener-class>
-    </listener>
-
-    <listener>
-        <listener-class>com.vmc.payroll.external.vaadin.VaadinInitializerNoClasspathScan</listener-class>
+        <listener-class>com.vmc.payroll.external.config.PayrollServletContextListener</listener-class>
     </listener>
 
 </web-app>

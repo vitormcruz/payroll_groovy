@@ -3,10 +3,14 @@ package com.vmc.payroll.external.web.spark.common
 
 import org.apache.http.HttpStatus
 import spark.servlet.SparkApplication
+import spark.servlet.SparkFilter
+
+import javax.servlet.FilterConfig
+import javax.servlet.ServletException
 
 import static spark.Spark.*
 
-class PayrollSparkRoutesConfiguration implements SparkApplication {
+class PayrollSparkRoutesConfiguration extends SparkFilter implements SparkApplication {
 
     Collection<SparkRestController> restControllers
 
@@ -33,4 +37,8 @@ class PayrollSparkRoutesConfiguration implements SparkApplication {
         })
     }
 
+    @Override
+    protected SparkApplication[] getApplications(FilterConfig filterConfig) throws ServletException {
+        return [this]
+    }
 }

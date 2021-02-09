@@ -1,6 +1,5 @@
 package com.vmc.payroll.external.vaadin
 
-
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.dependency.JavaScript
 import com.vaadin.flow.component.dependency.JsModule
@@ -20,7 +19,7 @@ import javax.servlet.ServletContextEvent
 import javax.servlet.ServletContextListener
 import javax.servlet.ServletException
 
-class VaadinInitializerNoClasspathScan implements ServletContextListener {
+class VaadinServletContextListenerNoClasspathScan implements ServletContextListener {
 
     private ServletContextListeners servletContextListeners = new ServletContextListeners()
 
