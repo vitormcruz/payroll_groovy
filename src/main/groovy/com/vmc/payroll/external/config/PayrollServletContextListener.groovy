@@ -7,7 +7,6 @@ import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.delivery.Mail
 import com.vmc.payroll.domain.payment.type.Monthly
 import com.vmc.payroll.external.persistence.inMemory.repository.CommonInMemoryRepository
-import com.vmc.payroll.external.vaadin.VaadinServletContextListenerNoClasspathScan
 import com.vmc.payroll.external.web.logbag.servlet.EnvVarLoaderLoggerConfiguration
 import com.vmc.payroll.external.web.spark.EmployeeRestController
 import com.vmc.payroll.external.web.spark.common.PayrollSparkRoutesConfiguration
@@ -23,7 +22,6 @@ import javax.servlet.annotation.WebListener
 @WebListener
 class PayrollServletContextListener implements ServletContextListener {
 
-    private static final VaadinServletContextListenerNoClasspathScan vaadinServletContextListener = new VaadinServletContextListenerNoClasspathScan()
     private static final EnvVarLoaderLoggerConfiguration envVarLoaderLoggerConfiguration = new EnvVarLoaderLoggerConfiguration()
     private static final userModel = new GeneralUserModel()
     private static final ObjectChangeProvider inMemoryObjectChangeProvider = new InMemoryObjectChangeProvider()
@@ -37,14 +35,12 @@ class PayrollServletContextListener implements ServletContextListener {
     void contextInitialized(ServletContextEvent sce) {
         println("Loading payroll.")
         def context = sce.getServletContext()
-        context.setAttribute("org.eclipse.jetty.server.webapp.WebInfIncludeJarPattern", "^\$")
         context.addFilter("Validation Notification", new ValidationNotifierFilter())
                .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType), true, "*")
 
         context.addFilter("Spark Filter", new PayrollSparkRoutesConfiguration([employeeWebServiceController]))
                .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType), true, "/api/*")
 
-        vaadinServletContextListener.contextInitialized(sce)
         envVarLoaderLoggerConfiguration.contextInitialized(sce)
         populateData()
     }
@@ -62,7 +58,6 @@ class PayrollServletContextListener implements ServletContextListener {
 
     @Override
     void contextDestroyed(ServletContextEvent sce) {
-        vaadinServletContextListener.contextDestroyed(sce)
         envVarLoaderLoggerConfiguration.contextDestroyed(sce)
     }
 }

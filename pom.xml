@@ -154,40 +154,7 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty.version}</version>
-                <configuration>
-                    <jettyXml>${basedir}/src/main/webapp/WEB-INF/jetty-web.xml</jettyXml>
-                </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>set-system-properties</goal>
-                        </goals>
-                        <configuration>
-                            <properties>
-                                <property>
-                                    <name>org.eclipse.jetty.util.log.class</name>
-                                    <value>org.eclipse.jetty.util.log.StdErrLog</value>
-                                </property>
-                                <property>
-                                    <name>org.eclipse.jetty.webapp.WebInfConfiguration.LEVEL</name>
-                                    <value>DEBUG</value>
-                                </property>
-                                <property>
-                                    <name>org.eclipse.jetty.annotations.AnnotationParser.LEVEL</name>
-                                    <value>DEBUG</value>
-                                </property>
-                            </properties>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 

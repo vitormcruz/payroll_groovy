@@ -40,7 +40,14 @@ This implementation resides in the validationNotification package. For details, 
 
 #### Embedded Jetty
 
-Really liked the approach of embedding the web server, still don't know how to do HotSwap. See PayrollJettyConfiguration for implementation details.
+Embedding is good for small stuff like a backend service. With more complicated servlet setting it is better to use a 
+normal Jetty installation. Using docker images greatly simplify this nowadays, so using an Embedded Jetty or a Jetty 
+base image with a war artifact is basically the same unless you wanna to reduce memory usage.
+
+#### Contolling Servlet 3 Classpath Scan
+
+I was able to ignore classpath scan, but I believe using Jetty quickstart functionality is a better approach as it
+is very difficult to do classpath scanning control right. I will leave scanning on and document other
 
 #### ByteBuddy
 
@@ -62,7 +69,8 @@ class string definition, done! See ObjectProxyFactory for details.
      
 #### Spark
 
-Liked, simpler than SpringMVC, also don't use annotations, which I generally dislike. 
+Liked, simpler than SpringMVC, also don't use annotations, which I generally dislike. Seems very good to make 
+microservices
 
 #### No DI
 
