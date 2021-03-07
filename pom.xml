@@ -35,7 +35,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>11</jdk.version>
-        <groovy.version>3.0.3</groovy.version>
+        <groovy.version>3.0.7</groovy.version>
         <groovy-eclipse-compiler.version>3.6.0-03</groovy-eclipse-compiler.version>
         <groovy-eclipse-batch.version>3.0.3-01</groovy-eclipse-batch.version>
         <junit.version>5.6.2</junit.version>
