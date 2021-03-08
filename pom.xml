@@ -45,7 +45,7 @@
         <commons-lang3.version>3.10</commons-lang3.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <json-io.version>4.12.0</json-io.version>
-        <modelmapper.version>2.3.0</modelmapper.version>
+        <modelmapper.version>2.3.9</modelmapper.version>
         <commons-io.version>2.6</commons-io.version>
         <commons-validator.version>1.4.1</commons-validator.version>
         <reflections.version>0.9.12</reflections.version>
