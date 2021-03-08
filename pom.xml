@@ -49,7 +49,7 @@
         <commons-io.version>2.6</commons-io.version>
         <commons-validator.version>1.4.1</commons-validator.version>
         <reflections.version>0.9.12</reflections.version>
-        <byte-buddy.version>1.10.10</byte-buddy.version>
+        <byte-buddy.version>1.10.20</byte-buddy.version>
         <HikariCP.version>3.4.3</HikariCP.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
