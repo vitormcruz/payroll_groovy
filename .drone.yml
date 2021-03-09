@@ -3,7 +3,32 @@ type: docker
 name: pyroll-pipeline
 
 steps:
-  - name: test
-    image: maven:3.6.3-jdk-8-slim
+
+  - name: Build
+    image: maven:3.6.3-jdk-11-slim
     commands:
-      - mvn test -B
+      - mvn test-compile
+      -
+  - name: Unit Test
+    image: maven:3.6.3-jdk-11-slim
+    commands:
+      - mvn test -Dtest=*UnitTest
+    depends_on: [ Build ]
+
+  - name: Integration Test
+    image: maven:3.6.3-jdk-11-slim
+    commands:
+      - mvn test -Dtest=*IntTest
+    depends_on: [ Build ]
+
+  - name: Feature Test
+    image: maven:3.6.3-jdk-11-slim
+    commands:
+      - mvn test -Dtest=*FeatureTest
+    depends_on: [ Build ]
+
+  - name: Performance Test
+    image: maven:3.6.3-jdk-11-slim
+    commands:
+      - mvn test -Dtest=*PerformanceTest
+    depends_on: [ Build ]

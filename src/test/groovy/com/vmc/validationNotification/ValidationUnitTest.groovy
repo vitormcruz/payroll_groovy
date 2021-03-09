@@ -7,7 +7,7 @@ import static com.vmc.validationNotification.Validation.validate
 import static com.vmc.validationNotification.Validation.validateNewObject
 import static groovy.test.GroovyAssert.shouldFail
 
-class ValidationUniTest {
+class ValidationUnitTest {
 
     @Test
     void "Validate a valid execution"(){
