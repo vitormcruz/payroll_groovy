@@ -1,17 +1,8 @@
 version: "1.0"
-# Stages can help you organize your steps in stages
-#stages:
-#  - "Clone"
-#  - "Build"
-#  - "Unit Test"
-#  - "Integration Test"
-#  - "Feature Test"
-#  - "Performance Test"
 
 steps:
   clone:
     title: "Cloning repository"
-#    stage: "Clone"
     type: "git-clone"
     repo: "vitormcruz/payroll_groovy"
     revision: "${{CF_BRANCH}}"
@@ -19,12 +10,11 @@ steps:
 
   build:
     title: "Building Payroll"
-#    stage: "Build"
     type: "freestyle"
     image: "maven:3.6.3-jdk-11-slim"
     working_directory: "${{clone}}"
     commands:
-      - mvn package -DskipTests
+      - mvn package -DskipTests -Dmaven.repo.local=/codefresh/volume/m2_repository
 
   running_tests:
     title: "Running Tests"
@@ -36,7 +26,7 @@ steps:
         image: "maven:3.6.3-jdk-11-slim"
         working_directory: "${{clone}}"
         commands:
-          - mvn test -Dtest=*UnitTest
+          - mvn test -Dtest=*UnitTest -Dmaven.repo.local=/codefresh/volume/m2_repository
 
       int_test:
         title: "Integration Test"
@@ -44,7 +34,7 @@ steps:
         image: "maven:3.6.3-jdk-11-slim"
         working_directory: "${{clone}}"
         commands:
-          - mvn test -Dtest=*IntTest
+          - mvn test -Dtest=*IntTest -Dmaven.repo.local=/codefresh/volume/m2_repository
 
       feature_test:
         title: "Feature Test"
@@ -52,7 +42,7 @@ steps:
         image: "maven:3.6.3-jdk-11-slim"
         working_directory: "${{clone}}"
         commands:
-          - mvn test -Dtest=*FeatureTest
+          - mvn test -Dtest=*FeatureTest -Dmaven.repo.local=/codefresh/volume/m2_repository
 
       performance_test:
         title: "Performance Test"
@@ -60,4 +50,4 @@ steps:
         image: "maven:3.6.3-jdk-11-slim"
         working_directory: "${{clone}}"
         commands:
-          - mvn test -Dtest=*PerformanceTest
+          - mvn test -Dtest=*PerformanceTest -Dmaven.repo.local=/codefresh/volume/m2_repository
