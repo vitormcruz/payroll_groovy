@@ -1,17 +1,17 @@
 version: "1.0"
 # Stages can help you organize your steps in stages
-stages:
-  - "Clone"
-  - "Build"
-  - "Unit Test"
-  - "Integration Test"
-  - "Feature Test"
-  - "Performance Test"
+#stages:
+#  - "Clone"
+#  - "Build"
+#  - "Unit Test"
+#  - "Integration Test"
+#  - "Feature Test"
+#  - "Performance Test"
 
 steps:
   clone:
     title: "Cloning repository"
-    stage: "Clone"
+#    stage: "Clone"
     type: "git-clone"
     repo: "vitormcruz/payroll_groovy"
     revision: "${{CF_BRANCH}}"
@@ -19,42 +19,45 @@ steps:
 
   build:
     title: "Building Payroll"
-    stage: "Build"
+#    stage: "Build"
     type: "freestyle"
     image: "maven:3.6.3-jdk-11-slim"
     working_directory: "${{clone}}"
     commands:
       - mvn package -DskipTests
 
+  running_tests:
+    title: "Running Tests"
+    type: parallel
+    steps:
+      unit_test:
+        title: "Unit Test"
+        type: "freestyle"
+        image: "maven:3.6.3-jdk-11-slim"
+        working_directory: "${{clone}}"
+        commands:
+          - mvn test -Dtest=*UnitTest
 
+      int_test:
+        title: "Integration Test"
+        type: "freestyle"
+        image: "maven:3.6.3-jdk-11-slim"
+        working_directory: "${{clone}}"
+        commands:
+          - mvn test -Dtest=*IntTest
 
-#steps:
-#
-#  - name: Build
-#    image: maven:3.6.3-jdk-11-slim
-#    commands:
-#      - mvn test-compile
-#      -
-#  - name: Unit Test
-#    image: maven:3.6.3-jdk-11-slim
-#    commands:
-#      - mvn test -Dtest=*UnitTest
-#    depends_on: [ Build ]
-#
-#  - name: Integration Test
-#    image: maven:3.6.3-jdk-11-slim
-#    commands:
-#      - mvn test -Dtest=*IntTest
-#    depends_on: [ Build ]
-#
-#  - name: Feature Test
-#    image: maven:3.6.3-jdk-11-slim
-#    commands:
-#      - mvn test -Dtest=*FeatureTest
-#    depends_on: [ Build ]
-#
-#  - name: Performance Test
-#    image: maven:3.6.3-jdk-11-slim
-#    commands:
-#      - mvn test -Dtest=*PerformanceTest
-#    depends_on: [ Build ]
+      feature_test:
+        title: "Feature Test"
+        type: "freestyle"
+        image: "maven:3.6.3-jdk-11-slim"
+        working_directory: "${{clone}}"
+        commands:
+          - mvn test -Dtest=*FeatureTest
+
+      performance_test:
+        title: "Performance Test"
+        type: "freestyle"
+        image: "maven:3.6.3-jdk-11-slim"
+        working_directory: "${{clone}}"
+        commands:
+          - mvn test -Dtest=*PerformanceTest
