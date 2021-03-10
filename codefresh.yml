@@ -11,7 +11,7 @@ stages:
 steps:
   clone:
     title: "Cloning repository"
-    stage: "clone"
+    stage: "Clone"
     type: "git-clone"
     repo: "vitormcruz/payroll_groovy"
     revision: "${{CF_BRANCH}}"
