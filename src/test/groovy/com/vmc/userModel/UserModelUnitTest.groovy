@@ -20,7 +20,7 @@ class UserModelUnitTest {
         def modelSnapshot = new GeneralUserModel()
         def date = modelSnapshot.manageObject(new Date(), [] as ObjectChangeProvider)
         System.gc()
-        assertWaitingSuccess({modelSnapshot.getManagedObjects().contains(date)})
+        assertWaitingSuccess({modelSnapshot.getManagedObjects().contains(date)}, 5000)
     }
 
     @Test
@@ -28,7 +28,7 @@ class UserModelUnitTest {
         def modelSnapshot = new GeneralUserModel()
         modelSnapshot.manageObject(new Date(), [] as ObjectChangeProvider)
         System.gc()
-        assertWaitingSuccess({assert modelSnapshot.getManagedObjects().isEmpty()}, 1000)
+        assertWaitingSuccess({assert modelSnapshot.getManagedObjects().isEmpty()}, 5000)
     }
 
     @Test
@@ -40,7 +40,7 @@ class UserModelUnitTest {
             assert !modelSnapshot.getManagedObjects().isEmpty() &&
                     modelSnapshot.getManagedObjects().first().getObject().getTime() == 0 :
                     "Dirty (changed) objects should be retained in the model"
-        })
+        }, 5000)
     }
 
     @Test
@@ -121,7 +121,7 @@ class UserModelUnitTest {
         def modelSnapshot = new GeneralUserModel()
         modelSnapshot.registerListener({ } as UserModelListener)
         System.gc()
-        assertWaitingSuccess({assert modelSnapshot.getListeners().isEmpty()})
+        assertWaitingSuccess({assert modelSnapshot.getListeners().isEmpty()}, 5000)
     }
 
     void addDateToModelAndChange(GeneralUserModel modelSnapshot, objectToAdd, changeClosure) {
