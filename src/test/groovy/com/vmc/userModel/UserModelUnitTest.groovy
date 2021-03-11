@@ -28,7 +28,7 @@ class UserModelUnitTest {
         def modelSnapshot = new GeneralUserModel()
         modelSnapshot.manageObject(new Date(), [] as ObjectChangeProvider)
         System.gc()
-        assertWaitingSuccess({assert modelSnapshot.getManagedObjects().isEmpty()})
+        assertWaitingSuccess({assert modelSnapshot.getManagedObjects().isEmpty()}, 1000)
     }
 
     @Test
