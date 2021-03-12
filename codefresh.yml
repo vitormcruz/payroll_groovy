@@ -17,35 +17,35 @@ steps:
       - mvn package -DskipTests -Dmaven.repo.local=/codefresh/volume/m2_repository
       - mvn test-compile -Dmaven.repo.local=/codefresh/volume/m2_repository
 
-  running_tests:
-    title: "Running Tests"
-    type: parallel
-    steps:
-      unit_test:
-        title: "Fast Test"
-        type: "freestyle"
-        image: "maven:3.6.3-jdk-11-slim"
-        working_directory: "${{clone}}"
-        commands:
-          - mvn test -Dtest=*UnitTest,*FeatureTest -Dmaven.repo.local=/codefresh/volume/m2_repository -PskipVaadinFrontendPrep
-
-      int_test:
-        title: "Slow Test"
-        type: "freestyle"
-        image: "maven:3.6.3-jdk-11-slim"
-        working_directory: "${{clone}}"
-        commands:
-          - mvn test -Dtest=*IntTest -Dmaven.repo.local=/codefresh/volume/m2_repository -PskipVaadinFrontendPrep
-
-  performance_test:
-    title: "Performance Test"
-    type: "freestyle"
-    image: "maven:3.6.3-jdk-11-slim"
-    working_directory: "${{clone}}"
-    environment:
-      - "TEST_MACHINE_PERFORMANCE_DEGRADATION_FACTOR=4"
-    commands:
-      - mvn test -Dtest=*PerformanceTest -Dmaven.repo.local=/codefresh/volume/m2_repository -PskipVaadinFrontendPrep
+#  running_tests:
+#    title: "Running Tests"
+#    type: parallel
+#    steps:
+#      unit_test:
+#        title: "Fast Test"
+#        type: "freestyle"
+#        image: "maven:3.6.3-jdk-11-slim"
+#        working_directory: "${{clone}}"
+#        commands:
+#          - mvn test -Dtest=*UnitTest,*FeatureTest -Dmaven.repo.local=/codefresh/volume/m2_repository -PskipVaadinFrontendPrep
+#
+#      int_test:
+#        title: "Slow Test"
+#        type: "freestyle"
+#        image: "maven:3.6.3-jdk-11-slim"
+#        working_directory: "${{clone}}"
+#        commands:
+#          - mvn test -Dtest=*IntTest -Dmaven.repo.local=/codefresh/volume/m2_repository -PskipVaadinFrontendPrep
+#
+#  performance_test:
+#    title: "Performance Test"
+#    type: "freestyle"
+#    image: "maven:3.6.3-jdk-11-slim"
+#    working_directory: "${{clone}}"
+#    environment:
+#      - "TEST_MACHINE_PERFORMANCE_DEGRADATION_FACTOR=4"
+#    commands:
+#      - mvn test -Dtest=*PerformanceTest -Dmaven.repo.local=/codefresh/volume/m2_repository -PskipVaadinFrontendPrep
 
   build_docker_image:
     title: "Building Docker Image"
