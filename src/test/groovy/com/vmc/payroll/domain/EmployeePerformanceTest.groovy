@@ -38,7 +38,7 @@ class EmployeePerformanceTest extends IntegrationTestBase {
             ]
 
     private static ObjectMother<Employee> employeeMother
-    public static final int MAX_TIME_EXECUTION = 9000
+    public static final int MAX_TIME_EXECUTION = 20000
 
     def benchmark = { closure ->
       def start = System.currentTimeMillis()
