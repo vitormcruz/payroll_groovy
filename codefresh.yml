@@ -46,3 +46,11 @@ steps:
       - "TEST_MACHINE_PERFORMANCE_DEGRADATION_FACTOR=4"
     commands:
       - mvn test -Dtest=*PerformanceTest -Dmaven.repo.local=/codefresh/volume/m2_repository -PskipVaadinFrontendPrep
+
+  deploy_to_heroku:
+    title: "Deploying to Dev"
+    type: "heroku-deployer"
+    arguments:
+      APP_NAME: $APP_NAME
+      EMAIL: $EMAIL
+      API_TOKEN: $API_TOKEN
