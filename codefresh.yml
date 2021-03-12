@@ -74,7 +74,6 @@ steps:
 
   release_in_heroku:
     title: "Releasing in Dev"
-    stage: "release"
     type: "freestyle"
     arguments:
       image: "nazarcodefresh/heroku-cli:alpine"
