@@ -13,6 +13,7 @@ import com.vmc.payroll.domain.payment.type.Hourly
 import com.vmc.payroll.domain.payment.type.Monthly
 import com.vmc.payroll.external.config.DependencyLocator
 import com.vmc.payroll.testPreparation.IntegrationTestBase
+import com.vmc.payroll.testPreparation.TestEnvVariables
 import com.vmc.userModel.GeneralUserModel
 import com.vmc.userModel.api.UserModel
 import org.junit.jupiter.api.BeforeAll
@@ -38,7 +39,7 @@ class EmployeePerformanceTest extends IntegrationTestBase {
             ]
 
     private static ObjectMother<Employee> employeeMother
-    public static final int MAX_TIME_EXECUTION = 20000
+    public static final int MAX_TIME_EXECUTION = 9000 * (TestEnvVariables.testMachinePerformanceDegradationFactor + 1)
 
     def benchmark = { closure ->
       def start = System.currentTimeMillis()
