@@ -64,14 +64,6 @@ steps:
       image_name: "${{IMAGE_NAME}}"
       registry: "heroku"
 
-  deploy_to_heroku:
-    title: "Deploying to Dev"
-    type: "heroku-deployer"
-    arguments:
-      APP_NAME: $APP_NAME
-      EMAIL: $EMAIL
-      API_TOKEN: $API_TOKEN
-
   release_in_heroku:
     title: "Releasing in Dev"
     type: "freestyle"
