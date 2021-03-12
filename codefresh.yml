@@ -47,6 +47,23 @@ steps:
     commands:
       - mvn test -Dtest=*PerformanceTest -Dmaven.repo.local=/codefresh/volume/m2_repository -PskipVaadinFrontendPrep
 
+  build_docker_image:
+    title: "Building Docker Image"
+    type: "build"
+    working_directory: "./payroll_groovy"
+    arguments:
+      image_name: "payroll-vmc-study-case"
+      tag: "1.0.0"
+      dockerfile: "Dockerfile"
+
+  push_image_to_heroku:
+    title: "Pushing image to Dev"
+    type: "push"
+    arguments:
+      candidate: '${{build}}'
+      image_name: "${{IMAGE_NAME}}"
+      registry: "heroku"
+
   deploy_to_heroku:
     title: "Deploying to Dev"
     type: "heroku-deployer"
@@ -54,3 +71,16 @@ steps:
       APP_NAME: $APP_NAME
       EMAIL: $EMAIL
       API_TOKEN: $API_TOKEN
+
+  release_in_heroku:
+    title: "Releasing in Dev"
+    stage: "release"
+    type: "freestyle"
+    arguments:
+      image: "nazarcodefresh/heroku-cli:alpine"
+      commands:
+        - >-
+          printf "machine api.heroku.com\n  login $EMAIL\n  password
+          $API_TOKEN\nmachine git.heroku.com\n  login $EMAIL\n  password
+          $API_TOKEN\n" > ~/.netrc
+        - "heroku container:release --app $IMAGE_NAME web"
