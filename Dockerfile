@@ -7,4 +7,4 @@ COPY cmd.sh /
 RUN export JAVA_OPTIONS="-Xmx512mb"
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD "/cmd.sh"
+CMD ["/cmd.sh"]
