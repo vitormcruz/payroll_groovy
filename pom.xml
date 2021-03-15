@@ -148,7 +148,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <frontendDirectory>${project.basedir}/src/main/frontend</frontendDirectory>
+                   <skipEs5>true</skipEs5>
+                   <frontendDirectory>${project.basedir}/src/main/frontend</frontendDirectory>
                 </configuration>
             </plugin>
 
