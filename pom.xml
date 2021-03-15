@@ -149,6 +149,8 @@
                 </executions>
                 <configuration>
                    <skipEs5>true</skipEs5>
+                    <minify>false</minify>
+                    <optimizeBundle>false</optimizeBundle>
                    <frontendDirectory>${project.basedir}/src/main/frontend</frontendDirectory>
                 </configuration>
             </plugin>
@@ -533,7 +535,10 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <frontendDirectory>${project.basedir}/src/main/frontend</frontendDirectory>
+                           <skipEs5>true</skipEs5>
+                           <minify>false</minify>
+                           <optimizeBundle>false</optimizeBundle>
+                           <frontendDirectory>${project.basedir}/src/main/frontend</frontendDirectory>
                         </configuration>
                     </plugin>
                 </plugins>
