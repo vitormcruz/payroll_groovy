@@ -11,7 +11,7 @@ COPY target/payroll-groovy*.war /var/lib/jetty/webapps/ROOT.war
 COPY --from=grantPermissions /entrypoint.sh /
 COPY --from=grantPermissions /cmd.sh /
 
-RUN export JAVA_OPTIONS="-Xmx512mb"
+RUN export JAVA_OPTIONS="-Xmx400mb"
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/cmd.sh"]
