@@ -1,0 +1,8 @@
+language: java
+
+jdk:
+  - openjdk11
+
+sudo: false
+
+script: "mvn package -DskipTests -Dmaven.repo.local=/codefresh/volume/m2_repository -Pproduction"
