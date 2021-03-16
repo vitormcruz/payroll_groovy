@@ -46,6 +46,18 @@ jobs:
         with:
           java-version: 11
           
-      - name: Build
+      - name: Build Java
         run: mvn package -DskipTest -Pproduction
-
+        
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+        
+      - name: Build Docker Pushing to DockerHub
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: vitormcruz/payroll-vmc-case-study:latest
