@@ -10,13 +10,21 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v2
     
-    #  - name: Setup Java JDK
-    #    uses: actions/setup-java@v1.4.3
-    #    with:
-    #      java-version: 11
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
           
-    #  - name: Build
-    #    run: mvn test -Dtest=*UnitTest,*FeatureTest
+      - name: Cache M2
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+        
+      - name: Build
+        run: mvn test -Dtest=*UnitTest,*FeatureTest
         
   Run_Slow_Tests:
     runs-on: ubuntu-latest
@@ -24,15 +32,15 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v2
     
-   #   - name: Setup Java JDK
-   #     uses: actions/setup-java@v1.4.3
-   #     with:
-   #       java-version: 11
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
           
-  #    - name: Build
-  #      env: 
-  #        TEST_MACHINE_PERFORMANCE_DEGRADATION_FACTOR: 4
-  #      run: mvn test -Dtest=*PerformanceTest,*IntTest
+      - name: Build
+        env: 
+          TEST_MACHINE_PERFORMANCE_DEGRADATION_FACTOR: 4
+        run: mvn test -Dtest=*PerformanceTest,*IntTest
           
   Build:
     runs-on: ubuntu-latest
