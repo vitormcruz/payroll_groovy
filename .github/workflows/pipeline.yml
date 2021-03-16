@@ -24,15 +24,15 @@ jobs:
     
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkou Project
+      - name: Checkout Project
         uses: actions/checkout@v2
     
-#      - name: Setup Java JDK
-#        uses: actions/setup-java@v1.4.3
-#        with:
-#          java-version:  11
-#          
- #     - name: Build
- #       run: mvn package -DskipTest
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+          
+      - name: Build
+        run: mvn package -DskipTest
 
 
