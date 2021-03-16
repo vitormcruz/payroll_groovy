@@ -10,13 +10,13 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v2
     
-      - name: Setup Java JDK
-        uses: actions/setup-java@v1.4.3
-        with:
-          java-version: 11
+    #  - name: Setup Java JDK
+    #    uses: actions/setup-java@v1.4.3
+    #    with:
+    #      java-version: 11
           
-      - name: Build
-        run: mvn test -Dtest=*UnitTest,*FeatureTest
+    #  - name: Build
+    #    run: mvn test -Dtest=*UnitTest,*FeatureTest
         
   Run_Slow_Tests:
     runs-on: ubuntu-latest
@@ -59,5 +59,6 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
+          context: .
           push: true
           tags: vitormcruz/payroll-vmc-case-study:latest
