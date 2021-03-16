@@ -69,7 +69,7 @@ jobs:
           java-version: 11
           
       - name: Build Java
-        run: mvn package -DskipTests
+        run: mvn package -DskipTests -Pproduction
         
       - name: Login to DockerHub
         uses: docker/login-action@v1 
@@ -93,7 +93,12 @@ jobs:
           tags: |
             vitormcruz/payroll-vmc-case-study:latest
             registry.heroku.com/payroll-vmc-case-study/web
-            
+  
+  Release:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    
+    steps:
       - name: Release in Heroku
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
