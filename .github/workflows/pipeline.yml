@@ -33,6 +33,8 @@ jobs:
           java-version: 11
           
       - name: Build
-        run: mvn package -DskipTest
+        run: |
+          export TEST_MACHINE_PERFORMANCE_DEGRADATION_FACTOR=4
+          mvn package -DskipTest -Pproduction
 
 
