@@ -4,7 +4,7 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   
-  Run Fast Tests:
+  Run_Fast_Tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
@@ -18,7 +18,7 @@ jobs:
       - name: Build
         run: mvn test -Dtest=*UnitTest,*FeatureTest
         
-  Run Slow Tests:
+  Run_Slow_Tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
@@ -36,7 +36,7 @@ jobs:
           
   Build:
     runs-on: ubuntu-latest
-    needs: [Run Fast Tests, Run Slow Tests]
+    needs: [Run_Fast_Tests, Run_Slow_Tests]
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
