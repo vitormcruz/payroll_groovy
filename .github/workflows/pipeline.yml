@@ -4,7 +4,21 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   
-  Run Tests:
+  Run Fast Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+    
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+          
+      - name: Build
+        run: mvn test -Dtest=*UnitTest,*FeatureTest
+        
+  Run Slow Tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
@@ -18,12 +32,11 @@ jobs:
       - name: Build
         env: 
           TEST_MACHINE_PERFORMANCE_DEGRADATION_FACTOR: 4
-          
-        run: mvn package -DskipTest -Pproduction
+        run: mvn test -Dtest=*PerformanceTest,*IntTest
           
   Build:
     runs-on: ubuntu-latest
-    needs: [Run Tests]
+    needs: [Run Fast Tests, Run Slow Tests]
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
