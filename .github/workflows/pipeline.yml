@@ -18,6 +18,9 @@ jobs:
             key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
             restore-keys: |
               ${{ runner.os }}-maven-
+              
+        - name: Maven Compile to Fech Dependencies
+          run: mvn test-compile 
            
   
   Run_Fast_Tests:
