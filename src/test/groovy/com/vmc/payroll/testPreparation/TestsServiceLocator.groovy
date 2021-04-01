@@ -1,7 +1,7 @@
 package com.vmc.payroll.testPreparation
 
-import com.vmc.payroll.external.config.DatabaseCleaner
-import com.vmc.payroll.external.config.ServiceLocator
+import com.vmc.payroll.config.ServiceLocator
+
 
 @Singleton(lazy = true, strict = false)
 class TestsServiceLocator extends ServiceLocator {

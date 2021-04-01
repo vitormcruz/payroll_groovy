@@ -1,7 +1,7 @@
 Payroll Groovy
 ==============
 
-[![Codefresh build status]( https://g.codefresh.io/api/badges/pipeline/vitormcruz/payroll%2Fpayroll?type=cf-1&key=eyJhbGciOiJIUzI1NiJ9.NjA0N2VkNDMzY2I0YTE2ZjczOTY1MDQy.Whj5t_oJhFCfi0SWDiQ_xqcyNkUzjqNUHsrsdh_kHus)]( https://g.codefresh.io/pipelines/edit/new/builds?id=6047ee91989625f781dee9f8&pipeline=payroll&projects=payroll&projectId=6047ee81e93681f513c86215)
+[![Codefresh build status](https://github.com/vitormcruz/payroll_groovy/actions/workflows/pipeline.yml/badge.svg)
                 
 Implementation of the Payroll application as described (more or less) by Agile Software Development - Principles, Patterns and Practices. Used it to make various experiments.
 
