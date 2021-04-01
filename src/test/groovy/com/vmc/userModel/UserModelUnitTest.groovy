@@ -1,8 +1,6 @@
 package com.vmc.userModel
 
 import com.vmc.objectMemento.ObjectChangeProvider
-import com.vmc.payroll.external.config.DependencyLocator
-import com.vmc.payroll.testPreparation.DependencyLocatorForTest
 import com.vmc.userModel.api.UserModelListener
 import org.junit.jupiter.api.Test
 
@@ -10,10 +8,6 @@ import org.junit.jupiter.api.Test
 class UserModelUnitTest {
 
     public static final int TIMEOUT = 3000
-
-    static {
-        DependencyLocator.load(DependencyLocatorForTest)
-    }
 
     @Test
     void "Test obtaining referenced object from user model"(){

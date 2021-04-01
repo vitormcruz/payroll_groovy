@@ -11,7 +11,6 @@ import com.vmc.payroll.domain.payment.type.Commission
 import com.vmc.payroll.domain.payment.type.GenericPaymentType
 import com.vmc.payroll.domain.payment.type.Hourly
 import com.vmc.payroll.domain.payment.type.Monthly
-import com.vmc.payroll.external.config.DependencyLocator
 import com.vmc.payroll.testPreparation.IntegrationTestBase
 import com.vmc.payroll.testPreparation.TestEnvVariables
 import com.vmc.userModel.GeneralUserModel
@@ -52,7 +51,7 @@ class EmployeePerformanceTest extends IntegrationTestBase {
     def static void setupAll(){
         def userModelSnapshot = new GeneralUserModel()
         UserModel.load(userModelSnapshot)
-        employeeRepository = DependencyLocator.instance.employeeRepository
+        employeeRepository = serviceLocator.employeeRepository
         employeeMother = new ObjectMother<Employee>(Employee)
                                 .configurePostBirthScript { newEmployee -> employeeRepository.add(newEmployee)}
                                 .addBirthScript {
