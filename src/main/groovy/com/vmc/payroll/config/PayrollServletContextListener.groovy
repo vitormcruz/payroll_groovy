@@ -13,7 +13,7 @@ import javax.servlet.ServletContextListener
 import javax.servlet.annotation.WebListener
 
 @WebListener
-class PayrollServletContextListener implements ServletContextListener {
+class PayrollServletContextListener implements ServletContextListener{
 
     private static final ServiceLocator serviceLocator = ServiceLocator.instance
 

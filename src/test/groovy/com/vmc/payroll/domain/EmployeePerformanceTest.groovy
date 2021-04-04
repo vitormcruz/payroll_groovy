@@ -1,7 +1,7 @@
 package com.vmc.payroll.domain
 
 import com.github.javafaker.Faker
-import com.vmc.objectMother.ObjectMother
+import com.vmc.instantiation.extensions.ObjectMother
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.delivery.AccountTransfer
 import com.vmc.payroll.domain.payment.delivery.Mail

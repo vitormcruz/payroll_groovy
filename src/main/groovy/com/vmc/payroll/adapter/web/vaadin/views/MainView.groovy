@@ -10,8 +10,7 @@ import com.vaadin.flow.router.Route
 import com.vaadin.flow.theme.Theme
 import com.vaadin.flow.theme.material.Material
 import com.vmc.payroll.domain.Employee
-import com.vmc.payroll.domain.payment.delivery.Paymaster
-import com.vmc.payroll.domain.payment.type.Monthly
+import com.vmc.payroll.domain.api.Repository
 
 @Route("")
 @CssImport("./styles/shared-styles.css")
@@ -20,7 +19,11 @@ import com.vmc.payroll.domain.payment.type.Monthly
 @Theme(value = Material)
 class MainView extends AppLayout {
 
+    Repository<Employee> employees
+
+
     MainView() {
+        notifyInstanceCreated(this)
         Tabs tabs = new Tabs(new Tab("List Employees"), new Tab("Process Payroll"))
         tabs.setOrientation(Tabs.Orientation.VERTICAL)
         addToDrawer(tabs)
@@ -32,23 +35,7 @@ class MainView extends AppLayout {
     }
 
     private List createEmployees() {
-        def employees = []
-        employees.add(new Employee("Vitor", "Rua 1", "email@email.com.br",
-                { Monthly.newPaymentType(it, 2000) },
-                { Paymaster.newPaymentDelivery(it) }))
-
-        employees.add(new Employee("Carla", "Rua 2", "email2@email.com.br",
-                { Monthly.newPaymentType(it, 2000) },
-                { Paymaster.newPaymentDelivery(it) }))
-
-        employees.add(new Employee("José", "Rua 2", "email2@email.com.br",
-                { Monthly.newPaymentType(it, 2000) },
-                { Paymaster.newPaymentDelivery(it) }))
-
-        employees.add(new Employee("Luciana", "Rua 3", "email3@email.com.br",
-                { Monthly.newPaymentType(it, 2000) },
-                { Paymaster.newPaymentDelivery(it) }))
-        return employees
+        return new ArrayList(employees)
     }
 
 }

@@ -1,10 +1,12 @@
 package com.vmc.payroll.config
 
+import com.vmc.instantiation.extensions.InstanceCreatedListener
 import com.vmc.objectMemento.InMemoryObjectChangeProvider
 import com.vmc.objectMemento.ObjectChangeProvider
 import com.vmc.payroll.adapter.logback.servlet.EnvVarLoaderLoggerConfiguration
 import com.vmc.payroll.adapter.persistence.inMemory.repository.CommonInMemoryRepository
 import com.vmc.payroll.adapter.web.spark.EmployeeRestController
+import com.vmc.payroll.adapter.web.vaadin.views.MainView
 import com.vmc.payroll.domain.Employee
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.userModel.GeneralUserModel
@@ -46,7 +48,7 @@ import com.vmc.userModel.api.UserModel
  *
  */
 @Singleton(lazy = true, strict = false)
-class ServiceLocator {
+class ServiceLocator implements InstanceCreatedListener {
 
     @Lazy
     EnvVarLoaderLoggerConfiguration envVarLoaderLoggerConfiguration = new EnvVarLoaderLoggerConfiguration()
@@ -64,7 +66,22 @@ class ServiceLocator {
     @Lazy
     EmployeeRestController employeeWebServiceController = new EmployeeRestController(employeeRepository)
 
+    /**
+     * Vaadin routers associates a URI to a class defining it's View by using the annotation {@code @Router}, and Vaadin
+     * takes care of instantiate this. The problem is that I loose control of how a View gets to be created, and so I
+     * cannot inject any dependency on it because I do not have access to it's instance. vaadinUIConfiguration defines
+     * how my views should be configured, i.e. which beans should be inject through it's properties, and my constructor
+     * register myself as a listener of Views to be configured. All my views notify it's creation during it's
+     * construction.
+     */
+    private def vaadinUIConfiguration = [(MainView) : {MainView i -> i.employees = employeeRepository}]
+
     protected ServiceLocator() {
+        this.registerInstanceCreatedListener(MainView)
     }
 
+    @Override
+    void instanceCreated(Object newObject) {
+        vaadinUIConfiguration.get(newObject.getClass())?.call(newObject)
+    }
 }

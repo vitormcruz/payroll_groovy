@@ -1,4 +1,4 @@
-package com.vmc.objectMother
+package com.vmc.instantiation.extensions
 
 import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.FirstParam

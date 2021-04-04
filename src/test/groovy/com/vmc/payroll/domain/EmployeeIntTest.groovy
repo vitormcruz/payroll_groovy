@@ -1,6 +1,6 @@
 package com.vmc.payroll.domain
 
-import com.vmc.objectMother.ObjectMother
+import com.vmc.instantiation.extensions.ObjectMother
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.attachment.SalesReceipt
 import com.vmc.payroll.domain.payment.attachment.ServiceCharge

@@ -1,6 +1,6 @@
-package com.vmc.objectMother.imp
+package com.vmc.instantiation.extensions.imp
 
-import com.vmc.objectMother.ObjectMother
+import com.vmc.instantiation.extensions.ObjectMother
 import com.vmc.validationNotification.testPreparation.ValidationNotificationTestSetup
 import org.junit.jupiter.api.Test
 
