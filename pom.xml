@@ -46,7 +46,7 @@
         <commons-collections4.version>4.4</commons-collections4.version>
         <json-io.version>4.12.0</json-io.version>
         <modelmapper.version>2.3.9</modelmapper.version>
-        <commons-io.version>2.6</commons-io.version>
+        <commons-io.version>2.7</commons-io.version>
         <commons-validator.version>1.4.1</commons-validator.version>
         <reflections.version>0.9.12</reflections.version>
         <byte-buddy.version>1.10.20</byte-buddy.version>
