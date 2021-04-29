@@ -24,7 +24,7 @@ jobs:
           run: mvn test-compile 
            
   
-  Tests:
+  Run_Fast_Tests:
     runs-on: ubuntu-latest
     needs: [Prepare_Pipeline]
     steps:
@@ -36,11 +36,26 @@ jobs:
         with:
           java-version: 11
           
-      - name: Run Tests
-        env:
+      - name: Build
+        run: mvn test -Dtest=*UnitTest,*FeatureTest
+        
+  Run_Slow_Tests:
+    runs-on: ubuntu-latest
+    needs: [Prepare_Pipeline]
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+    
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+          
+      - name: Build
+        env: 
           TEST_MACHINE_PERFORMANCE_DEGRADATION_FACTOR: 4
-        run: mvn test
-
+        run: mvn test -Dtest=*PerformanceTest,*IntTest
+          
   Build:
     runs-on: ubuntu-latest
     needs: [Run_Fast_Tests, Run_Slow_Tests]
