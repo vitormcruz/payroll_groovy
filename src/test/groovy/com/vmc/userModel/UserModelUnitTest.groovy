@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test
 //TODO adjust all naming to UserModel, i think it is better for it to have a similar behavior of a memento.
 class UserModelUnitTest {
 
-    public static final int TIMEOUT = 3000
 
     @Test
     void "Test obtaining referenced object from user model"(){
@@ -122,16 +121,4 @@ class UserModelUnitTest {
         def date = modelSnapshot.manageObject(objectToAdd, [] as ObjectChangeProvider)
         changeClosure(date)
     }
-
-    def assertWaitingSuccess(assertion, timeout=TIMEOUT, originalError=null){
-        try {
-            sleep(100)
-            timeout -= 100
-            assertion()
-        } catch (AssertionError e) {
-            if(timeout < 0) throw originalError? originalError : e
-            assertWaitingSuccess(assertion, timeout, originalError? originalError : e)
-        }
-    }
-
 }
