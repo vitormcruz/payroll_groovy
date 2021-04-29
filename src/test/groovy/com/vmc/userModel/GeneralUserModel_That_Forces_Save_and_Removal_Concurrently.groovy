@@ -3,12 +3,17 @@ package com.vmc.userModel
 import java.time.Instant
 
 class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends GeneralUserModel {
-    def removeCalled = false
+    def timesRemoveCalled = 0
     def delayedRemoveOperation = []
     private Instant removeStartTime
     private Instant removeEndTime
     private Instant actionStartTime
     private Instant actionEndTime
+    private int qtdObjectsThatWillBeRemoved
+
+    GeneralUserModel_That_Forces_Save_and_Removal_Concurrently(Integer qtdObjectsThatWillBeRemoved) {
+        this.qtdObjectsThatWillBeRemoved = qtdObjectsThatWillBeRemoved
+    }
 
     @Override
     void save() {
@@ -21,7 +26,7 @@ class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends General
     }
 
     private void doActionWhileRemovingManagedObjects(action) {
-        waitGCPromptsRemovalObjectManagement()
+        waitGCPromptsRemovalObjectsManagedes()
         def threadRemoveObjects = Thread.start {
             removeStartTime = Instant.now()
             delayedRemoveOperation.each { it() }
@@ -54,16 +59,16 @@ class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends General
                actionTime: $actionStartTime - $actionEndTime /)
     }
 
-    private void waitGCPromptsRemovalObjectManagement() {
+    private void waitGCPromptsRemovalObjectsManagedes() {
         System.gc()
-        while (!removeCalled) {
+        while (timesRemoveCalled < qtdObjectsThatWillBeRemoved ) {
             sleep(100)
         }
     }
 
     @Override
     void removeUnusedObjectIfNotDirty(ManagedObject managedObject){
-        removeCalled = true
+        timesRemoveCalled++
         delayedRemoveOperation.add({super.removeUnusedObjectIfNotDirty(managedObject)})
     }
 
