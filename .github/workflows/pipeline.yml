@@ -19,7 +19,9 @@ jobs:
             key: M2-maven-${{ hashFiles('**/pom.xml') }}
               
         - name: Maven Compile to Fech Dependencies
-          run: mvn dependency:go-offline
+          run: |
+            mvn --version
+            mvn dependency:go-offline
            
   
   Tests:
