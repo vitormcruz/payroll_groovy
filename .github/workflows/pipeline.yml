@@ -34,6 +34,12 @@ jobs:
         with:
           java-version: 11
           
+      - name: Cache M2
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: M2          
+          
       - name: Run Tests
         env:
           TEST_MACHINE_PERFORMANCE_DEGRADATION_FACTOR: 4
@@ -50,6 +56,12 @@ jobs:
         uses: actions/setup-java@v1.4.3
         with:
           java-version: 11
+          
+      - name: Cache M2
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: M2
           
       - name: Build Java
         run: mvn package -DskipTests -Pproduction
