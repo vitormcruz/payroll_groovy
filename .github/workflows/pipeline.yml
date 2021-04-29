@@ -16,7 +16,7 @@ jobs:
           uses: actions/cache@v1
           with:
             path: ~/.m2/repository
-            key: M2
+            key: M2-maven-${{ hashFiles('**/pom.xml') }}
               
         - name: Maven Compile to Fech Dependencies
           run: mvn dependency:go-offline
@@ -38,7 +38,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.m2/repository
-          key: M2          
+          key: M2-maven-${{ hashFiles('**/pom.xml') }}
           
       - name: Run Tests
         env:
@@ -61,7 +61,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.m2/repository
-          key: M2
+          key: M2-maven-${{ hashFiles('**/pom.xml') }}
           
       - name: Build Java
         run: mvn package -DskipTests -Pproduction
