@@ -11,7 +11,7 @@ class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends General
     private Instant actionStartTime
     private Instant actionEndTime
     private int qtdObjectsThatWillBeRemoved
-    private CountDownLatch countDownLatch = new CountDownLatch(2)
+    private CountDownLatch startExecution = new CountDownLatch(2)
 
     GeneralUserModel_That_Forces_Save_and_Removal_Concurrently(Integer qtdObjectsThatWillBeRemoved) {
         this.qtdObjectsThatWillBeRemoved = qtdObjectsThatWillBeRemoved
@@ -28,17 +28,17 @@ class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends General
     }
 
     private void doActionWhileRemovingManagedObjects(action) {
-        waitGCPromptsRemovalObjectsManagedes()
+        waitGCPromptsRemovalObjectsManaged()
         def threadRemoveObjects = Thread.start {
-            countDownLatch.countDown()
-            countDownLatch.await()
+            startExecution.countDown()
+            startExecution.await()
             removeStartTime = Instant.now()
             delayedRemoveOperation.each { it() }
             removeEndTime = Instant.now()
         }
 
-        countDownLatch.countDown()
-        countDownLatch.await()
+        startExecution.countDown()
+        startExecution.await()
         actionStartTime = Instant.now()
         action()
         actionEndTime = Instant.now()
@@ -65,7 +65,7 @@ class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends General
                actionTime: $actionStartTime - $actionEndTime /)
     }
 
-    private void waitGCPromptsRemovalObjectsManagedes() {
+    private void waitGCPromptsRemovalObjectsManaged() {
         System.gc()
         while (timesRemoveCalled < qtdObjectsThatWillBeRemoved ) {
             sleep(100)
