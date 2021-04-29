@@ -1,2 +1,4 @@
 **
-!**/**.war
+!target/*.war
+!cmd.sh
+!entrypoint.sh

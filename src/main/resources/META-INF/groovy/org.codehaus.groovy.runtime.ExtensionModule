@@ -2,6 +2,7 @@ moduleName=sandbox-module
 moduleVersion=1.0
 extensionClasses=com.vmc.userModel.extensions.instance.java.lang.ObjectMementoExtensions,  \
                  com.vmc.validationNotification.java.lang.ObjectValidationNotificationExtensions, \
-                 com.vmc.payroll.external.converter.JsonConversionExtensions
+                 com.vmc.payroll.adapter.json.JsonConversionExtensions, \
+                 com.vmc.instantiation.extensions.ObjectInstantiationExtensions
 
 staticExtensionClasses=

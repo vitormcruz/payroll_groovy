@@ -1,6 +1,6 @@
 package com.vmc.payroll.domain
 
-import com.vmc.objectMother.ObjectMother
+import com.vmc.instantiation.extensions.ObjectMother
 import com.vmc.payroll.domain.api.Repository
 import com.vmc.payroll.domain.payment.attachment.SalesReceipt
 import com.vmc.payroll.domain.payment.attachment.ServiceCharge
@@ -11,7 +11,6 @@ import com.vmc.payroll.domain.payment.delivery.Paymaster
 import com.vmc.payroll.domain.payment.type.Commission
 import com.vmc.payroll.domain.payment.type.Hourly
 import com.vmc.payroll.domain.payment.type.Monthly
-import com.vmc.payroll.external.config.DependencyLocator
 import com.vmc.payroll.testPreparation.IntegrationTestBase
 import com.vmc.userModel.GeneralUserModel
 import com.vmc.userModel.api.UserModel
@@ -25,7 +24,8 @@ import static groovy.test.GroovyAssert.shouldFail
 
 class EmployeeIntTest extends IntegrationTestBase {
 
-    private Repository<Employee> employeeRepository = DependencyLocator.instance.employeeRepository
+    private Repository<Employee> employeeRepository = serviceLocator.employeeRepository
+    private UserModel model = serviceLocator.userModel
     private ObjectMother<Employee> employeeMother
     private Employee employee1
     private Employee employee2

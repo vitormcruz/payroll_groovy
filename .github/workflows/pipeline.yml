@@ -1,0 +1,108 @@
+name: CI/CD
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+
+  Prepare_Pipeline:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-java@v1.4.3
+          with:
+           java-version: 11
+           
+        - name: Cache M2
+          uses: actions/cache@v1
+          with:
+            path: ~/.m2/repository
+            key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+              ${{ runner.os }}-maven-
+              
+        - name: Maven Compile to Fech Dependencies
+          run: mvn test-compile 
+           
+  
+  Run_Fast_Tests:
+    runs-on: ubuntu-latest
+    needs: [Prepare_Pipeline]
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+    
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+          
+      - name: Build
+        run: mvn test -Dtest=*UnitTest,*FeatureTest
+        
+  Run_Slow_Tests:
+    runs-on: ubuntu-latest
+    needs: [Prepare_Pipeline]
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+    
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+          
+      - name: Build
+        env: 
+          TEST_MACHINE_PERFORMANCE_DEGRADATION_FACTOR: 4
+        run: mvn test -Dtest=*PerformanceTest,*IntTest
+          
+  Build:
+    runs-on: ubuntu-latest
+    needs: [Run_Fast_Tests, Run_Slow_Tests]
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+    
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+          
+      - name: Build Java
+        run: mvn package -DskipTests -Pproduction
+        
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+          
+      - name: Login to Heroku
+        uses: docker/login-action@v1 
+        with:
+          registry: registry.heroku.com
+          username: ${{ secrets.HEROKU_USR_EMAIL }}
+          password: ${{ secrets.HEROKU_API_KEY }}
+        
+      - name: Build Docker Pushing Image to Repo
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: |
+            vitormcruz/payroll-vmc-case-study:latest
+            registry.heroku.com/payroll-vmc-case-study/web
+  
+  Release:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    
+    steps:
+      - name: Release in Heroku
+        env: 
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku container:login 
+          heroku container:release -a payroll-vmc-case-study web
+            

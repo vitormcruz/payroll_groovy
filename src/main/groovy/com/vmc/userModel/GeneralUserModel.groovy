@@ -7,8 +7,7 @@ import com.vmc.userModel.api.UserModelListener
 
 import static com.vmc.userModel.ObjectUsageNotification.onObjectUnusedDo
 
-
-class GeneralUserModel extends UserModel{
+class GeneralUserModel extends UserModel {
 
     protected WeakHashMap<UserModelListener, Void> observers = new WeakHashMap<UserModelListener, Void>()
     protected Set<ManagedObject> managedObjects = new HashSet()
@@ -37,15 +36,15 @@ class GeneralUserModel extends UserModel{
     }
 
     @Override
-    synchronized void save() {
-        this.@managedObjects.each {it.save()}
-        this.@observers.keySet().each {it.saveCalled(this)}
+    void save() {
+        this.getManagedObjects().each {it.save()}
+        this.getListeners().each {it.saveCalled(this)}
     }
 
     @Override
-    synchronized void rollback() {
-        this.@managedObjects.each {it.undo()}
-        this.@observers.keySet().each {it.rollbackCalled(this)}
+    void rollback() {
+        this.getManagedObjects().each {it.undo()}
+        this.getListeners().each {it.rollbackCalled(this)}
     }
 
     @Override
@@ -59,6 +58,6 @@ class GeneralUserModel extends UserModel{
     }
 
     Set<UserModelListener> getListeners() {
-        observers.keySet()
+        return new HashSet<UserModelListener>(observers.keySet())
     }
 }

@@ -1,26 +1,19 @@
 package com.vmc.userModel
 
 import com.vmc.objectMemento.ObjectChangeProvider
-import com.vmc.payroll.external.config.DependencyLocator
-import com.vmc.payroll.testPreparation.DependencyLocatorForTest
 import com.vmc.userModel.api.UserModelListener
 import org.junit.jupiter.api.Test
 
 //TODO adjust all naming to UserModel, i think it is better for it to have a similar behavior of a memento.
 class UserModelUnitTest {
 
-    public static final int TIMEOUT = 3000
-
-    static {
-        DependencyLocator.load(DependencyLocatorForTest)
-    }
 
     @Test
     void "Test obtaining referenced object from user model"(){
         def modelSnapshot = new GeneralUserModel()
         def date = modelSnapshot.manageObject(new Date(), [] as ObjectChangeProvider)
         System.gc()
-        assertWaitingSuccess({modelSnapshot.getManagedObjects().contains(date)})
+        assertWaitingSuccess({modelSnapshot.getManagedObjects().contains(date)}, 5000)
     }
 
     @Test
@@ -28,7 +21,7 @@ class UserModelUnitTest {
         def modelSnapshot = new GeneralUserModel()
         modelSnapshot.manageObject(new Date(), [] as ObjectChangeProvider)
         System.gc()
-        assertWaitingSuccess({assert modelSnapshot.getManagedObjects().isEmpty()})
+        assertWaitingSuccess({assert modelSnapshot.getManagedObjects().isEmpty()}, 5000)
     }
 
     @Test
@@ -40,7 +33,7 @@ class UserModelUnitTest {
             assert !modelSnapshot.getManagedObjects().isEmpty() &&
                     modelSnapshot.getManagedObjects().first().getObject().getTime() == 0 :
                     "Dirty (changed) objects should be retained in the model"
-        })
+        }, 5000)
     }
 
     @Test
@@ -121,23 +114,11 @@ class UserModelUnitTest {
         def modelSnapshot = new GeneralUserModel()
         modelSnapshot.registerListener({ } as UserModelListener)
         System.gc()
-        assertWaitingSuccess({assert modelSnapshot.getListeners().isEmpty()})
+        assertWaitingSuccess({assert modelSnapshot.getListeners().isEmpty()}, 5000)
     }
 
     void addDateToModelAndChange(GeneralUserModel modelSnapshot, objectToAdd, changeClosure) {
         def date = modelSnapshot.manageObject(objectToAdd, [] as ObjectChangeProvider)
         changeClosure(date)
     }
-
-    def assertWaitingSuccess(assertion, timeout=TIMEOUT, originalError=null){
-        try {
-            sleep(100)
-            timeout -= 100
-            assertion()
-        } catch (AssertionError e) {
-            if(timeout < 0) throw originalError? originalError : e
-            assertWaitingSuccess(assertion, timeout, originalError? originalError : e)
-        }
-    }
-
 }

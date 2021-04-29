@@ -1,0 +1,85 @@
+version: "1.0"
+
+steps:
+  clone:
+    title: "Cloning repository"
+    type: "git-clone"
+    repo: "vitormcruz/payroll_groovy"
+    revision: "${{CF_BRANCH}}"
+    git: "github"
+
+  build:
+    title: "Building Payroll"
+    type: "freestyle"
+    image: "maven:3.6.3-jdk-11-slim"
+    working_directory: "${{clone}}"
+    environment:
+      - "MAVEN_OPTS=-Xmx800m"
+      - "NPM_CONFIG_PREFIX='/codefresh/volume/.node_modules'"
+    commands:
+      - mvn package -DskipTests -Dmaven.repo.local=/codefresh/volume/m2_repository -Pproduction
+      - mvn test-compile -Dmaven.repo.local=/codefresh/volume/m2_repository -PskipVaadinFrontendPrep
+
+  running_tests:
+    title: "Running Tests"
+    type: parallel
+    steps:
+      unit_test:
+        title: "Fast Test"
+        type: "freestyle"
+        image: "maven:3.6.3-jdk-11-slim"
+        working_directory: "${{clone}}"
+        environment:
+          - "MAVEN_OPTS=-Xmx512m"
+        commands:
+          - mvn test -Dtest=*UnitTest,*FeatureTest -Dmaven.repo.local=/codefresh/volume/m2_repository -PskipVaadinFrontendPrep
+
+      int_test:
+        title: "Slow Test"
+        type: "freestyle"
+        image: "maven:3.6.3-jdk-11-slim"
+        working_directory: "${{clone}}"
+        environment:
+          - "MAVEN_OPTS=-Xmx512m"
+        commands:
+          - mvn test -Dtest=*IntTest -Dmaven.repo.local=/codefresh/volume/m2_repository -PskipVaadinFrontendPrep
+
+      performance_test:
+        title: "Performance Test"
+        type: "freestyle"
+        image: "maven:3.6.3-jdk-11-slim"
+        working_directory: "${{clone}}"
+        environment:
+          - "MAVEN_OPTS=-Xmx512m"
+          - "TEST_MACHINE_PERFORMANCE_DEGRADATION_FACTOR=4"
+        commands:
+          - mvn test -Dtest=*PerformanceTest -Dmaven.repo.local=/codefresh/volume/m2_repository -PskipVaadinFrontendPrep
+
+  build_docker_image:
+    title: "Building Docker Image"
+    type: "build"
+    working_directory: "./payroll_groovy"
+    arguments:
+      image_name: "vitormcruz/payroll-vmc-case-study"
+      tag: "1.0.0"
+      dockerfile: "Dockerfile"
+
+  push_image_to_heroku:
+    title: "Pushing image to Dev"
+    type: "push"
+    arguments:
+      candidate: '${{build_docker_image}}'
+      registry: "heroku"
+      image_name: 'payroll-vmc-case-study/web'
+
+  release_in_heroku:
+    title: "Releasing in Dev"
+    type: "freestyle"
+    arguments:
+      image: "nazarcodefresh/heroku-cli:alpine"
+      commands:
+        - >-
+          printf "machine api.heroku.com\n  login $EMAIL\n  password
+          $API_TOKEN\nmachine git.heroku.com\n  login $EMAIL\n  password
+          $API_TOKEN\n" > ~/.netrc
+        - "heroku container:release --app payroll-vmc-case-study web"
