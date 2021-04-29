@@ -1,6 +1,7 @@
 package com.vmc.userModel
 
 import java.time.Instant
+import java.util.concurrent.CountDownLatch
 
 class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends GeneralUserModel {
     def timesRemoveCalled = 0
@@ -10,6 +11,7 @@ class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends General
     private Instant actionStartTime
     private Instant actionEndTime
     private int qtdObjectsThatWillBeRemoved
+    private CountDownLatch countDownLatch = new CountDownLatch(2)
 
     GeneralUserModel_That_Forces_Save_and_Removal_Concurrently(Integer qtdObjectsThatWillBeRemoved) {
         this.qtdObjectsThatWillBeRemoved = qtdObjectsThatWillBeRemoved
@@ -28,11 +30,15 @@ class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends General
     private void doActionWhileRemovingManagedObjects(action) {
         waitGCPromptsRemovalObjectsManagedes()
         def threadRemoveObjects = Thread.start {
+            countDownLatch.countDown()
+            countDownLatch.await()
             removeStartTime = Instant.now()
             delayedRemoveOperation.each { it() }
             removeEndTime = Instant.now()
         }
 
+        countDownLatch.countDown()
+        countDownLatch.await()
         actionStartTime = Instant.now()
         action()
         actionEndTime = Instant.now()
