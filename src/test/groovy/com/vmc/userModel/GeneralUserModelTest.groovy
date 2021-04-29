@@ -10,16 +10,16 @@ class GeneralUserModelTest {
 
     @Test
     void "Test removing objects while saving all of them - ConcurrentModificationException cannot happen"(){
-        modelSnapshot = new GeneralUserModel_That_Forces_Save_and_Removal_Concurrently(5)
-        5.times { modelSnapshot.manageObject(new Object(), [] as ObjectChangeProvider) }
+        modelSnapshot = new GeneralUserModel_That_Forces_Save_and_Removal_Concurrently(1000)
+        1000.times { modelSnapshot.manageObject(new Object(), [] as ObjectChangeProvider) }
         modelSnapshot.save()
         assert modelSnapshot.getManagedObjects().isEmpty()
     }
 
     @Test
     void "Test removing objects while rolling back all of them - ConcurrentModificationException cannot happen"(){
-        modelSnapshot = new GeneralUserModel_That_Forces_Save_and_Removal_Concurrently(5)
-        5.times { modelSnapshot.manageObject(new Object(), [] as ObjectChangeProvider) }
+        modelSnapshot = new GeneralUserModel_That_Forces_Save_and_Removal_Concurrently(1000)
+        1000.times { modelSnapshot.manageObject(new Object(), [] as ObjectChangeProvider) }
         modelSnapshot.rollback()
         assert modelSnapshot.getManagedObjects().isEmpty()
     }
