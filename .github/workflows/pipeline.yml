@@ -43,7 +43,7 @@ jobs:
 
   Build:
     runs-on: ubuntu-latest
-    needs: [Run_Fast_Tests, Run_Slow_Tests]
+    needs: [Tests]
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
