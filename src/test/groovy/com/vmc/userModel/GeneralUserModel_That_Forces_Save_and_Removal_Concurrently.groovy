@@ -32,6 +32,7 @@ class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends General
         def threadRemoveObjects = Thread.start {
             countDownLatch.countDown()
             countDownLatch.await()
+            sleep(10)
             removeStartTime = Instant.now()
             delayedRemoveOperation.each { it() }
             removeEndTime = Instant.now()
@@ -39,6 +40,7 @@ class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends General
 
         countDownLatch.countDown()
         countDownLatch.await()
+        sleep(10)
         actionStartTime = Instant.now()
         action()
         actionEndTime = Instant.now()
