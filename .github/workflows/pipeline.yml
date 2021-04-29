@@ -19,7 +19,7 @@ jobs:
             key: M2
               
         - name: Maven Compile to Fech Dependencies
-          run: mvn test-compile 
+          run: mvn dependency:go-offline
            
   
   Tests:
@@ -28,13 +28,7 @@ jobs:
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
-        
-      - name: Cache M2
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2/repository
-          key: M2
-    
+           
       - name: Setup Java JDK
         uses: actions/setup-java@v1.4.3
         with:
@@ -52,12 +46,6 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v2
         
-      - name: Cache M2
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2/repository
-          key: M2
-            
       - name: Setup Java JDK
         uses: actions/setup-java@v1.4.3
         with:
