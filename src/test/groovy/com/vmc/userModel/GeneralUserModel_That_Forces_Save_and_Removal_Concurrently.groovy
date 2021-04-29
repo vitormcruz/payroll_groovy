@@ -48,7 +48,10 @@ class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends General
                 at the same time.
                
                JUnit fails at 1 by default, and likelyCreatedRaceCondition verify if the needed condition for a 
-               ConcurrentModificationException to be thrown was met/)
+               ConcurrentModificationException to be thrown was met
+               
+               removeTime: $removeStartTime - $removeEndTime
+               actionTime: $actionStartTime - $actionEndTime /)
     }
 
     private void waitGCPromptsRemovalObjectManagement() {
