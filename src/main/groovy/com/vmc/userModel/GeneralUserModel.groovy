@@ -11,6 +11,7 @@ class GeneralUserModel extends UserModel {
 
     protected WeakHashMap<UserModelListener, Void> observers = new WeakHashMap<UserModelListener, Void>()
     protected Set<ManagedObject> managedObjects = new HashSet()
+    private final Object actionLock = new Object()
 
     //TODO remove instantiation from here and add to the main class
     protected ObjectProxyFactory objectProxyFactory = new ObjectProxyFactory()
@@ -26,25 +27,27 @@ class GeneralUserModel extends UserModel {
     }
 
     void removeUnusedObjectIfNotDirty(ManagedObject managedObject){
-        if(!managedObject.getObject().isDirty()){
-            this.@managedObjects.remove(managedObject)
+        synchronized (actionLock){
+            if(!managedObject.getObject().isDirty()){
+                this.@managedObjects.remove(managedObject)
+            }
         }
-    }
-
-    Set getManagedObjects() {
-       return new HashSet(this.@managedObjects)
     }
 
     @Override
     void save() {
-        this.getManagedObjects().each {it.save()}
-        this.getListeners().each {it.saveCalled(this)}
+        synchronized (actionLock) {
+            this.@managedObjects.each { it.save() }
+            this.@observers.keySet().each { it.saveCalled(this) }
+        }
     }
 
     @Override
     void rollback() {
-        this.getManagedObjects().each {it.undo()}
-        this.getListeners().each {it.rollbackCalled(this)}
+        synchronized (actionLock) {
+            this.@managedObjects.each { it.undo() }
+            this.@observers.keySet().each { it.rollbackCalled(this) }
+        }
     }
 
     @Override
@@ -55,6 +58,10 @@ class GeneralUserModel extends UserModel {
     @Override
     void unregisterListener(UserModelListener listener) {
         observers.remove(listener)
+    }
+
+    Set getManagedObjects() {
+        return this.@managedObjects.clone() as Set
     }
 
     Set<UserModelListener> getListeners() {

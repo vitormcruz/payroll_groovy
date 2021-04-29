@@ -22,7 +22,7 @@ class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends General
 
     private void doActionWhileRemovingManagedObjects(action) {
         waitGCPromptsRemovalObjectManagement()
-        Thread.start {
+        def threadRemoveObjects = Thread.start {
             removeStartTime = Instant.now()
             delayedRemoveOperation.each { it() }
             removeEndTime = Instant.now()
@@ -32,6 +32,7 @@ class GeneralUserModel_That_Forces_Save_and_Removal_Concurrently extends General
         action()
         actionEndTime = Instant.now()
 
+        threadRemoveObjects.join()
         if (!likelyCreatedRaceCondition()) throw new RuntimeException(
                 /This test likely did not reproduce the circumstance where an object is removed from management
                 while all managed objects are being saved, which can result in a ConcurrentModificationException.
