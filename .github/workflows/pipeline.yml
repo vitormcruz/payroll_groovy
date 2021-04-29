@@ -20,8 +20,8 @@ jobs:
               
         - name: Maven Compile to Fech Dependencies
           run: |
-            mvn --version
             mvn dependency:go-offline
+            mvn validate
            
   
   Tests:
