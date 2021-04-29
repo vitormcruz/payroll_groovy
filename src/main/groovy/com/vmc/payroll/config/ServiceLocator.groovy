@@ -67,12 +67,15 @@ class ServiceLocator implements InstanceCreatedListener {
     EmployeeRestController employeeWebServiceController = new EmployeeRestController(employeeRepository)
 
     /**
-     * Vaadin routers associates a URI to a class defining it's View by using the annotation {@code @Router}, and Vaadin
-     * takes care of instantiate this. The problem is that I loose control of how a View gets to be created, and so I
-     * cannot inject any dependency on it because I do not have access to it's instance. vaadinUIConfiguration defines
-     * how my views should be configured, i.e. which beans should be inject through it's properties, and my constructor
-     * register myself as a listener of Views to be configured. All my views notify it's creation during it's
-     * construction.
+     * Vaadin Routers associates a URI to a class defining a Vaadin View by using the annotation {@code @Router}, and
+     * Vaadin* takes care of instantiating it. This causes a problem in which the programmer loose the control of how a
+     * View gets to be created, and so it is not possible to inject any dependency on it because the lack of access
+     * to it's instance.
+     *
+     * To deal with this, vaadinUIConfiguration variable defines how my views should be configured, i.e. which beans
+     * should be injected through it's properties, and my constructor register myself as a listener of Vaadin Views
+     * that need to be configured, while each View classes must notify it's creation during it's construction. That way,
+     * I can do dependency injection on all Views while keeping them agnostic of the configuration layer.
      */
     private def vaadinUIConfiguration = [(MainView) : {MainView i -> i.employees = employeeRepository}]
 

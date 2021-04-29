@@ -134,8 +134,7 @@ class Employee implements EntityCommonTrait{
     }
 
     /**
-     * Return all my payment attachments. Consider registerAsPaymentAttachmentPostListener instead of using
-     * this method.
+     * Return all my payment attachments. Consider use registerAsPaymentAttachmentPostListener method instead.
      */
     def getPaymentAttachments(){
         return new HashSet(paymentAttachments)

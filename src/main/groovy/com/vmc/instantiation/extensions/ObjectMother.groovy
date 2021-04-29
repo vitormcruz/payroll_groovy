@@ -33,8 +33,8 @@ class ObjectMother<E> {
     }
 
     /**
-     * Return a clone of this ObjectMother changing the birth script to the one represented by the aPostBirthScript closure. This script will be executed right after a new born
-     * object is created, which will be provided as the script the sole parameter.
+     * Return a clone of this ObjectMother changing the birth script to the one represented by the aPostBirthScript closure parameter. This script will be executed right after a
+     * new born object is created.
      */
     ObjectMother<E> configurePostBirthScript(@ClosureParams(FirstParam.FirstGenericType)
                                              Closure<E> aPostBirthScript) {
@@ -44,7 +44,7 @@ class ObjectMother<E> {
 
 
     /**
-     * Return a clone of this ObjectMother adding a new birth script. All birth scripts will be executed, in the order of it's addition, as part of the new born creationg
+     * Return a clone of this ObjectMother adding a new birth script. All birth scripts will be executed, in the order of it's addition, as part of the new born creation
      * procedure, and all of them will receive the instance of the new born to be configured appropriately.
      */
     ObjectMother<E> addBirthScript(@DelegatesTo(genericTypeIndex = 0, strategy = Closure.DELEGATE_FIRST)
@@ -67,7 +67,7 @@ class ObjectMother<E> {
     /**
      * Creates a new born passing itself to all the configured birth scripts and later, if no error occurs, calling the post birth script also passing the new born to it. It
      * returns the new born object a generic NullObject. This method is really useful to be used with proper ObjectMother configuration so to provide relevant DataSets only using
-     * domain logic, it is especially usefull if used alongside with APIs such as faker and FixtitureFactory.
+     * domain logic, it is especially useful if used alongside with APIs such as faker and FixtitureFactory.
      */
     E createNewBorn() {
         return createNewBorn(birthScripts)
