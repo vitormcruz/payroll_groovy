@@ -43,7 +43,7 @@
         <argLine>-XX:MaxDirectMemorySize=512g</argLine>
         <guava.version>30.1-jre</guava.version>
         <equalsverifier.version>3.5.5</equalsverifier.version>
-        <commons-lang3.version>3.11</commons-lang3.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <json-io.version>4.12.0</json-io.version>
         <modelmapper.version>2.3.9</modelmapper.version>
