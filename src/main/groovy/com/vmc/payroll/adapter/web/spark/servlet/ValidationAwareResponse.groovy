@@ -60,7 +60,6 @@ class ValidationAwareResponse extends Response implements ValidationObserver{
 
     def private responseOkStrategy = {Response res ->
         res.status(HttpStatus.SC_OK)
-        res.body(body.toJson())
     }
 
     def private responseFailStrategy = {Response res ->

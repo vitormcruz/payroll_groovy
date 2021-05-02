@@ -1,7 +1,7 @@
 Payroll Groovy
 ==============
 
-[![Codefresh build status](https://github.com/vitormcruz/payroll_groovy/actions/workflows/pipeline.yml/badge.svg)
+![Codefresh build status](https://github.com/vitormcruz/payroll_groovy/actions/workflows/pipeline.yml/badge.svg)
                 
 Implementation of the Payroll application as described (more or less) by Agile Software Development - Principles, Patterns and Practices. Used it to make various experiments.
 

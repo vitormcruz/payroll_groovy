@@ -21,7 +21,7 @@ class PayrollSparkRoutesConfiguration extends SparkFilter implements SparkApplic
     @Override
     void init() {
         path("/api/", {
-//            defaultResponseTransformer(new JsonResponseTransformer())
+            defaultResponseTransformer(new JsonResponseTransformer())
 
             before("/*", {req, res -> res.type("application/json") })
             configureExceptionHandling()
@@ -40,5 +40,9 @@ class PayrollSparkRoutesConfiguration extends SparkFilter implements SparkApplic
     @Override
     protected SparkApplication[] getApplications(FilterConfig filterConfig) throws ServletException {
         return [this]
+    }
+
+    @Override
+    void destroy() {
     }
 }
